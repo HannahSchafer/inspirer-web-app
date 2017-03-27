@@ -7,7 +7,7 @@ db = SQLAlchemy()
 ##############################################################################
 # Model definitions
 
-class User(db.Model)
+class User(db.Model):
     """User of Inspirer web app."""
 
     __tablename__ = "users"
@@ -26,7 +26,7 @@ class User(db.Model)
     phone = db.Column(db.Integer, nullable=False)
 
 
-class Quote(db.Model)
+class Quote(db.Model):
     """Quotes information."""
 
     __tablename__ = "quotes"
@@ -47,13 +47,13 @@ class Quote(db.Model)
     q_sentiments = db.relationship("Sentiment", backref=db.backref("quotes"))
 
 
-class Analyses(db.Model)
+class Analyses(db.Model):
     """Information about the analyses (when user clicks button to start program)."""
 
     __tablename__ = "analyses"
 
     def __repr__ (self):
-    """Represents Analyses class objects."""
+        """Represents Analyses class objects."""
 
         return "<Analyses information: analyses_id={}, user_id={}, timestamp={}, \
                 tweet_sent_id={}, quote_id={}>".format(self.analyses_id, self.user_id, self.timestamp, self.tweet_sent_id, self.quote_id)
@@ -70,13 +70,13 @@ class Analyses(db.Model)
     quotes = db.relationship("Quote", backref=db.backref("analyses"))
 
 
-class Sentiment(db.Model)
+class Sentiment(db.Model):
     """Information about the sentiments"""
 
     __tablename__ = "sentiments"
 
     def __repr__ (self):
-    """Represents Sentiments class objects."""
+        """Represents Sentiments class objects."""
 
         return "<Sentiments information: sentiment_id={}, sentiment={}>".format(self.sentiment_id, self.sentiment)
 
@@ -85,13 +85,13 @@ class Sentiment(db.Model)
 
 
 
-class Classifier(db.Model)
+class Classifier(db.Model):
     """Information about the sentiments"""
 
     __tablename__ = "classifier"
 
     def __repr__ (self):
-    """Represents Classifier class objects."""
+        """Represents Classifier class objects."""
 
         return "<Classifier information: classifier_id={}, tweet_content={}, test_or_train={}, sentiment_id={}>".format(self.classifier_id, self.tweet_content, self.test_or_train, self.sentiment_id)
 
@@ -117,7 +117,7 @@ def connect_to_db(app):
     """Connect the database to our Flask app."""
 
     # Configure to use our PstgreSQL database
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///ratings'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///sentiment_analysis'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SQLALCHEMY_ECHO'] = False
     db.app = app
@@ -125,7 +125,7 @@ def connect_to_db(app):
 
 if __name__ == "__main__":
 
-    from server import app
+    # from server import app
     from flask import Flask
 
     app = Flask(__name__)
