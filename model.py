@@ -19,10 +19,10 @@ class User(db.Model):
                 email={}, phone={}>".format(self.user_id, self.user_name, self.password, self.twitter_handle, self.email, self.phone)
 
     user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_name = db.Column(db.String(50), nullable=False)
+    user_name = db.Column(db.Unicode(50), nullable=False)
     password = db.Column(db.String(50), nullable=False)
-    twitter_handle = db.Column(db.String(50), nullable=False)
-    email = db.Column(db.String(50), nullable=False)
+    twitter_handle = db.Column(db.Unicode(50), nullable=False)
+    email = db.Column(db.Unicode(50), nullable=False)
     phone = db.Column(db.Integer, nullable=False)
 
     quotes = db.relationship("Quote", secondary="analyses", backref="user")
@@ -40,9 +40,9 @@ class Quote(db.Model):
                 sentiment_id={}>".format(self.quote_id, self.content, self.img_url, self.author, self.sentiment_id)
 
     quote_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    content = db.Column(db.String, nullable=True)
-    img_url = db.Column(db.String, nullable=True)
-    author = db.Column(db.String(50), nullable=True)
+    content = db.Column(db.UnicodeText, nullable=True)
+    img_url = db.Column(db.UnicodeText, nullable=True)
+    author = db.Column(db.Unicode(50), nullable=True)
     sentiment_id = db.Column(db.Integer, db.ForeignKey('sentiments.sentiment_id'), nullable=False)
 
 
@@ -98,7 +98,7 @@ class Classifier(db.Model):
         return "<Classifier information: classifier_id={}, tweet_content={}, test_or_train={}, sentiment_id={}>".format(self.classifier_id, self.tweet_content, self.test_or_train, self.sentiment_id)
 
     classifier_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    tweet_content = db.Column(db.String(150), nullable=False)
+    tweet_content = db.Column(db.Unicode(150), nullable=False)
     test_or_train = db.Column(db.String(10), nullable=False)
     sentiment_id = db.Column(db.Integer, db.ForeignKey('sentiments.sentiment_id'), nullable=False)
 
