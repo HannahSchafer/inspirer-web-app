@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+    <title>Inspiratören</title>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+
+{% if 'user_id' in session.keys() %}
+    <p>You are logged in</p>
+    <a href="/logged-out"><button>Log out</button></a>
+ {% else %}
+    <a href="/log-in"><button>Login</button></a>
+    <a href="/register"><button>Register</button></a>
+ {% endif %}
+
+
+{% block content %} put your content here {% endblock %}
+
+
+// jinja for flash messages 
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>

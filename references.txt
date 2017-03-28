@@ -1,0 +1,6 @@
+"""REFERENCES PAGE
+
+1.) Ratings exercise from 5th week at Hackbright
+
+"""
+
