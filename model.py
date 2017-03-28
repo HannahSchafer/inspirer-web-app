@@ -25,6 +25,8 @@ class User(db.Model):
     email = db.Column(db.String(50), nullable=False)
     phone = db.Column(db.Integer, nullable=False)
 
+    quotes = db.relationship("Quote", secondary="analyses", backref="user")
+
 
 class Quote(db.Model):
     """Quotes information."""
@@ -44,7 +46,7 @@ class Quote(db.Model):
     sentiment_id = db.Column(db.Integer, db.ForeignKey('sentiments.sentiment_id'), nullable=False)
 
 
-    q_sentiments = db.relationship("Sentiment", backref=db.backref("quotes"))
+    sentiment = db.relationship("Sentiment", backref=db.backref("quotes"))
 
 
 class Analyses(db.Model):
@@ -61,13 +63,13 @@ class Analyses(db.Model):
     analyses_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     timestamp = db.Column(db.DateTime, nullable=False)
-    tweet_sent_id = db.Column(db.String, db.ForeignKey('sentiments.sentiment_id'), nullable=False)
+    tweet_sent_id = db.Column(db.Integer, db.ForeignKey('sentiments.sentiment_id'), nullable=False)
     quote_id = db.Column(db.Integer, db.ForeignKey('quotes.quote_id'), nullable=False)
 
 
-    users = db.relationship("User", backref=db.backref("analyses"))
-    a_sentiments = db.relationship("Sentiment", backref=db.backref("analyses"))
-    quotes = db.relationship("Quote", backref=db.backref("analyses"))
+    user = db.relationship("User", backref=db.backref("analyses"))
+    sentiment = db.relationship("Sentiment") #I have a particular analysis. Give me the sentiment object.
+    quote = db.relationship("Quote") #I am on an analysis, give me a quote object. 
 
 
 class Sentiment(db.Model):
@@ -101,7 +103,7 @@ class Classifier(db.Model):
     sentiment_id = db.Column(db.Integer, db.ForeignKey('sentiments.sentiment_id'), nullable=False)
 
 
-    c_sentiments = db.relationship("Sentiment", backref=db.backref("classifier"))
+    sentiment = db.relationship("Sentiment") #I'm on classifier, give me the sentiment
 
 ################################################################################
 
