@@ -16,8 +16,6 @@ from server import app #####???
 def load_sentiments(): # load sentiments first because other tables depend on this data
     """Load sentiments into database."""
 
-    Sentiment.query.delete()
-
     sentiment1 = 'pos'
     sentiment2 = 'neg'
       
@@ -53,12 +51,10 @@ def load_classifier():
 def load_quotes():
     """Load quote information into database."""
 
-    Quote.query.delete()
+    data_file = open('seed_data/quotes.csv', 'rU')
+    csv_file = csv.reader(data_file)
 
-    f = open('seed_data/quotes.csv', 'rU')
-    csv_f = csv.reader(f)
-
-    for row in csv_f:
+    for row in csv_file:
         content = row[0]
         img_url = row[1]
         author = row[2]
@@ -78,10 +74,6 @@ def load_quotes():
 
 def load_users(): ### do I need this? No users initially?
     """Load users into database."""
-
-    # Delete all rows in table, so if we need to run this a second time,
-    # we won't be trying to add duplicate users
-    User.query.delete()
 
     # Read users file and insert data
     for text in open("seed_data/users.csv"):
@@ -107,12 +99,15 @@ def load_users(): ### do I need this? No users initially?
 def load_analyses(): # no real analyses, since don't have users who have used web app, but adding one record for testing
     """Load analyses into database."""
 
-    # Delete all rows in table, so if we need to run this a second time,
-    # we won't be trying to add duplicate users
-    Analyses.query.delete()
-
     # Read users file and insert data
-    for row in open(""):
+    data_file = open('seed_data/analyses.csv', 'rU')
+    csv_file = csv.reader(data_file)
+
+    for row in csv_file:
+        user_id = row[0]
+        timestamp = row[1]
+        tweet_sent_id = row[2]
+        quote_id = row[3]
 
 
         analysis = Analyses(user_id=user_id, timestamp=timestamp, tweet_sent_id=tweet_sent_id, quote_id=quote_id)
@@ -124,9 +119,25 @@ def load_analyses(): # no real analyses, since don't have users who have used we
     db.session.commit()
 
 
+def delete_all_ordered():
+    """Delete all rows in tables, so if we need to run this a second time,
+      we won't be trying to add duplicate users"""
+
+    Analyses.query.delete()
+    User.query.delete()
+    Quote.query.delete()
+    Sentiment.query.delete()
+
+    # Commiting deletions to database
+    db.session.commit()
+
 
 if __name__ == "__main__":
     connect_to_db(app)
+
+
+    # Delete any past info in tables to reload cleanly
+    delete_all_ordered()
 
     # In case tables haven't been created, create them
     db.create_all()
@@ -135,8 +146,8 @@ if __name__ == "__main__":
     load_sentiments()
     load_quotes()
     load_users()
-    # load_analyses()
-    # load_classifier()
+    load_analyses()
+    
 
 
 
