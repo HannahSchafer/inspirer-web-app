@@ -1,4 +1,5 @@
 """Models for Inspirer project"""
+## refactor near end of project to put each class in own file = best practice - make note of this
 
 from flask_sqlalchemy import SQLAlchemy 
 
@@ -23,7 +24,7 @@ class User(db.Model):
     password = db.Column(db.String(50), nullable=False)
     twitter_handle = db.Column(db.Unicode(50), nullable=False)
     email = db.Column(db.Unicode(50), nullable=False)
-    phone = db.Column(db.String, nullable=False)
+    phone = db.Column(db.String, nullable=True)
 
     quotes = db.relationship("Quote", secondary="analyses", backref="user")
 
