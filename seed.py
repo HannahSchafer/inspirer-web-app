@@ -1,5 +1,6 @@
 """Utility file to seed Sentiment_Analysis database"""
 
+import csv
 from datetime import datetime
 from sqlalchemy import func
 from model import User
@@ -13,20 +14,23 @@ from server import app #####???
 
 
 def load_sentiments(): # load sentiments first because other tables depend on this data
-    """Load sentiments into database."""##
+    """Load sentiments into database."""
 
     Sentiment.query.delete()
 
-    for row in open(""):
+    sentiment1 = 'pos'
+    sentiment2 = 'neg'
+      
+    #create instances of Sentiment class and pass table columns the data.   
+    pos = Sentiment(sentiment=sentiment1)
+    neg = Sentiment(sentiment=sentiment2) 
 
-        sentiment = Sentiment(sentiment=sentiment)
+#         # Adding data to the session
+    db.session.add(pos)
+    db.session.add(neg)
 
-        # Adding data to the session
-        db.session.add(sentiment)
-
-    # Commiting data to database
+#     # Commiting data to database
     db.session.commit()
-
 
 
 def load_classifier():
@@ -51,8 +55,15 @@ def load_quotes():
 
     Quote.query.delete()
 
-    for row in open(""):
+    f = open('seed_data/quotes.csv', 'rU')
+    csv_f = csv.reader(f)
 
+    for row in csv_f:
+        content = row[0]
+        img_url = row[1]
+        author = row[2]
+        sentiment_id = row[3]
+        
 
         quote = Quote(content=content, img_url=img_url, author=author, sentiment_id=sentiment_id)
 
@@ -73,8 +84,15 @@ def load_users(): ### do I need this? No users initially?
     User.query.delete()
 
     # Read users file and insert data
-    for row in open(""):
-
+    for text in open("seed_data/users.csv"):
+        persons = text.split("\r")
+    for person in persons:  
+        item = person.split(",")
+        user_name = item[0]
+        password = item[1]
+        twitter_handle = item[2]
+        email = item[3]
+        phone = item[4]
 
         user = User(user_name=user_name, password=password, twitter_handle=twitter_handle, email=email, phone=phone)
 
@@ -107,60 +125,6 @@ def load_analyses(): # no real analyses, since don't have users who have used we
 
 
 
-# def set_val_quote_id():
-#     """Set value for the next quote_id after seeding database"""
-
-#     # Get the Max quote_id in the database
-#     result = db.session.query(func.max(Quote.quote_id)).one()
-#     max_id = int(result[0])
-
-#     # Set the value for the next quote_id to be max_id + 1
-#     query = "SELECT setval('quotes_quote_id_seq', :new_id)"
-#     db.session.execute(query, {'new_id': max_id + 1})
-#     db.session.commit()
-
-
-# def set_val_analyses_id(): ## Do I need this? Nothing to load. 
-#     """Set value for the next analyses_id after seeding database"""##
-
-#     # Get the Max analyses_id in the database
-#     result = db.session.query(func.max(Analyses.analyses_id)).one()
-#     max_id = int(result[0])
-
-#     # Set the value for the next quote_id to be max_id + 1
-#     query = "SELECT setval('analyses_analyses_id_seq', :new_id)"
-#     db.session.execute(query, {'new_id': max_id + 1})
-#     db.session.commit()
-
-
-# def set_val_sentiment_id():
-#     """Set value for the next sentiment_id after seeding database"""
-
-#     # Get the Max sentiment_id in the database
-#     result = db.session.query(func.max(Sentiment.sentiment_id)).one()
-#     max_id = int(result[0])
-
-#     # Set the value for the next sentiment_id to be max_id + 1
-#     query = "SELECT setval('sentiments_sentiment_id_seq', :new_id)"
-#     db.session.execute(query, {'new_id': max_id + 1})
-#     db.session.commit()
-
-
-
-# def set_val_classifier_id():
-#     """Set value for the next classifier_id after seeding database"""
-
-#     # Get the Max classifier_id in the database
-#     result = db.session.query(func.max(Classifier.classifier_id)).one()
-#     max_id = int(result[0])
-
-#     # Set the value for the next sentiment_id to be max_id + 1
-#     query = "SELECT setval('classifier_classifier_id_seq', :new_id)"
-#     db.session.execute(query, {'new_id': max_id + 1})
-#     db.session.commit()
-
-
-
 if __name__ == "__main__":
     connect_to_db(app)
 
@@ -168,16 +132,12 @@ if __name__ == "__main__":
     db.create_all()
 
     # Import different types of data
-    load_users()
-    load_quotes()
-    load_analyses()
     load_sentiments()
-    load_classifier()
-    set_val_user_id()
-    set_val_quote_id()
-    set_val_analyses_id()
-    set_val_sentiment_id()
-    set_val_classifier_id()
+    load_quotes()
+    load_users()
+    # load_analyses()
+    # load_classifier()
+
 
 
 

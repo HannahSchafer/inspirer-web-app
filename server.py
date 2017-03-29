@@ -7,7 +7,7 @@ from flask import (Flask, jsonify, render_template, redirect, request,
 from flask_debugtoolbar import DebugToolbarExtension
 
 from model import connect_to_db, db, User, Quote, Analyses, Sentiment, Classifier
-from classifier import ####
+# from classifier import ####
 
 app = Flask(__name__)
 
@@ -69,25 +69,25 @@ def process_registration():
 
 @app.route("/log-in")
 def log_in():
-    ""Shows login form.""
+    """Shows login form."""
 
     return render_template("login.html")
 
 
-@app.route("/inspire")
-def inspire_me():
-    """Shows page where user clicks to get daily inspiration."""
+# @app.route("/inspire")
+# def inspire_me():
+#     """Shows page where user clicks to get daily inspiration."""
 
-    # User is still in a session
-    session["user_id"] = user_id
+#     # User is still in a session
+#     session["user_id"] = user_id
 
-    return render_template('inspire.html')
+#     return render_template('inspire.html')
 
 
 
-@app.route("/inspire-process")
-def inspire_me():
-    """Shows page where user clicks to get daily inspiration."""
+# @app.route("/inspire-process")
+# def inspire_me():
+#     """Shows page where user clicks to get daily inspiration."""
 
 
 
