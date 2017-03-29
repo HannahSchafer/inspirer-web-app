@@ -99,7 +99,7 @@ class Classifier(db.Model):
         return "<Classifier information: classifier_id={}, tweet_content={}, test_or_train={}, sentiment_id={}>".format(self.classifier_id, self.tweet_content, self.test_or_train, self.sentiment_id)
 
     classifier_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    tweet_content = db.Column(db.Unicode(150), nullable=False)
+    tweet_content = db.Column(db.Unicode(300), nullable=False)
     test_or_train = db.Column(db.String(10), nullable=False)
     sentiment_id = db.Column(db.Integer, db.ForeignKey('sentiments.sentiment_id'), nullable=False)
 

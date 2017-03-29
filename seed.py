@@ -34,9 +34,14 @@ def load_sentiments(): # load sentiments first because other tables depend on th
 def load_classifier():
     """Load classifier info into database."""
 
-    Classifier.query.delete()
 
-    for row in open(""):
+    data_file = open('seed_data/classifier.csv', 'rU')
+    csv_file = csv.reader(data_file)
+
+    for row in csv_file:
+        tweet_content=row[0]
+        test_or_train=row[1]
+        sentiment_id=row[2]
 
         classifier = Classifier(tweet_content=tweet_content, test_or_train=test_or_train, sentiment_id=sentiment_id)
 
@@ -46,6 +51,7 @@ def load_classifier():
 
     # Commiting data to database
     db.session.commit()
+
 
 
 def load_quotes():
@@ -123,6 +129,7 @@ def delete_all_ordered():
     """Delete all rows in tables, so if we need to run this a second time,
       we won't be trying to add duplicate users"""
 
+    Classifier.query.delete()
     Analyses.query.delete()
     User.query.delete()
     Quote.query.delete()
@@ -147,6 +154,7 @@ if __name__ == "__main__":
     load_quotes()
     load_users()
     load_analyses()
+    load_classifier()
     
 
 

@@ -5,6 +5,7 @@
 """
 
 Tweets from:
+Twitter Sentiment Corpus by Niek Sanders
 Sarah Killen @LovelyButton
 Jordan ✨@joziecw
 Bae Feelings @BaeIationship
@@ -53,26 +54,44 @@ Lisa△⃒⃘Gaskarth‏ @LisaGaskarth
 Dean Tolson‏ @deantolson20 
 Maxine Waters‏Verified account @MaxineWaters 
 @SupergirlErks 
- @twonebang 
- Adison Needham‏ @adisonneedham 
-  🌷 cora #beautiful‏ @uItshinwonho 
-  Mira  💚 💧‏ @EncantadiaMira 
-  Noel M. Comia Jr.‏ @NMCJR_0529 
-  Erin Bury‏ @erinbury 
-  Kia Kolderup-Lane‏ @Kiamig 
-  Karynn Ikeda‏ @ktikeda 
-  Tiffany Vo‏ @votiff 
-  Neil deGrasse Tyson‏Verified account @neiltyson 
-  Hidden Figures‏Verified account @HiddenFigures 
-  Taraji P. Henson‏Verified account @TherealTaraji 
-  Jussie Smollett‏Verified account @JussieSmollett 
-  Keith Lockett‏ @kLockitt7 
-  Kesha Lee‏ @NamasteX 
-  ashton kutcher‏Verified account @aplusk 
-  Mindy Kaling‏Verified account @mindykaling
-  Emily Wood‏ @kettering 
-  Yara shahidi‏Verified account @YaraShahidi 
-  Tracee Ellis Ross‏Verified account @TraceeEllisRoss 
-  Lin-Manuel Miranda‏Verified account @Lin_Manuel
-  Adele‏Verified account @Adele 
-  Emma Watson‏Verified account @EmmaWatson
+@twonebang 
+Adison Needham‏ @adisonneedham 
+🌷 cora #beautiful‏ @uItshinwonho 
+Mira  💚 💧‏ @EncantadiaMira 
+Noel M. Comia Jr.‏ @NMCJR_0529 
+Erin Bury‏ @erinbury 
+Kia Kolderup-Lane‏ @Kiamig 
+Karynn Ikeda‏ @ktikeda 
+Tiffany Vo‏ @votiff 
+Neil deGrasse Tyson‏Verified account @neiltyson 
+Hidden Figures‏Verified account @HiddenFigures 
+Taraji P. Henson‏Verified account @TherealTaraji 
+Jussie Smollett‏Verified account @JussieSmollett 
+Keith Lockett‏ @kLockitt7 
+Kesha Lee‏ @NamasteX 
+ashton kutcher‏Verified account @aplusk 
+Mindy Kaling‏Verified account @mindykaling
+Emily Wood‏ @kettering 
+Yara shahidi‏Verified account @YaraShahidi 
+Tracee Ellis Ross‏Verified account @TraceeEllisRoss 
+Lin-Manuel Miranda‏Verified account @Lin_Manuel
+Adele‏Verified account @Adele 
+Emma Watson‏Verified account @EmmaWatson
+Ellen DeGeneres‏Verified account @TheEllenShow
+Avril Lavigne‏Verified account @AvrilLavigne 
+Sonia Jackson‏ @SoniaJackson22 
+Rachelle McClean‏ @RachelleTyler11 
+Liberty Manuel‏ @LibertyManuel 
+Theresa Christine‏ @tremendoustimes 
+Louis TomlinsonVerified account
+@Louis_Tomlinson
+Sapeksha Vemulapati‏ @sawpex 
+Kaydee RocStar‏ @A_RocStar 
+Yashar‏Verified account @yashar
+
+
+
+
+
+
+
