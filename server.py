@@ -106,7 +106,7 @@ def log_out():
     return redirect("/")
 
 
-
+# __main__ makes this stuff happen when i am running this file directly, not importing
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the
     # point that we invoke the DebugToolbarExtension
