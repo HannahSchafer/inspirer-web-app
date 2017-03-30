@@ -1,5 +1,5 @@
 """Models for Inspirer project"""
-## refactor near end of project to put each class in own file = best practice - make note of this
+## refactor near end of project to put each class in own file within a folder called Models = best practice - make note of this
 
 from flask_sqlalchemy import SQLAlchemy 
 
