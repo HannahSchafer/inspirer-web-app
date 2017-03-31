@@ -11,6 +11,18 @@ connect_to_db(app)
 # connect to db lives model
 #db lives in model
 
+#appending all words to a single list
+def get_words_in_tweets(tweets):
+    all_words = []
+    for (words, sentiment) in tweets:
+        all_words.extend(words)
+    return all_words
+
+# getting keys of dictionary, where key is the word, and value is the # of times found in all tweets
+def get_features(wordlist):
+    wordlist = nltk.FreqDist(wordlist)
+    word_features = wordlist.keys()
+    return word_features
 
 #Query my training tweets (as a list) from the classifier table in db
 train_tweets = db.session.query(Classifier.tweet_content, Classifier.sentiment_id).filter(Classifier.test_or_train=='train').all()
@@ -20,10 +32,25 @@ stop_words = set(stopwords.words('english'))
 
 
 # Reference Laurent Luce (http://www.laurentluce.com/posts/twitter-sentiment-analysis-using-python-and-nltk/)
-tweets= []
+tweets = []
 for sentence, sentiment in train_tweets:
     words_filtered = [word.lower() for word in sentence.split() if word not in stop_words]
     tweets.append((words_filtered, sentiment))
+
+word_features = get_features(get_words_in_tweets(tweets))
+# print word_features
+
+
+def extract_features(tweet):
+    tweet_words = set(tweet)
+    features = {}
+    for word in word_features:
+        print 'contains(%s)' % word
+    #     features[ 'contains {}'.format(word)] = (word in tweet_words)
+    # return features
+
+print extract_features(['love', 'this', 'car'])
+
 
 
 
