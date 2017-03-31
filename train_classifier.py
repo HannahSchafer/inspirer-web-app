@@ -21,6 +21,7 @@ def get_words_in_tweets(tweets):
 # getting keys of dictionary, where key is the word, and value is the # of times found in all tweets
 def get_features(wordlist):
     wordlist = nltk.FreqDist(wordlist)
+    # print wordlist['friend']
     word_features = wordlist.keys()
     return word_features
 
@@ -32,6 +33,9 @@ stop_words = set(stopwords.words('english'))
 
 
 # Reference Laurent Luce (http://www.laurentluce.com/posts/twitter-sentiment-analysis-using-python-and-nltk/)
+
+# normalizing words in tweets through .lower(), exclusing all meaningless words
+# via stop_words. appending all itemized/split tweets to a single list along with their sentiment 
 tweets = []
 for sentence, sentiment in train_tweets:
     words_filtered = [word.lower() for word in sentence.split() if word not in stop_words]
@@ -41,15 +45,25 @@ word_features = get_features(get_words_in_tweets(tweets))
 # print word_features
 
 
+
 def extract_features(tweet):
     tweet_words = set(tweet)
     features = {}
     for word in word_features:
-        print 'contains(%s)' % word
-    #     features[ 'contains {}'.format(word)] = (word in tweet_words)
-    # return features
+        features['contains(%s)' % word] = (word in tweet_words)
+    return features
 
-print extract_features(['love', 'this', 'car'])
+
+training_set = nltk.classify.apply_features(extract_features, tweets)
+
+classifier = nltk.NaiveBayesClassifier.train(training_set)
+
+# print classifier.show_most_informative_features(32)
+
+# tweet = "Essential viewing. The best thing I've watched on TV for a long long time. Watch and share! @rioferdy5"
+print classifier.classify(extract_features(tweet.split()))
+
+
 
 
 
