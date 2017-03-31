@@ -4,7 +4,7 @@ from model import Classifier, connect_to_db, db
 from server import app 
 import nltk
 import random # to shuffle data set we have
-from nltk.corpus import movie_reviews
+from nltk.corpus import stopwords
 
 connect_to_db(app)
 #app lives in server
@@ -13,11 +13,18 @@ connect_to_db(app)
 
 
 #Query my training tweets (as a list) from the classifier table in db
-train_tweets_u = db.session.query(Classifier.tweet_content, Classifier.sentiment_id).filter(Classifier.test_or_train=='train').all()
+train_tweets = db.session.query(Classifier.tweet_content, Classifier.sentiment_id).filter(Classifier.test_or_train=='train').all()
+
+# defining stop_words to remove from corpus
+stop_words = set(stopwords.words('english'))
 
 
-for tweet in train_tweets_u:
-    token_tuples = (nltk.word_tokenize(tweet[0]), tweet[1])
+# Reference Laurent Luce (http://www.laurentluce.com/posts/twitter-sentiment-analysis-using-python-and-nltk/)
+tweets= []
+for sentence, sentiment in train_tweets:
+    words_filtered = [word.lower() for word in sentence.split() if word not in stop_words]
+    tweets.append((words_filtered, sentiment))
+
 
 
 # neg_train_tweets = db.session.query(Classifier.tweet_content).filter(Classifier.test_or_train=='train', Classifier.sentiment_id==2).all()
