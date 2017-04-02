@@ -3,8 +3,8 @@
 from model import Classifier, connect_to_db, db
 from server import app 
 import nltk
-import random # to shuffle data set we have
 from nltk.corpus import stopwords
+import pickle
 
 
 connect_to_db(app)
@@ -70,13 +70,29 @@ training_tweets = nltk.classify.apply_features(extract_features, tweets)
 # feeding the Naive Bayes Classifier my training set, and storing in variable 'classifier'
 classifier = nltk.NaiveBayesClassifier.train(training_tweets)
 
-print classifier.show_most_informative_features(150)
+# print classifier.show_most_informative_features(150)
+
 
 # This is what will run a new tweet through the trained classifier 
 # Must give it a tweet as argument
 # print classifier.classify(extract_features(nltk.word_tokenize(tweet)))
 
+# saving trained classifier part 1:
+# trained classifier will be saved to the naivebayes.pickle file. 
+# wb = write in bytes
+save_classifier = open("naivebayes.pickle", "wb")
 
+# we want to dump the trained classifier. 'save_classifier' is where we are dumping it.
+pickle.dump(classifier, save_classifier)
+save_classifier.close()
+
+# part 2 to saving the trained classifier. loading. 
+classifier_f = open("naivebayes.pickle", "rb")
+classifier = pickle.load(classifier_f)
+classifier_f.close()
+
+#pickle is a way to save python objects and load those python objects
+# reference: https://pythonprogramming.net/pickle-classifier-save-nltk-tutorial/ for pickle
 
 
 
