@@ -6,6 +6,7 @@ import nltk
 import random # to shuffle data set we have
 from nltk.corpus import stopwords
 
+
 connect_to_db(app)
 #app lives in server
 # connect to db lives model
@@ -25,27 +26,9 @@ def get_features(wordlist):
     word_features = wordlist.keys()
     return word_features
 
-#Query my training tweets (as a list) from the classifier table in db
-train_tweets = db.session.query(Classifier.tweet_content, Classifier.sentiment_id).filter(Classifier.test_or_train=='train').all()
-
-# defining stop_words to remove from corpus
-stop_words = set(stopwords.words('english'))
-
-
-# Reference Laurent Luce (http://www.laurentluce.com/posts/twitter-sentiment-analysis-using-python-and-nltk/)
-
-# normalizing words in tweets through .lower(), exclusing all meaningless words
-# via stop_words. appending all itemized/split tweets to a single list along with their sentiment 
-tweets = []
-for sentence, sentiment in train_tweets:
-    words_filtered = [word.lower() for word in sentence.split() if word not in stop_words]
-    tweets.append((words_filtered, sentiment))
-
-word_features = get_features(get_words_in_tweets(tweets))
-# print word_features
-
-
-
+# extract_features takes an input, and it returns a dictionary, where the key is
+# the 'contain's + word in trained feature set' and the value is True/False
+# depending on whether the input tweet matches that word in the trained feature set
 def extract_features(tweet):
     tweet_words = set(tweet)
     features = {}
@@ -54,46 +37,53 @@ def extract_features(tweet):
     return features
 
 
-training_set = nltk.classify.apply_features(extract_features, tweets)
 
-classifier = nltk.NaiveBayesClassifier.train(training_set)
+#Query my training tweets (as a list) from the classifier table in db
+train_tweets = db.session.query(Classifier.tweet_content, \
+               Classifier.sentiment_id).filter(Classifier.test_or_train=='train').all()
 
-# print classifier.show_most_informative_features(32)
-
-# tweet = "Essential viewing. The best thing I've watched on TV for a long long time. Watch and share! @rioferdy5"
-print classifier.classify(extract_features(tweet.split()))
-
+# defining stop_words to remove from corpus
+stop_words = set(stopwords.words('english'))
 
 
+# Reference Laurent Luce (http://www.laurentluce.com/posts/twitter-sentiment-analysis-using-python-and-nltk/)
+
+# normalizing words in tweets through .lower(), exclusing all meaningless words via stop_words. 
+# word_tokenizing sentences, to split all meaningful text. Better than .split() method. 
+#appending all itemized/split tweets to a single list along with their sentiment 
+tweets = []
+for sentence, sentiment in train_tweets:
+    words_filtered = [word.lower() for word in nltk.word_tokenize(sentence) if \
+    word not in stop_words] 
+    tweets.append((words_filtered, sentiment))
+
+# calls get_features function on function: get_words_in_tweets, which takes the tweets as
+# an argument. This returns the keys of the features dictionary, which are all the UNIQUE words that
+# contain meaning 
+word_features = get_features(get_words_in_tweets(tweets))
+
+
+# using apply_features method 
+training_tweets = nltk.classify.apply_features(extract_features, tweets)
+
+
+# feeding the Naive Bayes Classifier my training set, and storing in variable 'classifier'
+classifier = nltk.NaiveBayesClassifier.train(training_tweets)
+
+print classifier.show_most_informative_features(150)
+
+# This is what will run a new tweet through the trained classifier 
+# Must give it a tweet as argument
+# print classifier.classify(extract_features(nltk.word_tokenize(tweet)))
 
 
 
-# neg_train_tweets = db.session.query(Classifier.tweet_content).filter(Classifier.test_or_train=='train', Classifier.sentiment_id==2).all()
 
 
-# """
-
-# # # making tuples. in each tuple is a list of words (which are features), and then the sentiment. this will be part of our bag of words
-# # documents = [(movie_reviews.words(fileid), category) 
-# #             for category in movie_reviews.categories() 
-# #             for fileid in movie_reviews.fileids(category)] 
-
-# # random.shuffle(documents)
-
-# # # print documents[1]
 
 
-# # #then take all words in bag, then find most popular words. then of those most
-# # #popular words, which appear in positive texts, and which in negative texts
 
-# # all_words = []
-# # for w in movie_reviews.words():
-# #     all_words.append(w.lower()) #normalize all words by making lowercase
 
-# # # find most common words
-# # all_words = nltk.FreqDist(all_words)
-# # print (all_words.most_common(15))
-# # print all_words["stupid"]
 
-# """
+
 
