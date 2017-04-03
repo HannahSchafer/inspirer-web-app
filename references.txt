@@ -4,7 +4,7 @@
 
 """
 
-Tweets from:
+Tweets taken from:
 Twitter Sentiment Corpus by Niek Sanders
 Sarah Killen @LovelyButton
 Jordan ✨@joziecw
