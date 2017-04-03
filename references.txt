@@ -90,7 +90,9 @@ Kaydee RocStar‏ @A_RocStar
 Yashar‏Verified account @yashar
 
 
+References for connecting to Twitter API:
 
+https://www.youtube.com/watch?v=o_OZdbCzHUA
 
 
 
