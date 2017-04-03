@@ -39,10 +39,12 @@ print user.followers_count
 
 
 # getting user tweets, parameters: screen_name, # tweets, include re-tweets (T/F)
+# Reference: https://www.quora.com/How-can-I-retrieve-from-given-users-home_timeline-with-Tweepy
 user_tweets = api.user_timeline(screen_name = 'chrissyteigen', count = 10, include_rts = True)
 
 for status in user_tweets:
-    print(status.text)
+    print status.text
+    print status.created_at
 
 
 # logic to import user's tweets - if tweet is from last 24 hours, only use that one tweet,
