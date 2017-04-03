@@ -14,8 +14,10 @@ connect_to_db(app)
 classifier = pickle.load(open("naivebayes.pickle"))
 
 
+# Run new tweet(s) through trained classifier
 # tweet = "I love python-twitter!"
 # print classifier.classify(extract_features(nltk.word_tokenize(tweet)))
+
 
 # connect to Twitter API! eeks! YCDI!
 
@@ -31,14 +33,16 @@ auth.set_access_token(access_token_key, access_token_secret)
 
 api = tweepy.API(auth)
 
-public_tweets = api.home_timeline()
-for tweet in public_tweets:
-    print tweet.text
+user = api.get_user('chrissyteigen')
+print user.screen_name
+print user.followers_count
 
-# user_twitter_info = api.user_timeline(screen_name = 'chrissyteigen', count = 10, include_rts = False)
 
-# for content in user_twitter_info:
-#     print content._json
+# getting user tweets, parameters: screen_name, # tweets, include re-tweets (T/F)
+user_tweets = api.user_timeline(screen_name = 'chrissyteigen', count = 10, include_rts = True)
+
+for status in user_tweets:
+    print(status.text)
 
 
 # logic to import user's tweets - if tweet is from last 24 hours, only use that one tweet,
