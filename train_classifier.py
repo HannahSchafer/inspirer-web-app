@@ -1,13 +1,16 @@
 # """Part 1: Building my Classifier"""
 
 from model import Classifier, connect_to_db, db
-from server import app 
 import nltk
 from nltk.corpus import stopwords
 import pickle
+from flask import Flask
 
-
+# creating a irrelevant app instance, just to connect with db, as required by flask_sqlalchemy
+app = Flask(__name__)
 connect_to_db(app)
+
+
 #app lives in server
 # connect to db lives model
 #db lives in model
@@ -93,8 +96,6 @@ classifier_f.close()
 
 #pickle is a way to save python objects and load those python objects
 # reference: https://pythonprogramming.net/pickle-classifier-save-nltk-tutorial/ for pickle
-
-
 
 
 

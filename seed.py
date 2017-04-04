@@ -125,36 +125,36 @@ def load_analyses(): # no real analyses, since don't have users who have used we
     db.session.commit()
 
 
-def delete_all_ordered():
-    """Delete all rows in tables, so if we need to run this a second time,
-      we won't be trying to add duplicate users"""
+# def delete_all_ordered():
+#     """Delete all rows in tables, so if we need to run this a second time,
+#       we won't be trying to add duplicate users"""
 
-    Classifier.query.delete()
-    Analyses.query.delete()
-    User.query.delete()
-    Quote.query.delete()
-    Sentiment.query.delete()
+#     Classifier.query.delete()
+#     Analyses.query.delete()
+#     User.query.delete()
+#     Quote.query.delete()
+#     Sentiment.query.delete()
 
-    # Commiting deletions to database
-    db.session.commit()
+#     # Commiting deletions to database
+#     db.session.commit()
 
 
 if __name__ == "__main__":
     connect_to_db(app)
 
 
-    # Delete any past info in tables to reload cleanly
-    delete_all_ordered()
+#     # Delete any past info in tables to reload cleanly
+#     delete_all_ordered()
 
-    # In case tables haven't been created, create them
-    db.create_all()
+#     # In case tables haven't been created, create them
+#     db.create_all()
 
-    # Import different types of data
-    load_sentiments()
-    load_quotes()
-    load_users()
-    load_analyses()
-    load_classifier()
+#     # Import different types of data
+#     load_sentiments()
+#     load_quotes()
+#     load_users()
+#     load_analyses()
+#     load_classifier()
     
 
 

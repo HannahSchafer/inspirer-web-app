@@ -8,6 +8,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 
 from model import connect_to_db, db, User, Quote, Analyses, Sentiment, Classifier
 
+from twitter_analysis import get_quote
 
 
 app = Flask(__name__)
@@ -130,9 +131,17 @@ def process_inspire():
     #Part 1: send data to store in analyses in db
 
     #Part 2: return quote to user on same page
-    quote_info = twitter_analysis.get_quote()
 
-    return jsonify(quote_info)
+    # getting twitter_handle from session
+    twitter_handle = session["twitter_handle"] 
+
+    quote_to_send = {}
+    # calling get_quote function from twitter_analysis, passing in the twitter_handle
+    # saving it to the quote_to_send dictionary as a value with the key "quote"
+    quote_to_send["quote"]  = get_quote(twitter_handle)
+    print quote_to_send
+
+    return jsonify(quote_to_send)
 
 
 

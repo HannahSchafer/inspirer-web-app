@@ -1,7 +1,6 @@
 
 from __future__ import unicode_literals
 from model import connect_to_db, db, Quote, Sentiment, User
-from server import app, session # ??
 import nltk
 from nltk.corpus import stopwords
 import pickle
@@ -11,7 +10,9 @@ import tweepy
 import os
 from datetime import datetime, timedelta
 from random import choice
+from flask import Flask
 
+app = Flask(__name__)
 connect_to_db(app)
 
 def load_classifier():
@@ -46,7 +47,7 @@ def connect_twitter_api(twitter_handle):
 
 
 
-def get_user_sentiment():
+def get_user_sentiment(user_tweets, classifier):
 
     # reference: http://stackoverflow.com/questions/7582333/python-get-datetime-of-last-hour
     last24Hours = datetime.now() - timedelta(hours = 24)
@@ -81,9 +82,9 @@ def get_user_sentiment():
 def get_quote(twitter_handle):
     """Randomly selecting pos/neg quote from db, based on user's avg sentiment"""
 
-    load_classifier()
-    connect_twitter_api(twitter_handle)
-    get_user_sentiment()
+    classifier = load_classifier()
+    user_tweets = connect_twitter_api(twitter_handle)
+    avg_sentiment = get_user_sentiment(user_tweets, classifier)
 
     if int(round(avg_sentiment)) == 1:
         all_pos_quotes = db.session.query(Quote.content).filter(Quote.sentiment_id=='1').all()
@@ -98,5 +99,6 @@ def get_quote(twitter_handle):
 
 
 
+
 # based on classifier's output (1 or 2), query database for quotes matching that output, and where user_id 
-# has not had that quote. 
+# has not had that quote. # need to add this in so no repeat quotes!!!!! 
