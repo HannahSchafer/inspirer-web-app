@@ -3,11 +3,14 @@
 <head>
     <title>Inspiratören</title>
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="http://code.jquery.com/jquery.js"></script>
+    <!-- need jQuery to use AJAX -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- our javascript -->
+    <script src="static/get_inspiration.js"></script>
 </head>
 <body>
 
-{% if 'user_id' in session.keys() %}
+{% if 'twitter_handle' in session.keys() %}
     <p>You are logged in</p>
     <a href="/logged-out"><button>Log out</button></a>
  {% else %}

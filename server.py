@@ -7,7 +7,8 @@ from flask import (Flask, jsonify, render_template, redirect, request,
 from flask_debugtoolbar import DebugToolbarExtension
 
 from model import connect_to_db, db, User, Quote, Analyses, Sentiment, Classifier
-# from classifier import ####
+
+
 
 app = Flask(__name__)
 
@@ -49,7 +50,7 @@ def process_registration():
         return redirect("/")
 
     else:
-        new_user = User(user_name=user_name, email=email, twitter_handle=twitter_handle, password=given_password, phone=phone)
+        new_user = User(user_name=user_name, email=email, twitter_handle='chrissyteigen', password=given_password, phone=phone)
         user_id = new_user.user_id
 
         # Add new_user to the database session so it can be stored
@@ -62,7 +63,9 @@ def process_registration():
         flash("Welcome to Inspiratoren!")
 
         # User is now in a session
+        session["twitter_handle"] = twitter_handle
         session["user_id"] = user_id
+        session["user_name"] = valid_user.user_name
 
         return redirect("/inspire")
 
@@ -85,8 +88,11 @@ def check_login():
                  (User.password==password)).first()
 
     if valid_user:
+        session["twitter_handle"] = valid_user.twitter_handle
         session["user_id"] = valid_user.user_id
-        flash("Welcome back! You are logged in.")
+        session["user_name"] = valid_user.user_name
+        flash("Welcome back! You are logged in.") 
+        print session
         return redirect("/inspire")
     else:
         flash("Twitter handle and password do not match. Please try again.")
@@ -98,7 +104,9 @@ def log_out():
     """User log out."""
 
     # deleting user from the current session.
-    del session["user_id"] 
+    del session["twitter_handle"] 
+    del session["user_id"]
+    del session["user_name"]
 
     # flash message for user.
     flash("You are now logged out. Have a wonderful day! ")
@@ -114,11 +122,17 @@ def display_inspire():
 
 
 
-@app.route("/inspire-process")
+@app.route("/inspire-process.json", methods=['POST'])
 def process_inspire():
-    """Processes user's button click, and sends quote to user."""
+    """Returns a quote of correct sentiment"""
 
-    return redirect("/inspire")
+
+    #Part 1: send data to store in analyses in db
+
+    #Part 2: return quote to user on same page
+    quote_info = twitter_analysis.get_quote()
+
+    return jsonify(quote_info)
 
 
 
