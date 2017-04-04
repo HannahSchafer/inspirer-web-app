@@ -67,15 +67,18 @@ else:
     
 avg_sentiment = sum(current_sentiments) / len(current_sentiments)
 
+# randomly selecting positive or negative quote from db quotes, based on user's avg sentiment
+def get_quote():
+    if int(round(avg_sentiment)) == 1:
+        all_pos_quotes = db.session.query(Quote.content).filter(Quote.sentiment_id=='1').all()
+        pos_quote = choice(all_pos_quotes)
+        return pos_quote
+    else:
+        all_neg_quotes = db.session.query(Quote.content).filter(Quote.sentiment_id=='2').all()
+        neg_quote = choice(all_neg_quotes)
+        return neg_quote
 
-if int(round(avg_sentiment)) == 1:
-    pos_quotes = db.session.query(Quote.content).filter(Quote.sentiment_id=='1').all()
-    print choice(pos_quotes)
-else:
-    neg_quotes = db.session.query(Quote.content).filter(Quote.sentiment_id=='2').all()
-    print choice(neg_quotes)
-
-
+print get_quote()
 
 
 

@@ -59,7 +59,7 @@ def process_registration():
         db.session.commit()
 
         # flash message for the user
-        flash("Welcome to Inspirador!")
+        flash("Welcome to Inspiratoren!")
 
         # User is now in a session
         session["user_id"] = user_id
@@ -74,23 +74,23 @@ def log_in():
     return render_template("login.html")
 
 
-# @app.route("/inspire")
-# def inspire_me():
-#     """Shows page where user clicks to get daily inspiration."""
+@app.route("/login-validation")
+def check_login():
+    """Compares login info to db info."""
 
-#     # User is still in a session
-#     session["user_id"] = user_id
+    twitter_handle = request.args.get("twitter_handle")
+    password = request.args.get("password")
 
-#     return render_template('inspire.html')
+    valid_user = User.query.filter((User.twitter_handle==twitter_handle) & \
+                 (User.password==password)).first()
 
-
-
-# @app.route("/inspire-process")
-# def inspire_me():
-#     """Shows page where user clicks to get daily inspiration."""
-
-
-
+    if valid_user:
+        session["user_id"] = valid_user.user_id
+        flash("Welcome back! You are logged in.")
+        return redirect("/inspire")
+    else:
+        flash("Twitter handle and password do not match. Please try again.")
+        return redirect("/log-in")
 
 
 @app.route("/logged-out")
@@ -101,9 +101,27 @@ def log_out():
     del session["user_id"] 
 
     # flash message for user.
-    flash("Have a wonderful day. Visit again soon.")
+    flash("You are now logged out. Have a wonderful day! ")
 
     return redirect("/")
+
+
+@app.route("/inspire")
+def display_inspire():
+    """Shows page where user clicks to get daily inspiration."""
+
+    return render_template('inspire.html')
+
+
+
+@app.route("/inspire-process")
+def process_inspire():
+    """Processes user's button click, and sends quote to user."""
+
+    return redirect("/inspire")
+
+
+
 
 
 # __main__ makes this stuff happen when i am running this file directly, not importing
