@@ -48,10 +48,13 @@ def connect_twitter_api(twitter_handle):
 
 
 def get_user_sentiment(user_tweets, classifier):
+    """Returns user's average sentiment."""
 
     # reference: http://stackoverflow.com/questions/7582333/python-get-datetime-of-last-hour
     last24Hours = datetime.now() - timedelta(hours = 24)
     # print last24Hours.strftime('%Y-%m-%d %H:%M:%S')
+
+
 
     fresh_tweets = []
     day_old_tweets = []
@@ -87,18 +90,14 @@ def get_quote(twitter_handle):
     avg_sentiment = get_user_sentiment(user_tweets, classifier)
 
     if int(round(avg_sentiment)) == 1:
-        all_pos_quotes = db.session.query(Quote.content).filter(Quote.sentiment_id=='1').all()
+        all_pos_quotes = db.session.query(Quote.content, Quote.quote_id, Quote.sentiment_id).filter(Quote.sentiment_id=='1').all()
         pos_quote = choice(all_pos_quotes)
         return pos_quote
     else:
-        all_neg_quotes = db.session.query(Quote.content).filter(Quote.sentiment_id=='2').all()
+        all_neg_quotes = db.session.query(Quote.content, Quote.quote_id).filter(Quote.sentiment_id=='2').all()
         neg_quote = choice(all_neg_quotes)
         return neg_quote
 
-# print get_quote()
 
 
 
-
-# based on classifier's output (1 or 2), query database for quotes matching that output, and where user_id 
-# has not had that quote. # need to add this in so no repeat quotes!!!!! 

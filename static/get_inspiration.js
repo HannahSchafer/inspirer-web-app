@@ -1,8 +1,8 @@
 $(document).ready(function(){
 
+
+
 // Show quote
-
-
 function showQuote(event) {
     
     $.post("/inspire-process.json", function(results) {

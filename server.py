@@ -9,6 +9,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from model import connect_to_db, db, User, Quote, Analyses, Sentiment, Classifier
 
 from twitter_analysis import get_quote
+from helper_functions import get_timestamp
 
 
 app = Flask(__name__)
@@ -19,6 +20,7 @@ app.secret_key = "782387409lhjsbdys762984sdliclu6"
 
 # Jinja2 should fail loudly, so I can hear it.
 app.jinja_env.undefined = StrictUndefined
+
 
 
 @app.route('/')
@@ -125,25 +127,38 @@ def display_inspire():
 
 @app.route("/inspire-process.json", methods=['POST'])
 def process_inspire():
-    """Returns a quote of correct sentiment"""
+    """Returns a quote of correct sentiment and store analyses info in db."""
 
+    #Part 1: return quote to user on same page
 
-    #Part 1: send data to store in analyses in db
-
-    #Part 2: return quote to user on same page
-
-    # getting twitter_handle from session
+    # getting twitter_handle & user_id from session
     twitter_handle = session["twitter_handle"] 
+    user_id = session["user_id"]
+
+    timestamp = get_timestamp()
 
     quote_to_send = {}
     # calling get_quote function from twitter_analysis, passing in the twitter_handle
     # saving it to the quote_to_send dictionary as a value with the key "quote"
-    quote_to_send["quote"]  = get_quote(twitter_handle)
-    print quote_to_send
+    quote_info = get_quote(twitter_handle)
+
+    #adding the actual quote itself to a dictionary to send via JSON
+    quote_to_send["quote"] = quote_info[0]
+
+    # getting quote_id to add to db
+    quote_id = quote_info[1]
+
+    sentiment = quote_info[2]
+
+    #Part 2: send data to store in analyses in db
+    # Store: user_id(y), timestamp(y), tweet_sent_id(y), quote_id(y)
+
+    # adding analysis instance to the database
+    analysis = Analyses(user_id = user_id, timestamp = timestamp, tweet_sent_id = sentiment, quote_id = quote_id)
+    db.session.add(analysis)
+    db.session.commit()
 
     return jsonify(quote_to_send)
-
-
 
 
 
