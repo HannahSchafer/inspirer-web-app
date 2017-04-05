@@ -41,19 +41,21 @@ def show_registration():
 def process_registration():
     """Check the given twitter_handle and password against the database."""
 
-    given_twitter = request.form.get("twitter_handle")
+    twitter_handle= request.form.get("twitter_handle")
     given_password = request.form.get("password")
+    phone = request.form.get("phone")
+    email = request.form.get("email")
+    name = request.form.get("user_name")
 
-    print given_twitter
 
-    existing_user = User.query.filter(User.twitter_handle==given_twitter).first()
+    existing_user = User.query.filter((User.twitter_handle==twitter_handle) & (User.password==given_password)).first()
 
     if existing_user:
         flash("Welcome back! You already have an account. Please log in with your twitter handle and password.")
         return redirect("/")
 
     else:
-        new_user = User(user_name=user_name, email=email, twitter_handle='chrissyteigen', password=given_password, phone=phone)
+        new_user = User(user_name=name, email=email, twitter_handle=twitter_handle, password=given_password, phone=phone)
         user_id = new_user.user_id
 
         # Add new_user to the database session so it can be stored
@@ -68,7 +70,7 @@ def process_registration():
         # User is now in a session
         session["twitter_handle"] = twitter_handle
         session["user_id"] = user_id
-        session["user_name"] = valid_user.user_name
+        session["user_name"] = name
 
         return redirect("/inspire")
 
@@ -95,7 +97,6 @@ def check_login():
         session["user_id"] = valid_user.user_id
         session["user_name"] = valid_user.user_name
         flash("Welcome back! You are logged in.") 
-        print session
         return redirect("/inspire")
     else:
         flash("Twitter handle and password do not match. Please try again.")
@@ -129,12 +130,11 @@ def display_inspire():
 def process_inspire():
     """Returns a quote of correct sentiment and store analyses info in db."""
 
-    #Part 1: return quote to user on same page
-
-    # getting twitter_handle & user_id from session
+    #getting twitter_handle & user_id from session
     twitter_handle = session["twitter_handle"] 
     user_id = session["user_id"]
 
+    # get timestamp for storing to db when user clicks button
     timestamp = get_timestamp()
 
     quote_to_send = {}
@@ -145,10 +145,11 @@ def process_inspire():
     #adding the actual quote itself to a dictionary to send via JSON
     quote_to_send["quote"] = quote_info[0]
 
-    # getting quote_id to add to db
+    # getting quote_id, sentiment to add to db
     quote_id = quote_info[1]
-
     sentiment = quote_info[2]
+
+    img_url = quote_info[3]
 
     #Part 2: send data to store in analyses in db
     # Store: user_id(y), timestamp(y), tweet_sent_id(y), quote_id(y)

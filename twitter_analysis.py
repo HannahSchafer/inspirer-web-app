@@ -90,13 +90,15 @@ def get_quote(twitter_handle):
     avg_sentiment = get_user_sentiment(user_tweets, classifier)
 
     if int(round(avg_sentiment)) == 1:
-        all_pos_quotes = db.session.query(Quote.content, Quote.quote_id, Quote.sentiment_id).filter(Quote.sentiment_id=='1').all()
-        pos_quote = choice(all_pos_quotes)
-        return pos_quote
+        all_pos_quotes_info = db.session.query(Quote.content, Quote.quote_id, \
+                              Quote.sentiment_id, Quote.img_url).filter(Quote.sentiment_id=='1').all()
+        pos_quote_info = choice(all_pos_quotes_info)
+        return pos_quote_info
     else:
-        all_neg_quotes = db.session.query(Quote.content, Quote.quote_id).filter(Quote.sentiment_id=='2').all()
-        neg_quote = choice(all_neg_quotes)
-        return neg_quote
+        all_neg_quotes_info = db.session.query(Quote.content, Quote.quote_id, \
+                              Quote.img_url).filter(Quote.sentiment_id=='2').all()
+        neg_quote_info = choice(all_neg_quotes_info)
+        return neg_quote_info
 
 
 
