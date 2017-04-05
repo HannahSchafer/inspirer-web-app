@@ -55,8 +55,9 @@ def process_registration():
         return redirect("/")
 
     else:
+        # class object 'new user'
         new_user = User(user_name=name, email=email, twitter_handle=twitter_handle, password=given_password, phone=phone)
-        user_id = new_user.user_id
+        
 
         # Add new_user to the database session so it can be stored
         db.session.add(new_user)
@@ -67,10 +68,14 @@ def process_registration():
         # flash message for the user
         flash("Welcome to Inspiratoren!")
 
+        # after commited to db, now new_user has a user_id
+        user_id = new_user.user_id
+
         # User is now in a session
         session["twitter_handle"] = twitter_handle
         session["user_id"] = user_id
         session["user_name"] = name
+
 
         return redirect("/inspire")
 
@@ -149,7 +154,6 @@ def process_inspire():
     quote_id = quote_info[1]
     sentiment = quote_info[2]
 
-    img_url = quote_info[3]
 
     #Part 2: send data to store in analyses in db
     # Store: user_id(y), timestamp(y), tweet_sent_id(y), quote_id(y)
