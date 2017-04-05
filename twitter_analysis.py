@@ -9,7 +9,6 @@ import twitter
 import tweepy
 import os
 from datetime import datetime, timedelta
-from random import choice
 from flask import Flask
 
 app = Flask(__name__)
@@ -82,21 +81,7 @@ def get_user_sentiment(user_tweets, classifier):
     return avg_sentiment
 
 
-def get_quote(twitter_handle):
-    """Randomly selecting pos/neg quote from db, based on user's avg sentiment"""
 
-    classifier = load_classifier()
-    user_tweets = connect_twitter_api(twitter_handle)
-    avg_sentiment = get_user_sentiment(user_tweets, classifier)
-
-    if int(round(avg_sentiment)) == 1:
-        all_pos_quotes_info = db.session.query(Quote.content, Quote.quote_id, Quote.sentiment_id).filter(Quote.sentiment_id=='1').all()
-        pos_quote_info = choice(all_pos_quotes_info)
-        return pos_quote_info
-    else:
-        all_neg_quotes_info = db.session.query(Quote.content, Quote.quote_id, Quote.sentiment_id).filter(Quote.sentiment_id=='2').all()
-        neg_quote_info = choice(all_neg_quotes_info)
-        return neg_quote_info
 
 
 

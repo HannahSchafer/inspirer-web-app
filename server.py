@@ -8,8 +8,9 @@ from flask_debugtoolbar import DebugToolbarExtension
 
 from model import connect_to_db, db, User, Quote, Analyses, Sentiment, Classifier
 
-from twitter_analysis import get_quote
+from twitter_analysis import load_classifier, connect_twitter_api, get_user_sentiment
 from helper_functions import get_timestamp
+from random import choice
 
 
 app = Flask(__name__)
@@ -20,6 +21,28 @@ app.secret_key = "782387409lhjsbdys762984sdliclu6"
 
 # Jinja2 should fail loudly, so I can hear it.
 app.jinja_env.undefined = StrictUndefined
+
+
+def get_quote(twitter_handle):
+    """Randomly selecting pos/neg quote from db, based on user's avg sentiment"""
+
+    classifier = load_classifier()
+    user_tweets = connect_twitter_api(twitter_handle)
+    avg_sentiment = get_user_sentiment(user_tweets, classifier)
+
+    user_id = session["user_id"]
+    old_quotes = db.session.query(Analyses.quote_id).filter(Analyses.user_id==user_id)
+    print type(old_quotes)
+    print '999999'
+
+    if int(round(avg_sentiment)) == 1:
+        all_pos_quotes_info = db.session.query(Quote.content, Quote.quote_id, Quote.sentiment_id).filter(Quote.sentiment_id=='1', Quote.quote_id.notin_(old_quotes)).all()
+        pos_quote_info = choice(all_pos_quotes_info)
+        return pos_quote_info
+    else:
+        all_neg_quotes_info = db.session.query(Quote.content, Quote.quote_id, Quote.sentiment_id).filter(Quote.sentiment_id=='2', Quote.quote_id.notin_(old_quotes)).all()
+        neg_quote_info = choice(all_neg_quotes_info)
+        return neg_quote_info
 
 
 
