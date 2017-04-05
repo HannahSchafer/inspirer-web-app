@@ -8,9 +8,9 @@ from flask_debugtoolbar import DebugToolbarExtension
 
 from model import connect_to_db, db, User, Quote, Analyses, Sentiment, Classifier
 
-from twitter_analysis import load_classifier, connect_twitter_api, get_user_sentiment
 from helper_functions import get_timestamp
-from random import choice
+from twitter_analysis import get_quote
+
 
 
 app = Flask(__name__)
@@ -22,27 +22,6 @@ app.secret_key = "782387409lhjsbdys762984sdliclu6"
 # Jinja2 should fail loudly, so I can hear it.
 app.jinja_env.undefined = StrictUndefined
 
-
-def get_quote(twitter_handle):
-    """Randomly selecting pos/neg quote from db, based on user's avg sentiment"""
-
-    classifier = load_classifier()
-    user_tweets = connect_twitter_api(twitter_handle)
-    avg_sentiment = get_user_sentiment(user_tweets, classifier)
-
-    user_id = session["user_id"]
-    old_quotes = db.session.query(Analyses.quote_id).filter(Analyses.user_id==user_id)
-    print type(old_quotes)
-    print '999999'
-
-    if int(round(avg_sentiment)) == 1:
-        all_pos_quotes_info = db.session.query(Quote.content, Quote.quote_id, Quote.sentiment_id).filter(Quote.sentiment_id=='1', Quote.quote_id.notin_(old_quotes)).all()
-        pos_quote_info = choice(all_pos_quotes_info)
-        return pos_quote_info
-    else:
-        all_neg_quotes_info = db.session.query(Quote.content, Quote.quote_id, Quote.sentiment_id).filter(Quote.sentiment_id=='2', Quote.quote_id.notin_(old_quotes)).all()
-        neg_quote_info = choice(all_neg_quotes_info)
-        return neg_quote_info
 
 
 
@@ -168,23 +147,26 @@ def process_inspire():
     quote_to_send = {}
     # calling get_quote function from twitter_analysis, passing in the twitter_handle
     # saving it to the quote_to_send dictionary as a value with the key "quote"
-    quote_info = get_quote(twitter_handle)
+    quote_info = get_quote(twitter_handle, user_id)
 
-    #adding the actual quote itself to a dictionary to send via JSON
-    quote_to_send["quote"] = quote_info[0]
+    if len(quote_info) > 1:
+        #adding the actual quote itself to a dictionary to send via JSON
+        quote_to_send["quote"] = quote_info[0]
 
-    # getting quote_id, sentiment to add to db
-    quote_id = quote_info[1]
-    sentiment = quote_info[2]
+        # getting quote_id, sentiment to add to db
+        quote_id = quote_info[1]
+        sentiment = quote_info[2]
 
+        #Part 2: send data to store in analyses in db
+        # Store: user_id(y), timestamp(y), tweet_sent_id(y), quote_id(y)
 
-    #Part 2: send data to store in analyses in db
-    # Store: user_id(y), timestamp(y), tweet_sent_id(y), quote_id(y)
+        # adding analysis instance to the database
+        analysis = Analyses(user_id = user_id, timestamp = timestamp, tweet_sent_id = sentiment, quote_id = quote_id)
+        db.session.add(analysis)
+        db.session.commit()
 
-    # adding analysis instance to the database
-    analysis = Analyses(user_id = user_id, timestamp = timestamp, tweet_sent_id = sentiment, quote_id = quote_id)
-    db.session.add(analysis)
-    db.session.commit()
+    else:
+        quote_to_send["quote"] = quote_info[0]
 
     return jsonify(quote_to_send)
 

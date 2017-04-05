@@ -16,3 +16,5 @@ function showQuote(event) {
 $("#get-quote").on('click', showQuote);
 
 });
+
+//if/else statement to parse results if adding more than 'quote'

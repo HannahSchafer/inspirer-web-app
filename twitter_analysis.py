@@ -1,6 +1,6 @@
 
 from __future__ import unicode_literals
-from model import connect_to_db, db, Quote, Sentiment, User
+from model import connect_to_db, db, Quote, Sentiment, User, Analyses
 import nltk
 from nltk.corpus import stopwords
 import pickle
@@ -10,6 +10,7 @@ import tweepy
 import os
 from datetime import datetime, timedelta
 from flask import Flask
+from random import choice
 
 app = Flask(__name__)
 connect_to_db(app)
@@ -79,6 +80,35 @@ def get_user_sentiment(user_tweets, classifier):
         
     avg_sentiment = sum(current_sentiments) / len(current_sentiments)
     return avg_sentiment
+
+
+def get_quote(twitter_handle, user_id):
+    """Randomly selecting pos/neg quote from db, based on user's avg sentiment"""
+
+    classifier = load_classifier()
+    user_tweets = connect_twitter_api(twitter_handle)
+    avg_sentiment = get_user_sentiment(user_tweets, classifier)
+
+
+    old_pos_quotes = db.session.query(Analyses.quote_id).filter(Analyses.user_id==user_id, Analyses.tweet_sent_id==1).all()
+    old_neg_quotes = db.session.query(Analyses.quote_id).filter(Analyses.user_id==user_id, Analyses.tweet_sent_id==2).all()
+    
+
+    if int(round(avg_sentiment)) == 1:
+        all_pos_quotes_info = db.session.query(Quote.content, Quote.quote_id, Quote.sentiment_id).filter(Quote.sentiment_id=='1', Quote.quote_id.notin_(old_pos_quotes)).all()
+        if len(old_pos_quotes) < len(all_pos_quotes_info):
+            pos_quote_info = choice(all_pos_quotes_info)
+            return pos_quote_info
+        else:
+            return ["We're writing more poems and quotes. Check in later!"]
+    else:
+        all_neg_quotes_info = db.session.query(Quote.content, Quote.quote_id, Quote.sentiment_id).filter(Quote.sentiment_id=='2', Quote.quote_id.notin_(old_neg_quotes)).all()
+        if len(old_neg_quotes) < len(all_neg_quotes_info):
+            neg_quote_info = choice(all_neg_quotes_info)
+            return neg_quote_info
+        else:
+            return ["We're writing more poems and quotes. Check in later!"]
+
 
 
 
