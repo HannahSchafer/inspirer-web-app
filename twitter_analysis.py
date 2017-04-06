@@ -26,6 +26,8 @@ def load_classifier():
 # put stuff below into __init__
 # test of this will be another class??
 
+#test getting back real classifer
+
 def connect_twitter_api(twitter_handle):
     """Connect to Twitter API and authenticate."""
     # connect to Twitter API
@@ -45,7 +47,8 @@ def connect_twitter_api(twitter_handle):
     user_tweets = api.user_timeline(screen_name = twitter_handle, include_rts = True, count=5)
     return user_tweets
 
-
+### testing: mock sample user_tweets coming out of connect_twitter_api
+## mock function for connect_twitter_api
 
 def get_user_sentiment(user_tweets, classifier):
     """Returns user's average sentiment."""
@@ -108,6 +111,11 @@ def get_quote(twitter_handle, user_id):
             return neg_quote_info
         else:
             return ["We're writing more poems and quotes. Check in later!"]
+
+
+# mock up 1 positive quote
+# mock up 1 negative quote
+
 
 
 

@@ -26,8 +26,8 @@ def get_words_in_tweets(tweets):
 def get_features(wordlist):
     wordlist = nltk.FreqDist(wordlist)
     # print wordlist['friend']
-    word_features = wordlist.keys()
-    return word_features
+    unique_training_words = wordlist.keys()
+    return unique_training_words 
 
 # extract_features takes an input, and it returns a dictionary, where the key is
 # the 'contain's + word in trained feature set' and the value is True/False
@@ -35,15 +35,17 @@ def get_features(wordlist):
 def extract_features(tweet):
     tweet_words = set(tweet)
     features = {}
-    for word in word_features:
+    for word in unique_training_words :
         features['contains(%s)' % word] = (word in tweet_words)
     return features
 
 
 
 #Query my training tweets (as a list) from the classifier table in db
-train_tweets = db.session.query(Classifier.tweet_content, \
-               Classifier.sentiment_id).filter(Classifier.test_or_train=='train').all()
+train_tweets = (db.session.query(Classifier.tweet_content, 
+                                 Classifier.sentiment_id)
+                          .filter(Classifier.test_or_train=='train')
+                          .all())
 
 # defining stop_words to remove from corpus
 stop_words = set(stopwords.words('english'))
@@ -56,14 +58,14 @@ stop_words = set(stopwords.words('english'))
 #appending all itemized/split tweets to a single list along with their sentiment 
 tweets = []
 for sentence, sentiment in train_tweets:
-    words_filtered = [word.lower() for word in nltk.word_tokenize(sentence) if \
-    word not in stop_words] 
+    words_filtered = [word.lower() for word in nltk.word_tokenize(sentence) 
+                                   if word not in stop_words] 
     tweets.append((words_filtered, sentiment))
 
 # calls get_features function on function: get_words_in_tweets, which takes the tweets as
 # an argument. This returns the keys of the features dictionary, which are all the UNIQUE words that
 # contain meaning 
-word_features = get_features(get_words_in_tweets(tweets))
+unique_training_words = get_features(get_words_in_tweets(tweets))
 
 
 # using apply_features method 
