@@ -7,9 +7,10 @@ sys.setdefaultencoding('utf8')
 import unittest
 import twitter_analysis
 import server
-from model import connect_to_db, db
+from model import connect_to_db, db, example_data
 
-# docstrings!!!!
+
+
 
 
 class FlaskTestsDatabase(unittest.TestCase):
@@ -19,7 +20,7 @@ class FlaskTestsDatabase(unittest.TestCase):
         """Stuff to do before every test."""
 
         # Connect to test database
-        connect_to_db(app, "postgresql:///fake_db")
+        connect_to_db(server.app, "postgresql:///fake_db")
 
         # Create tables
         db.create_all()
@@ -27,6 +28,10 @@ class FlaskTestsDatabase(unittest.TestCase):
         # seed sample data
         example_data()
 
+        server.app.config['TESTING'] = True
+        self.client = server.app.test_client()
+
+        
     def tearDown(self):
         """Do at end of every test."""
 
@@ -36,38 +41,40 @@ class FlaskTestsDatabase(unittest.TestCase):
     def test_reg_form(self):
         """Tests registration form in case when it is a valid new user."""
 
-        result = self.client.post('/process-registration', data={'user_name': \
-                      'Mary', 'password' : 'wonderland', 'twitter_handle' : 'Mary33', \
-                      'email': 'Mary@wonderland.com', 'phone': '243-545-9898' }, follow_redirects=True)
+        result = (self.client.post('/process-registration', data={'user_name': 
+                      'Mary', 'password' : 'wonderland', 'twitter_handle' : 'Mary33', 
+                      'email': 'Mary@wonderland.com', 'phone': '243-545-9898' }, follow_redirects=True))
         self.assertIn('Welcome to Inspiratoren!', result.data)
 
     def test_reg_form_2(self):
         """Tests registration form in case when it is already an existing user."""
 
-        result = self.client.post('/process-registration', data={'user_name': \
-                      'hannah', 'password' : 'password', 'twitter_handle' : 'HannahSchafer18', \
-                      'email' : 'hannah@banana.com', 'phone': '5555555555' }, follow_redirects=True)
+        result = (self.client.post('/process-registration', data={'user_name': 
+                      'Aimee', 'password' : 'art', 'twitter_handle' : 'Artist', 
+                      'email' : 'Aimee@gmail.com', 'phone': '555-555-9999' }, follow_redirects=True))
         self.assertIn('Welcome back! You already have an account. Please log in with your twitter handle and password.', result.data)
+
 
     def test_login_form_1(self):
         """Tests registration form in case when it is a valid existing user."""
 
-        result = self.client.get('/login-validation', data={'twitter_handle' : 'HannahSchafer18', \
-                               'password' : 'password'}, follow_redirects=True)
+        result = (self.client.get('/login-validation', data={'twitter_handle' : 'NuBaby', 
+                                  'password' : 'clown eyes'}, follow_redirects=True))
         self.assertIn('Welcome back! You are logged in.', result.data)
+
 
     def test_login_form_2(self):
         """Tests registration form in case when it is not a valid existing user."""
 
-        result = self.client.get('/login-validation', data={'twitter_handle' : 'HannahSchafer18', \
-                               'password' : 'hello'}, follow_redirects=True)
+        result = (self.client.get('/login-validation', data={'twitter_handle' : 'HannahSchafer18', 
+                               'password' : 'hello'}, follow_redirects=True))
         self.assertIn('Twitter handle and password do not match. Please try again.', result.data)
 
     def test_login_form_3(self):
         """Tests registration form in case when it is not a valid existing user."""
-        
-        result = self.client.get('/login-validation', data={'twitter_handle' : 'Mary33', \
-                               'password' : 'password'}, follow_redirects=True)
+
+        result = (self.client.get('/login-validation', data={'twitter_handle' : 'Mary33', 
+                               'password' : 'password'}, follow_redirects=True))
         self.assertIn('Twitter handle and password do not match. Please try again.', result.data)
 
 

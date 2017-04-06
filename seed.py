@@ -10,7 +10,7 @@ from model import Sentiment
 from model import Classifier
 
 from model import connect_to_db, db
-from server import app #####???
+from server import app 
 
 
 def load_sentiments(): # load sentiments first because other tables depend on this data
@@ -23,11 +23,11 @@ def load_sentiments(): # load sentiments first because other tables depend on th
     pos = Sentiment(sentiment=sentiment1)
     neg = Sentiment(sentiment=sentiment2) 
 
-#         # Adding data to the session
+#   # Adding data to the session
     db.session.add(pos)
     db.session.add(neg)
 
-#     # Commiting data to database
+   # Commiting data to database
     db.session.commit()
 
 
@@ -57,7 +57,7 @@ def load_classifier():
 def load_quotes():
     """Load quote information into database."""
 
-    data_file = open('seed_data/quotes.csv', 'rU')
+    data_file = open('seed_data/quotes_2.csv', 'rU')
     csv_file = csv.reader(data_file)
 
     for row in csv_file:
@@ -126,8 +126,8 @@ def load_analyses(): # no real analyses, since don't have users who have used we
 
 
 # def delete_all_ordered():
-#     """Delete all rows in tables, so if we need to run this a second time,
-#       we won't be trying to add duplicate users"""
+# #     """Delete all rows in tables, so if we need to run this a second time,
+# #       we won't be trying to add duplicate users"""
 
 #     Classifier.query.delete()
 #     Analyses.query.delete()
@@ -135,7 +135,7 @@ def load_analyses(): # no real analyses, since don't have users who have used we
 #     Quote.query.delete()
 #     Sentiment.query.delete()
 
-#     # Commiting deletions to database
+# #     # Commiting deletions to database
 #     db.session.commit()
 
 
@@ -143,13 +143,13 @@ if __name__ == "__main__":
     connect_to_db(app)
 
 
-#     # Delete any past info in tables to reload cleanly
+# #     # Delete any past info in tables to reload cleanly
 #     delete_all_ordered()
 
-#     # In case tables haven't been created, create them
+# #     # In case tables haven't been created, create them
 #     db.create_all()
 
-#     # Import different types of data
+# #     # Import different types of data
 #     load_sentiments()
 #     load_quotes()
 #     load_users()
