@@ -171,6 +171,107 @@ def process_inspire():
     return jsonify(quote_to_send)
 
 
+@app.route('/moods')
+def show_moods_page():
+    """Show page with data visualization of mood over time.
+    """
+
+    return render_template("moods.html")
+
+
+@app.route('/mood-donut.json')
+def make_donut_chart():
+    """Sends dictionary data of mood over time to render DONUT chart."""
+
+    user_id = session["user_id"]
+    #query database for info in analyses table: sentiment, timestamp
+    user_mood_data = db.session.query(Analyses.timestamp, Analyses.tweet_sent_id).filter(Analyses.user_id==user_id).all()
+    
+    happy_feelings =[]
+    sad_feelings =[]
+    for timestamp, sentiment in user_mood_data:
+        if sentiment==1:
+            happy_feelings.append(sentiment)
+        else:
+            sad_feelings.append(sentiment)
+
+
+    total_feelings = (len(happy_feelings) + len(sad_feelings))
+    percent_happy = float(len(happy_feelings)) / float(total_feelings)
+    percent_sad = float(len(sad_feelings)) / float(total_feelings)
+   
+    
+    mood_data = { "labels": [
+                    "Positive Mood",
+                    "Negative Mood"],
+                
+                   "datasets": [
+                       {
+                        "data": [percent_happy, percent_sad],
+                        "backgroundColor": [
+                            "#00FFFF",
+                            "#800080"
+                            ],
+                        "hoverBackgroundColor": [
+                            "#FF6384",
+                            "#36A2EB",]   }]
+                        }
+
+    return jsonify(mood_data)
+
+
+@app.route('/mood-line.json')
+def make_line_chart():
+    """Sends dictionary data of mood over time to render LINE chart."""
+
+    user_id = session["user_id"]
+    #query database for info in analyses table: sentiment, timestamp
+    user_mood_data = db.session.query(Analyses.timestamp, Analyses.tweet_sent_id).filter(Analyses.user_id==user_id).all()
+
+    timestamps = []
+    sentiments = []
+    for timestamp, sentiment in user_mood_data:
+        timestamps.append(timestamp)
+        sentiments.append(sentiment)
+    
+    # will display better on line chart if negative feeling is -1 and positive feeling is 1
+    for n, i in enumerate(sentiments):
+        if i==2:
+            sentiments[n] = -1
+
+
+# labels will be the timestamps
+#data will be 1s and 2s based on sentiment at time stamps
+
+    mood_data = {
+        "labels": timestamps,
+        "datasets": [
+            {
+                "label": "Your Mood Over Time",
+                "fill": True,
+                "lineTension": 0.5,
+                "backgroundColor": "rgba(46, 241, 239, 0.5)",
+                "borderColor": "rgba(46, 241, 239, 0.9)",
+                "borderCapStyle": 'butt',
+                "borderDash": [],
+                "borderWidth": 0,
+                "borderDashOffset": 0.0,
+                "borderJoinStyle": 'miter',
+                "pointBorderColor": "rgba(220,220,220,1)",
+                "pointBackgroundColor": "#fff",
+                "pointBorderWidth": 1,
+                "pointHoverRadius": 5,
+                "pointHoverBackgroundColor": "#fff",
+                "pointHoverBorderColor": "rgba(220,220,220,1)",
+                "pointHoverBorderWidth": 2,
+                "pointRadius": 3,
+                "pointHitRadius": 10,
+                "data": sentiments,
+                "spanGaps": False}
+        ]
+    }
+
+    return jsonify(mood_data)
 
 # __main__ makes this stuff happen when i am running this file directly, not importing
 if __name__ == "__main__":

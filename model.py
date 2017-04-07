@@ -109,21 +109,21 @@ class Classifier(db.Model):
 
 
 
-# def example_data():
-#     """Creating some sample data for fake_db in tests.py."""
+def example_data():
+    """Creating some sample data for fake_db in tests.py."""
 
-#     pos = Sentiment(sentiment='pos')
-#     neg = Sentiment(sentiment='neg')
+    pos = Sentiment(sentiment='pos')
+    neg = Sentiment(sentiment='neg')
 
-#     favinn = User(user_name='Favinn', password='clown eyes', twitter_handle='NuBaby', email="Favinn@gmail.com", phone='555-444-9999')
-#     aimee = User(user_name='Aimee', password='art', twitter_handle='Artist', email="Aimee@gmail.com", phone='555-555-9999')
-#     charlotte = User(user_name='Charlotte', password='house', twitter_handle='RedHead', email="Charlotte@gmail.com", phone='333-555-9999')
+    favinn = User(user_name='Favinn', password='clown eyes', twitter_handle='NuBaby', email="Favinn@gmail.com", phone='555-444-9999')
+    aimee = User(user_name='Aimee', password='art', twitter_handle='Artist', email="Aimee@gmail.com", phone='555-555-9999')
+    charlotte = User(user_name='Charlotte', password='house', twitter_handle='RedHead', email="Charlotte@gmail.com", phone='333-555-9999')
 
-#     positive_quote = Quote(content='I am a positive quote!', img_url='static/positivequote.jpg', author='me', sentiment_id='1')
-#     negative_quote = Quote(content='I am a negative quote!', img_url='static/negativequote.jpg', author='you', sentiment_id='2')
+    positive_quote = Quote(content='I am a positive quote!', img_url='static/positivequote.jpg', author='me', sentiment_id='1')
+    negative_quote = Quote(content='I am a negative quote!', img_url='static/negativequote.jpg', author='you', sentiment_id='2')
 
-#     db.session.add_all([pos, neg, favinn, aimee, charlotte, positive_quote, negative_quote])
-#     db.session.commit()
+    db.session.add_all([pos, neg, favinn, aimee, charlotte, positive_quote, negative_quote])
+    db.session.commit()
 
 
 

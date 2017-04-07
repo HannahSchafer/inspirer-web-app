@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<h3>Inspiratören</h3>
+
+<a href="/inspire"><button>Inspire</button></a>
+
+<div class="mood-chart">
+    <canvas id='donutChart'></canvas>
+    <div id="donutLegend" class="chart-legend"></div>
+<div>
+
+<div class="mood-chart">
+    <canvas id="lineChart"></canvas>
+    <div id="lineLegend" class="chart-legend"></div>
+</div>
+
+
+
+<script>
+
+var options = {
+      responsive: true
+  };
+
+
+// options: {
+//                 responsive: true
+//                 scales: {
+//                     xAxes: [{
+//                             display: false,
+//                             scaleLabel: {
+//                                 display: false,
+                                
+//                             }
+//                         }]
+//                     yAxes: [{
+//                             display: true,
+//                             ticks: {
+//                                 stepValue: 0.5,
+//                                 min: -4,
+//                                 max: 4
+//                             }
+
+//                         }]  
+//                 };
+
+
+    
+
+
+// Donut chart of user's overall moods (positive/negative)
+var ctx_donut = $('#donutChart').get(0).getContext('2d');
+
+
+$.get("/mood-donut.json", function (data) {
+var myDonutChart = new Chart(ctx_donut, {
+    type: 'doughnut',
+    data: data,
+    options: options
+});
+
+$('#donutLegend').html(myDonutChart.generateLegend());
+
+});
+
+
+// Line Chart of user's mood over time
+    var ctx_line = $("#lineChart").get(0).getContext("2d");
+
+    $.get("/mood-line.json", function (data) {
+      var myLineChart = Chart.Line(ctx_line, {
+                                    type: 'line',
+                                    data: data,
+                                    options: options
+                                });
+      $("#lineLegend").html(myLineChart.generateLegend());
+    });
+
+
+
+
+</script>
+
+
+{% endblock %}
