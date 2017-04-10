@@ -10,6 +10,7 @@ from model import connect_to_db, db, User, Quote, Analyses, Sentiment, Classifie
 
 from helper_functions import get_timestamp
 from twitter_analysis import get_quote
+from datetime import datetime
 
 
 
@@ -233,6 +234,12 @@ def make_line_chart():
     for timestamp, sentiment in user_mood_data:
         timestamps.append(timestamp)
         sentiments.append(sentiment)
+
+    date_labels =[]
+    for time in timestamps:
+        date = "{:%B %d, %Y}".format(time)
+        date_labels.append(date)
+
     
     # will display better on line chart if negative feeling is -1 and positive feeling is 1
     for n, i in enumerate(sentiments):
@@ -244,21 +251,23 @@ def make_line_chart():
 #data will be 1s and 2s based on sentiment at time stamps
 
     mood_data = {
-        "labels": timestamps,
+        "labels": date_labels,
         "datasets": [
             {
                 "label": "Your Mood Over Time",
+                "fontFamily": "'Helvetica Neue",
+                "fontStyle": "bold",
                 "fill": True,
-                "lineTension": 0.5,
-                "backgroundColor": "rgba(46, 241, 239, 0.5)",
-                "borderColor": "rgba(46, 241, 239, 0.9)",
+                "lineTension": 0.5,  
+                "backgroundColor": "rgba(135, 252, 255, 0.8)",
+                "borderColor": "rgba(135, 252, 255, 0.9)",
                 "borderCapStyle": 'butt',
                 "borderDash": [],
                 "borderWidth": 0,
                 "borderDashOffset": 0.0,
                 "borderJoinStyle": 'miter',
-                "pointBorderColor": "rgba(220,220,220,1)",
-                "pointBackgroundColor": "#fff",
+                "pointBorderColor": "rgba(110,207,255,1)",
+                "pointBackgroundColor": "rgba(31,189,255,1)",
                 "pointBorderWidth": 1,
                 "pointHoverRadius": 5,
                 "pointHoverBackgroundColor": "#fff",

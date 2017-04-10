@@ -2,18 +2,19 @@
 {% block content %}
 
 
-<h3>Inspiratören</h3>
+<h3>Sparö</h3>
 
-<a href="/inspire"><button>Inspire</button></a>
+
 
 <div class="mood-chart">
     <canvas id='donutChart'></canvas>
-    <div id="donutLegend" class="chart-legend"></div>
+   <!--  <div id="donutLegend" class="chart-legend"></div> -->
 <div>
+    <br><br>
 
 <div class="mood-chart">
     <canvas id="lineChart"></canvas>
-    <div id="lineLegend" class="chart-legend"></div>
+    <!-- <div id="lineLegend" class="chart-legend"></div> -->
 </div>
 
 
@@ -21,31 +22,13 @@
 <script>
 
 var options = {
-      responsive: true
-  };
-
-
-// options: {
-//                 responsive: true
-//                 scales: {
-//                     xAxes: [{
-//                             display: false,
-//                             scaleLabel: {
-//                                 display: false,
-                                
-//                             }
-//                         }]
-//                     yAxes: [{
-//                             display: true,
-//                             ticks: {
-//                                 stepValue: 0.5,
-//                                 min: -4,
-//                                 max: 4
-//                             }
-
-//                         }]  
-//                 };
-
+        legend: {
+            display: true,
+            labels: {
+                fontColor: 'rgb(0, 0, 0)'
+            }
+        }
+};
 
     
 

@@ -1,8 +1,8 @@
 <!doctype html>
 <html>
 <head>
-    <title>Inspiratören</title>
 
+    <title>{% block title %}Sparö{% endblock%}</title>
     
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <!-- need jQuery to use AJAX -->
@@ -12,20 +12,24 @@
 </head>
 <body>
 
-
+<div class="container-fluid">
 <nav class="navbar navbar-default">
+    <nav class="navbar fixed-top navbar-light bg-faded">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
 
 
 {% if 'twitter_handle' in session.keys() %}
+    <a href="/inspire"><button>Inspire</button></a>
     <a href="/logged-out"><button>Log out</button></a>
+    <a href="/moods"><button>Understand Your Moods</button></a>
  {% else %}
     <!-- LOGIN Button trigger modal -->
 <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#login-modal">
   Log in
 </button>
+
 
 <!-- LOGIN modal -->
 <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -37,7 +41,7 @@
       </div>
       <div class="modal-body">
         <form action="/login-validation" id="login-submit" method='GET'>
-          Please enter your Twitter Handle and Spirö Password.<br><br>
+          Please enter your Twitter Handle and Sparö Password.<br><br>
           Twitter Handle: <input type="text" name="twitter_handle" id="twitter_handle">
           Password: <input type="password" name="password">
           <input type="submit" value="submit">
@@ -48,7 +52,6 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
 
 
 
@@ -92,7 +95,6 @@
  {% endif %}
 
 
-{% block content %} put your content here {% endblock %}
 
 
 <!--jinja for flash messages -->
@@ -105,6 +107,13 @@
     </ul>
   {% endif %}
 {% endwith %}
+</div>
+
+
+{% block content %} put your content here {% endblock %}
+
+ 
+
 
 
 </body>
