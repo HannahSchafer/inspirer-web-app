@@ -2,7 +2,7 @@
 {% block content %}
 
 
-<h3>Sparö</h3>
+<h3>Sparrö</h3>
 
 
 
@@ -10,12 +10,13 @@
     <canvas id='donutChart'></canvas>
    <!--  <div id="donutLegend" class="chart-legend"></div> -->
 <div>
-    <br><br>
+    <br><br><br>
 
 <div class="mood-chart">
     <canvas id="lineChart"></canvas>
     <!-- <div id="lineLegend" class="chart-legend"></div> -->
 </div>
+<br>
 
 
 
@@ -53,10 +54,12 @@ $('#donutLegend').html(myDonutChart.generateLegend());
     var ctx_line = $("#lineChart").get(0).getContext("2d");
 
     $.get("/mood-line.json", function (data) {
-      var myLineChart = Chart.Line(ctx_line, {
+      var myLineChart = new Chart.Line(ctx_line, {
                                     type: 'line',
                                     data: data,
-                                    options: options
+                                    options: options,
+                                    // scaleOverride : true,
+                                    // scaleStartValue : 0 ,
                                 });
       $("#lineLegend").html(myLineChart.generateLegend());
     });

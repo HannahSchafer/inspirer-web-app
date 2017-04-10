@@ -227,7 +227,7 @@ def make_line_chart():
 
     user_id = session["user_id"]
     #query database for info in analyses table: sentiment, timestamp
-    user_mood_data = db.session.query(Analyses.timestamp, Analyses.tweet_sent_id).filter(Analyses.user_id==user_id).all()
+    user_mood_data = db.session.query(Analyses.timestamp, Analyses.tweet_sent_id).filter(Analyses.user_id==user_id).order_by(Analyses.timestamp).all()
 
     timestamps = []
     sentiments = []
