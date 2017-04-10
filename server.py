@@ -85,12 +85,6 @@ def process_registration():
         return redirect("/inspire")
 
 
-@app.route("/log-in")
-def log_in():
-    """Shows login form."""
-
-    return render_template("login.html")
-
 
 @app.route("/login-validation")
 def check_login():
@@ -110,7 +104,7 @@ def check_login():
         return redirect("/inspire")
     else:
         flash("Twitter handle and password do not match. Please try again.")
-        return redirect("/log-in")
+        return redirect("/")
 
 
 @app.route("/logged-out")
@@ -296,28 +290,10 @@ def set_reminder():
     user.reminder_time = reminder_time
     db.session.commit()
 
-    return redirect('/')
-
-
-
-
-
-
-    existing_user = User.query.filter((User.twitter_handle==twitter_handle) & (User.password==given_password)).first()
-
-    # class object 'new_reminder'
-    new_reminder = User(user_name=name, email=email, twitter_handle=twitter_handle, password=given_password, phone=phone)
-    
-
-    # Add new_user to the database session so it can be stored
-    db.session.add(new_user)
-
-    # Commiting to the database
-    db.session.commit()
-
     # flash message for the user
-    flash("Welcome to Inspiratoren!")
+    flash("You will receive your daily reminder at {}.".format(reminder_time))
 
+    return redirect('/')
 
 
 @app.route('/send_sms.json')
