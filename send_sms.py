@@ -12,11 +12,15 @@ my_cell = "+16107421594"
 my_twilio="+13024837183"
 my_msg="Sparro is ready to deliver your daily inspiration!"
 
+def send_message(from_, to, body):
+    """Send reminder message to user with Twilio."""
+    # instantiating object
+    client = Client(ACCOUNT_SID, AUTH_TOKEN)
 
-# instantiating object
-client =Client(ACCOUNT_SID, AUTH_TOKEN)
+    client.messages.create(from_=my_twilio,
+                           to=my_cell,
+                           body=my_msg)
+    # print(message.sid)
 
 
-client.messages.create(from_=my_twilio,
-                       to=my_cell,
-                       body=my_msg)
+# send_message(my_twilio, my_cell, my_msg)
