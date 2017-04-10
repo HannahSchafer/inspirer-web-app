@@ -11,6 +11,8 @@ from model import connect_to_db, db, User, Quote, Analyses, Sentiment, Classifie
 from helper_functions import get_timestamp
 from twitter_analysis import get_quote
 from datetime import datetime
+from datetime import time
+from send_sms import send_message
 
 
 
@@ -281,6 +283,49 @@ def make_line_chart():
     }
 
     return jsonify(mood_data)
+
+
+@app.route('/set-reminder.json', methods=['POST'])
+def set_reminder():
+    """User selects time to receive reminder text. Stored in Database."""
+
+    user_id= session["user_id"]
+    reminder_time= request.form.get("reminder-time")
+
+    user = User.query.filter_by(user_id=user_id).first()
+    user.reminder_time = reminder_time
+    db.session.commit()
+
+    return redirect('/')
+
+
+
+
+
+
+    existing_user = User.query.filter((User.twitter_handle==twitter_handle) & (User.password==given_password)).first()
+
+    # class object 'new_reminder'
+    new_reminder = User(user_name=name, email=email, twitter_handle=twitter_handle, password=given_password, phone=phone)
+    
+
+    # Add new_user to the database session so it can be stored
+    db.session.add(new_user)
+
+    # Commiting to the database
+    db.session.commit()
+
+    # flash message for the user
+    flash("Welcome to Inspiratoren!")
+
+
+
+@app.route('/send_sms.json')
+def automate_sms():
+    """Automates sending the user a reminder text."""
+
+    pass
+
 
 # __main__ makes this stuff happen when i am running this file directly, not importing
 if __name__ == "__main__":

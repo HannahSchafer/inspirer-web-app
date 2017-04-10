@@ -2,7 +2,7 @@
 <html>
 <head>
 
-    <title>{% block title %}Sparö{% endblock%}</title>
+    <title>{% block title %}Sparrö{% endblock%}</title>
     
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <!-- need jQuery to use AJAX -->
@@ -21,9 +21,44 @@
 
 
 {% if 'twitter_handle' in session.keys() %}
+    <a href="/"><button>Home</button></a>
     <a href="/inspire"><button>Inspire</button></a>
-    <a href="/logged-out"><button>Log out</button></a>
     <a href="/moods"><button>Understand Your Moods</button></a>
+
+
+    <!-- SET REMINDER Button trigger modal -->
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#reminder-modal">
+  Set Reminder
+</button>
+
+
+<!-- REMINDER modal -->
+<div class="modal fade" id="reminder-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Set Reminder</h4>
+      </div>
+      <div class="modal-body">
+        <form action="/set-reminder.json" id="set-reminder-submit" method='POST'>
+          Please select a time to receive a daily reminder by text:<br><br>
+          <input type="time" name="reminder-time" id="reminder-time">
+          <input type="submit" value="submit">
+        </form>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+    
+    <!-- log out button -->
+    <a href="/logged-out"><button>Log out</button></a>
+
+
+
+
  {% else %}
     <!-- LOGIN Button trigger modal -->
 <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#login-modal">
@@ -85,7 +120,6 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
 
 
    </div><!-- /.navbar-collapse -->

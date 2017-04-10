@@ -26,6 +26,7 @@ class User(db.Model):
     twitter_handle = db.Column(db.Unicode(50), nullable=False)
     email = db.Column(db.Unicode(50), nullable=False)
     phone = db.Column(db.String, nullable=True)
+    reminder_time = db.Column(db.Time, nullable=True)
 
     quotes = db.relationship("Quote", secondary="analyses", backref="user")
 
