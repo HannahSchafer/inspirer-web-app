@@ -74,10 +74,10 @@ $('#donutLegend').html(myDonutChart.generateLegend());
 
 // Bar Chart of user's mood over time
 
-var ctx_line = $("#barChart").get(0).getContext("2d");
+var ctx_bar = $("#barChart").get(0).getContext("2d");
 
 $.get("/mood-bar.json", function (data) {
-var myBarChart = new Chart(ctx, {
+var myBarChart = new Chart.Bar(ctx_bar, {
     type: 'bar',
     data: data,
     options: options

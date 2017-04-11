@@ -10,8 +10,8 @@ from model import connect_to_db, db, User, Quote, Analyses, Sentiment, Classifie
 
 from helper_functions import get_timestamp
 from twitter_analysis import get_quote
-from datetime import datetime
-from datetime import time
+from datetime import datetime, time, date
+
 from send_sms import send_message
 
 
@@ -288,24 +288,22 @@ def make_bar_chart():
     user_id = session["user_id"]
     # query all positive timestamps of the user
     
-    positive_timestamps = db.session.query(Analyses.timestamp, Analyses.tweet_sent_id).filter(Analyses.user_id==user_id, Analyses.tweet_sent_id==1).order_by(Analyses.timestamp).all()
+    positive_timestamps = db.session.query(Analyses.timestamp).filter(Analyses.user_id==user_id, Analyses.tweet_sent_id==1).order_by(Analyses.timestamp).all()
     
-    print type(positive_timestamps[0][0])
-    print '99999999999'
-    formatted_times = []
-    total_pos_sents = len(formatted_times)
-    for result in positive_timestamps:
-        print type(result)
-        print '88888888888'
-        time = str(result)
-        time_strptime = datetime.strptime(time, '%Y-%m-%d %H:%M:%S')
-        correct_format = time_strptime.date()
-        # example format date needs to be (1 is Monday, 7 is Sunday)
-        weekday = date(correct_format).isoweekday()
-        formatted_times.append(weedkday)
+    day_numbers = []
+    # get datetime object from query object result tuple
+    # find out which day of the week each datetime is on
+    for item in positive_timestamps:
+        date_time = str(item[0])
+        strip_date_time = datetime.strptime(date_time, '%Y-%m-%d %I:%M:%S')
+        just_three = strip_date_time.date()
+        weekday = just_three.isoweekday()
+        day_numbers.append(weekday)
+
+    total_days = len(day_numbers)
 
     weekday_numbers ={"Monday": 0, "Tuesday":0, "Wednesday":0, "Thursday":0, "Friday":0, "Saturday":0, "Sunday":0,}
-    for item in formatted_times:
+    for item in day_numbers:
         if item == 1:
             weekday_numbers["Monday"] += 1
         elif item == 2:
@@ -321,21 +319,26 @@ def make_bar_chart():
         elif item == 7:
             weekday_numbers["Sunday"] += 1
 
-    mon_pos = float(weekday_numbers["Monday"] / total_pos_sents)
-    tues_pos = float(weekday_numbers["Tuesday"] / total_pos_sents) 
-    wed_pos = float(weekday_numbers["Wednesday"] / total_pos_sents) 
-    thurs_pos = float(weekday_numbers["Thursday"] / total_pos_sents) 
-    fri_pos = float(weekday_numbers["Friday"] / total_pos_sents) 
-    sat_pos = float(weekday_numbers["Saturday"] / total_pos_sents) 
-    sun_pos = float(weekday_numbers["Sunday"] / total_pos_sents)  
+
+
+    mon_pos = float(weekday_numbers["Monday"]) / float(total_days)
+    tues_pos = float(weekday_numbers["Tuesday"]) / float(total_days) 
+    wed_pos = float(weekday_numbers["Wednesday"]) / float(total_days) 
+    thurs_pos = float(weekday_numbers["Thursday"]) / float(total_days) 
+    fri_pos = float(weekday_numbers["Friday"]) / float(total_days)
+    sat_pos = float(weekday_numbers["Saturday"]) / float(total_days) 
+    sun_pos = float(weekday_numbers["Sunday"]) / float(total_days) 
+
+    # print mon_pos
+    # print tues_pos
 
 
     bar_data = {
-    labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-    datasets: [
+    "labels": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    "datasets": [
         {
-            label: "Happiness by Day",
-            backgroundColor: [
+            "label": "Happiness by Day",
+            "backgroundColor": [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
                 'rgba(255, 206, 86, 0.2)',
@@ -343,7 +346,7 @@ def make_bar_chart():
                 'rgba(153, 102, 255, 0.2)',
                 'rgba(255, 159, 64, 0.2)'
             ],
-            borderColor: [
+            "borderColor": [
                 'rgba(255,99,132,1)',
                 'rgba(54, 162, 235, 1)',
                 'rgba(255, 206, 86, 1)',
@@ -351,8 +354,8 @@ def make_bar_chart():
                 'rgba(153, 102, 255, 1)',
                 'rgba(255, 159, 64, 1)'
             ],
-            borderWidth: 1,
-            data: [mon_pos, tues_pos, wed_pos, thurs_pos, fri_pos, sat_pos, sun_pos],
+            "borderWidth": 1,
+            "data": [mon_pos, tues_pos, wed_pos, thurs_pos, fri_pos, sat_pos, sun_pos],
         }
     ]
 };
