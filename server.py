@@ -224,12 +224,13 @@ def make_line_chart():
     user_id = session["user_id"]
     #query database for info in analyses table: sentiment, timestamp
     user_mood_data = db.session.query(Analyses.timestamp, Analyses.tweet_sent_id).filter(Analyses.user_id==user_id).order_by(Analyses.timestamp).all()
-
+    
     timestamps = []
     sentiments = []
     for timestamp, sentiment in user_mood_data:
         timestamps.append(timestamp)
         sentiments.append(sentiment)
+        
 
     date_labels =[]
     for time in timestamps:
@@ -277,6 +278,90 @@ def make_line_chart():
     }
 
     return jsonify(mood_data)
+
+
+
+@app.route('/mood-bar.json')
+def make_bar_chart():
+    """Sends dictionary data of level of positivity of each day of the week."""
+
+    user_id = session["user_id"]
+    # query all positive timestamps of the user
+    
+    positive_timestamps = db.session.query(Analyses.timestamp, Analyses.tweet_sent_id).filter(Analyses.user_id==user_id, Analyses.tweet_sent_id==1).order_by(Analyses.timestamp).all()
+    
+    print type(positive_timestamps[0][0])
+    print '99999999999'
+    formatted_times = []
+    total_pos_sents = len(formatted_times)
+    for result in positive_timestamps:
+        print type(result)
+        print '88888888888'
+        time = str(result)
+        time_strptime = datetime.strptime(time, '%Y-%m-%d %H:%M:%S')
+        correct_format = time_strptime.date()
+        # example format date needs to be (1 is Monday, 7 is Sunday)
+        weekday = date(correct_format).isoweekday()
+        formatted_times.append(weedkday)
+
+    weekday_numbers ={"Monday": 0, "Tuesday":0, "Wednesday":0, "Thursday":0, "Friday":0, "Saturday":0, "Sunday":0,}
+    for item in formatted_times:
+        if item == 1:
+            weekday_numbers["Monday"] += 1
+        elif item == 2:
+            weekday_numbers["Tuesday"] += 1
+        elif item == 3:
+            weekday_numbers["Wednesday"] += 1
+        elif item == 4:
+            weekday_numbers["Thursday"] += 1
+        elif item == 5:
+            weekday_numbers["Friday"] += 1
+        elif item == 6:
+            weekday_numbers["Saturday"] += 1
+        elif item == 7:
+            weekday_numbers["Sunday"] += 1
+
+    mon_pos = float(weekday_numbers["Monday"] / total_pos_sents)
+    tues_pos = float(weekday_numbers["Tuesday"] / total_pos_sents) 
+    wed_pos = float(weekday_numbers["Wednesday"] / total_pos_sents) 
+    thurs_pos = float(weekday_numbers["Thursday"] / total_pos_sents) 
+    fri_pos = float(weekday_numbers["Friday"] / total_pos_sents) 
+    sat_pos = float(weekday_numbers["Saturday"] / total_pos_sents) 
+    sun_pos = float(weekday_numbers["Sunday"] / total_pos_sents)  
+
+
+    bar_data = {
+    labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    datasets: [
+        {
+            label: "Happiness by Day",
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1,
+            data: [mon_pos, tues_pos, wed_pos, thurs_pos, fri_pos, sat_pos, sun_pos],
+        }
+    ]
+};
+    return jsonify(bar_data)
+
+
+
+    
+
 
 
 @app.route('/set-reminder.json', methods=['POST'])

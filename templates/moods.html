@@ -18,6 +18,13 @@
 </div>
 <br>
 
+    <br><br><br>
+
+<div class="bar-chart">
+    <canvas id="barChart"></canvas>
+</div>
+<br>
+
 
 
 <script>
@@ -64,6 +71,20 @@ $('#donutLegend').html(myDonutChart.generateLegend());
       $("#lineLegend").html(myLineChart.generateLegend());
     });
 
+
+// Bar Chart of user's mood over time
+
+var ctx_line = $("#barChart").get(0).getContext("2d");
+
+$.get("/mood-bar.json", function (data) {
+var myBarChart = new Chart(ctx, {
+    type: 'bar',
+    data: data,
+    options: options
+});
+
+$("#barLegend").html(myBarChart.generateLegend());
+    });
 
 
 
