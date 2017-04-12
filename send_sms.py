@@ -4,6 +4,13 @@
 import os
 from twilio.rest import Client
 
+from model import connect_to_db, db, Quote, Sentiment, User, Analyses
+from flask import Flask
+
+app = Flask(__name__)
+connect_to_db(app)
+
+
 ACCOUNT_SID = os.environ["TWILIO_Account_SID"]
 AUTH_TOKEN = os.environ["TWILIO_Auth_Token"]
 my_cell = "+16107421594"
@@ -29,3 +36,16 @@ send_message()
 # look through database to see who has opted for evening reminders
 # get their phone numbers. pass their phone numbers to the send_message function
 # set up 2 cron jobs, one to run the script in the morning, one to run it in the evening.
+
+
+# reminder = db.session.query(User.reminder_time).filter(User.user_id==user_id)
+
+
+
+
+
+
+
+
+
+

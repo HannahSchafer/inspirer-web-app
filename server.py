@@ -11,8 +11,6 @@ from model import connect_to_db, db, User, Quote, Analyses, Sentiment, Classifie
 from helper_functions import get_timestamp
 from twitter_analysis import get_quote
 from datetime import datetime, time, date
-import schedule
-import time
 
 from send_sms import send_message
 
@@ -53,6 +51,7 @@ def process_registration():
     phone = request.form.get("phone")
     email = request.form.get("email")
     name = request.form.get("user_name")
+    
 
 
     existing_user = User.query.filter((User.twitter_handle==twitter_handle) & (User.password==given_password)).first()
@@ -363,28 +362,25 @@ def make_bar_chart():
 
 
 
-
 @app.route('/set-reminder.json', methods=['POST'])
 def set_reminder():
     """User selects time to receive reminder text. Stored in Database."""
 
     user_id= session["user_id"]
     reminder_choice = request.form["reminder"]
+    telephone = request.form.get("remind-phone")
 
     user = User.query.filter_by(user_id=user_id).first()
     user.reminder_time = reminder_choice
+    user.phone = telephone
     db.session.commit()
 
     # flash message for the user
     flash("You will receive your daily reminder every {}.".format(reminder_choice))
-    
-    # based on time of user's reminder, call the send_message function from send_sms
-    # query reminder time from database
-    # reminder = db.session.query(User.reminder_time).filter(User.user_id==user_id)
-
-
 
     return redirect('/')
+
+
 
 # __main__ makes this stuff happen when i am running this file directly, not importing
 if __name__ == "__main__":
