@@ -10,7 +10,7 @@ my_cell = "+16107421594"
 my_twilio="+13024837183"
 my_msg="Sparrö is ready to deliver your daily inspiration!"
 
-def send_message(from_, to, body):
+def send_message():
     """Send reminder message to user with Twilio."""
     # instantiating object
     client = Client(ACCOUNT_SID, AUTH_TOKEN)
@@ -21,4 +21,11 @@ def send_message(from_, to, body):
     # print(message.sid)
 
 
-# send_message(my_twilio, my_cell, my_msg)
+send_message()
+
+
+
+# look through database to see who has opted in for morning reminders
+# look through database to see who has opted for evening reminders
+# get their phone numbers. pass their phone numbers to the send_message function
+# set up 2 cron jobs, one to run the script in the morning, one to run it in the evening.

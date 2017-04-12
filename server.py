@@ -11,6 +11,8 @@ from model import connect_to_db, db, User, Quote, Analyses, Sentiment, Classifie
 from helper_functions import get_timestamp
 from twitter_analysis import get_quote
 from datetime import datetime, time, date
+import schedule
+import time
 
 from send_sms import send_message
 
@@ -291,7 +293,7 @@ def make_bar_chart():
     positive_timestamps = db.session.query(Analyses.timestamp).filter(Analyses.user_id==user_id, Analyses.tweet_sent_id==1).order_by(Analyses.timestamp).all()
     
     day_numbers = []
-    # get datetime object from query object result tuple
+    # get datetime object from query object result tuple and format for .isoweekday()
     # find out which day of the week each datetime is on
     for item in positive_timestamps:
         date_time = str(item[0])
@@ -344,26 +346,21 @@ def make_bar_chart():
                 'rgba(0, 252, 255, 0.8)',
                 'rgba(0, 252, 255, 0.8)',
                 'rgba(0, 252, 255, 0.8)'
-            ],
-            # "borderColor": [
-            #     'rgba(54, 162, 235, 1)',
-            #     'rgba(54, 162, 235, 1)',
-            #     'rgba(54, 162, 235, 1)',
-            #     'rgba(54, 162, 235, 1)',
-            #     'rgba(54, 162, 235, 1)',
-            #     'rgba(54, 162, 235, 1)',
-            #     'rgba(54, 162, 235, 1)'
-            # ],
-            # "borderWidth": 1,
+            ], 
+            "hoverBackgroundColor": [
+                            "#ff69b4",
+                            "#ff69b4",
+                            "#ff69b4",
+                            "#ff69b4",
+                            "#ff69b4",
+                            "#ff69b4",
+                            "#ff69b4"],
             "data": data_to_send,
         }
     ]
 };
     return jsonify(bar_data)
 
-
-
-    
 
 
 
@@ -380,16 +377,18 @@ def set_reminder():
 
     # flash message for the user
     flash("You will receive your daily reminder at {}.".format(reminder_time))
+    
+    # based on time of user's reminder, call the send_message function from send_sms
+    # query reminder time from database
+    # reminder = db.session.query(User.reminder_time).filter(User.user_id==user_id)
+
+    # # print str(reminder[0])
+    # tm = '10:30'
+    # schedule.every().day.at(tm).do(send_message)
+    schedule.every(1).minutes.do(send_message)
+    print schedule.jobs
 
     return redirect('/')
-
-
-@app.route('/send_sms.json')
-def automate_sms():
-    """Automates sending the user a reminder text."""
-
-    pass
-
 
 # __main__ makes this stuff happen when i am running this file directly, not importing
 if __name__ == "__main__":

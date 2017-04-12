@@ -42,8 +42,9 @@
       </div>
       <div class="modal-body">
         <form action="/set-reminder.json" id="set-reminder-submit" method='POST'>
-          Please select a time to receive a daily reminder by text:<br><br>
-          <input type="time" name="reminder-time" id="reminder-time">
+          <input type="radio" name="reminder" value="morning"> Morning<br>
+          <input type="radio" name="reminder" value="evening"> Evening <br>
+          <input type="radio" name="reminder" value="both"> Both<br><br>
           <input type="submit" value="submit">
         </form>
       </div>
