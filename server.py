@@ -369,24 +369,20 @@ def set_reminder():
     """User selects time to receive reminder text. Stored in Database."""
 
     user_id= session["user_id"]
-    reminder_time= request.form.get("reminder-time")
+    reminder_choice = request.form["reminder"]
 
     user = User.query.filter_by(user_id=user_id).first()
-    user.reminder_time = reminder_time
+    user.reminder_time = reminder_choice
     db.session.commit()
 
     # flash message for the user
-    flash("You will receive your daily reminder at {}.".format(reminder_time))
+    flash("You will receive your daily reminder every {}.".format(reminder_choice))
     
     # based on time of user's reminder, call the send_message function from send_sms
     # query reminder time from database
     # reminder = db.session.query(User.reminder_time).filter(User.user_id==user_id)
 
-    # # print str(reminder[0])
-    # tm = '10:30'
-    # schedule.every().day.at(tm).do(send_message)
-    schedule.every(1).minutes.do(send_message)
-    print schedule.jobs
+
 
     return redirect('/')
 
