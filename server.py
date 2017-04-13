@@ -290,8 +290,10 @@ def make_bar_chart():
     # query all positive timestamps of the user
     
     positive_timestamps = db.session.query(Analyses.timestamp).filter(Analyses.user_id==user_id, Analyses.tweet_sent_id==1).order_by(Analyses.timestamp).all()
-    
-    day_numbers = []
+    negative_timestamps = db.session.query(Analyses.timestamp).filter(Analyses.user_id==user_id, Analyses.tweet_sent_id==2).order_by(Analyses.timestamp).all()
+
+    pos_day_numbers = []
+    neg_day_numbers = []
     # get datetime object from query object result tuple and format for .isoweekday()
     # find out which day of the week each datetime is on
     for item in positive_timestamps:
@@ -299,38 +301,71 @@ def make_bar_chart():
         strip_date_time = datetime.strptime(date_time, '%Y-%m-%d %I:%M:%S')
         just_three = strip_date_time.date()
         weekday = just_three.isoweekday()
-        day_numbers.append(weekday)
+        pos_day_numbers.append(weekday)
 
-    total_days = len(day_numbers)
+    for item in negative_timestamps:
+        date_time = str(item[0])
+        strip_date_time = datetime.strptime(date_time, '%Y-%m-%d %I:%M:%S')
+        just_three = strip_date_time.date()
+        weekday = just_three.isoweekday()
+        neg_day_numbers.append(weekday)
 
-    weekday_numbers ={"Monday": 0, "Tuesday":0, "Wednesday":0, "Thursday":0, "Friday":0, "Saturday":0, "Sunday":0,}
-    for item in day_numbers:
+    pos_total_days = len(pos_day_numbers)
+    neg_total_days = len(neg_day_numbers)
+
+    pos_weekday_numbers ={"Monday": 0, "Tuesday":0, "Wednesday":0, "Thursday":0, "Friday":0, "Saturday":0, "Sunday":0,}
+    for item in pos_day_numbers:
         if item == 1:
-            weekday_numbers["Monday"] += 1
+            pos_weekday_numbers["Monday"] += 1
         elif item == 2:
-            weekday_numbers["Tuesday"] += 1
+            pos_weekday_numbers["Tuesday"] += 1
         elif item == 3:
-            weekday_numbers["Wednesday"] += 1
+            pos_weekday_numbers["Wednesday"] += 1
         elif item == 4:
-            weekday_numbers["Thursday"] += 1
+            pos_weekday_numbers["Thursday"] += 1
         elif item == 5:
-            weekday_numbers["Friday"] += 1
+            pos_weekday_numbers["Friday"] += 1
         elif item == 6:
-            weekday_numbers["Saturday"] += 1
+            pos_weekday_numbers["Saturday"] += 1
         elif item == 7:
-            weekday_numbers["Sunday"] += 1
+            pos_weekday_numbers["Sunday"] += 1
+
+    neg_weekday_numbers ={"Monday": 0, "Tuesday":0, "Wednesday":0, "Thursday":0, "Friday":0, "Saturday":0, "Sunday":0,}
+    for item in neg_day_numbers:
+        if item == 1:
+            neg_weekday_numbers["Monday"] += 1
+        elif item == 2:
+            neg_weekday_numbers["Tuesday"] += 1
+        elif item == 3:
+            neg_weekday_numbers["Wednesday"] += 1
+        elif item == 4:
+            neg_weekday_numbers["Thursday"] += 1
+        elif item == 5:
+            neg_weekday_numbers["Friday"] += 1
+        elif item == 6:
+            neg_weekday_numbers["Saturday"] += 1
+        elif item == 7:
+            neg_weekday_numbers["Sunday"] += 1
 
 
+    mon_pos = float(pos_weekday_numbers["Monday"]) / float(pos_total_days)
+    tues_pos = float(pos_weekday_numbers["Tuesday"]) / float(pos_total_days) 
+    wed_pos = float(pos_weekday_numbers["Wednesday"]) / float(pos_total_days) 
+    thurs_pos = float(pos_weekday_numbers["Thursday"]) / float(pos_total_days) 
+    fri_pos = float(pos_weekday_numbers["Friday"]) / float(pos_total_days)
+    sat_pos = float(pos_weekday_numbers["Saturday"]) / float(pos_total_days) 
+    sun_pos = float(pos_weekday_numbers["Sunday"]) / float(pos_total_days) 
 
-    mon_pos = float(weekday_numbers["Monday"]) / float(total_days)
-    tues_pos = float(weekday_numbers["Tuesday"]) / float(total_days) 
-    wed_pos = float(weekday_numbers["Wednesday"]) / float(total_days) 
-    thurs_pos = float(weekday_numbers["Thursday"]) / float(total_days) 
-    fri_pos = float(weekday_numbers["Friday"]) / float(total_days)
-    sat_pos = float(weekday_numbers["Saturday"]) / float(total_days) 
-    sun_pos = float(weekday_numbers["Sunday"]) / float(total_days) 
+    mon_neg = float(neg_weekday_numbers["Monday"]) / float(neg_total_days)
+    tues_neg = float(neg_weekday_numbers["Tuesday"]) / float(neg_total_days) 
+    wed_neg = float(neg_weekday_numbers["Wednesday"]) / float(neg_total_days) 
+    thurs_neg = float(neg_weekday_numbers["Thursday"]) / float(neg_total_days) 
+    fri_neg = float(neg_weekday_numbers["Friday"]) / float(neg_total_days)
+    sat_neg = float(neg_weekday_numbers["Saturday"]) / float(neg_total_days) 
+    sun_neg = float(neg_weekday_numbers["Sunday"]) / float(neg_total_days) 
 
-    data_to_send = [mon_pos, tues_pos, wed_pos, thurs_pos, fri_pos, sat_pos, sun_pos] 
+    pos_data_to_send = [mon_pos, tues_pos, wed_pos, thurs_pos, fri_pos, sat_pos, sun_pos]
+    neg_data_to_send = [mon_neg, tues_neg, wed_neg, thurs_neg, fri_neg, sat_neg, sun_neg]
     
     bar_data = {
     "labels": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
@@ -354,7 +389,31 @@ def make_bar_chart():
                             "#ff69b4",
                             "#ff69b4",
                             "#ff69b4"],
-            "data": data_to_send,
+            "data": pos_data_to_send,
+        },
+
+        {
+         "label": "Unhappiness by Day",
+            "backgroundColor": [
+                'rgba(112, 0, 224, 0.8)',
+                'rgba(112, 0, 224, 0.8)',
+                'rgba(112, 0, 224, 0.8)',
+                'rgba(112, 0, 224, 0.8)',
+                'rgba(112, 0, 224, 0.8)',
+                'rgba(112, 0, 224, 0.8)',
+                'rgba(112, 0, 224, 0.8)'
+            ], 
+            "hoverBackgroundColor": [
+                            "#00E000",
+                            "#00E000",
+                            "#00E000",
+                            "#00E000",
+                            "#00E000",
+                            "#00E000",
+                            "#00E000"],
+            "data": neg_data_to_send,
+
+
         }
     ]
 };
