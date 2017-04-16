@@ -61,7 +61,7 @@ def get_user_sentiment(user_tweets, classifier):
 
     fresh_tweets = []
     day_old_tweets = []
-    current_sentiments = []
+    tweet_and_sentiment = []
 
     # getting most current tweets, or last 5 tweets user posted if not in last 24hrs
     for status in user_tweets:
@@ -74,14 +74,24 @@ def get_user_sentiment(user_tweets, classifier):
     if len(fresh_tweets) > 0:
         for tweet in fresh_tweets:
             sentiment = classifier.classify(extract_features(nltk.word_tokenize(tweet)))
-            current_sentiments.append(sentiment)
+            tweet_and_sentiment.append(tweet, sentiment)
             
     else:
         for tweet in day_old_tweets:
             sentiment = classifier.classify(extract_features(nltk.word_tokenize(tweet)))
-            current_sentiments.append(sentiment)
-        
-    avg_sentiment = sum(current_sentiments) / len(current_sentiments)
+            tweet_and_sentiment.append((tweet, sentiment))
+
+    return tweet_and_sentiment
+
+
+def get_average_sentiment(tweet_and_sentiment):
+    """Get average sentiment."""
+
+    sentiments_only = []
+    for tweet, sentiment in tweet_and_sentiment:
+        sentiments_only.append(sentiment)
+
+    avg_sentiment = sum(sentiments_only) / len(sentiments_only)
     return avg_sentiment
 
 
@@ -90,7 +100,11 @@ def get_quote(twitter_handle, user_id):
 
     classifier = load_classifier()
     user_tweets = connect_twitter_api(twitter_handle)
-    avg_sentiment = get_user_sentiment(user_tweets, classifier)
+    # print user_tweets
+    # import pdb; pdb.set_trace()
+
+    tweet_and_sentiment = get_user_sentiment(user_tweets, classifier)
+    avg_sentiment = get_average_sentiment(tweet_and_sentiment)
 
 
     old_pos_quotes = db.session.query(Analyses.quote_id).filter(Analyses.user_id==user_id, Analyses.tweet_sent_id==1).all()

@@ -9,7 +9,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from model import connect_to_db, db, User, Quote, Analyses, Sentiment, Classifier
 
 from helper_functions import get_timestamp
-from twitter_analysis import get_quote
+from twitter_analysis import get_quote, get_average_sentiment, get_user_sentiment, connect_twitter_api, load_classifier
 from datetime import datetime, time, date
 
 from send_sms import send_message
@@ -129,6 +129,43 @@ def display_inspire():
 
     return render_template('inspire.html')
 
+
+
+@app.route("/show-tweets.json", methods=['POST'])
+def show_tweets():
+    """Responds to ajax request for tweets currently being analyzed, along with sentiments."""
+
+    twitter_handle = session["twitter_handle"] 
+    classifier = load_classifier()
+    user_tweets = connect_twitter_api(twitter_handle)
+    tweet_sents =  get_user_sentiment(user_tweets, classifier)
+
+    tweets_to_print = {}
+
+    for tweet, sentiment in tweet_sents:
+        tweets_to_print[tweet] = [tweet, sentiment]
+
+    print tweets_to_print
+
+
+    return jsonify(tweets_to_print)
+
+
+
+@app.route("/show-avg-sent.json", methods=['POST'])
+def show_average():
+    """Show average sentiment percentage."""
+
+    twitter_handle = session["twitter_handle"] 
+    classifier = load_classifier()
+    user_tweets = connect_twitter_api(twitter_handle)
+    tweet_and_sentiment = get_user_sentiment(user_tweets, classifier)
+    number = get_average_sentiment(tweet_and_sentiment)
+
+    average_sentiment = {}
+    average_sentiment["average"] = number
+
+    return jsonify(average_sentiment)
 
 
 @app.route("/inspire-process.json", methods=['POST'])
