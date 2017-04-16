@@ -141,9 +141,11 @@ def show_tweets():
     tweet_sents =  get_user_sentiment(user_tweets, classifier)
 
     tweets_to_print = {}
+    num=0
 
     for tweet, sentiment in tweet_sents:
-        tweets_to_print[tweet] = [tweet, sentiment]
+        tweets_to_print[num] = tweet, sentiment
+        num += 1
 
     print tweets_to_print
 

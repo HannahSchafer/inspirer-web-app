@@ -7,13 +7,19 @@ $("#loader").hide();
 function printTweets(event) {
 
     $.post("/show-tweets.json", function(results) {
-        for (i=0; i<results.length; i++){
-            
-        }
-        var tweet = results.tweet[0];
-        var sentiment = results.tweet[1];
+        console.log(results);
+        console.log('999999999');
+        console.log(results);
+        var tweet = results[tweet];
         tw = $("#tweet").html(tweet);
-        sent = $("#sentiment").html(sentiment);
+        // for (i=0; i<results.length; i++){
+        //     var tweet = results.tweet[0];
+        //     var sentiment = results.tweet[1];
+        //     tw = $("#tweet").html(tweet);
+        //     sent = $("#sentiment").html(sentiment);
+
+        // }
+        
         $("#loader").show();
 
     });
@@ -47,8 +53,8 @@ function showQuote(event) {
     $.post("/inspire-process.json", function(results) {
                                         var quote_content = results.quote;
                                         typeQuote(quote_content);
-                                        sent.hide();
-                                        tw.hide();
+                                        // sent.hide();
+                                        // tw.hide();
                                         $("#loader").hide();
                                        
                             
