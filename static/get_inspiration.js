@@ -20,8 +20,9 @@ function printTweets(event) {
             $(".tweet").after('"'+tweet+'"' + "<br>");
             $(".sentiment").after(sent + "<br>");
             
-        }
+        };
 
+// setInterval(printTw, 10000);
             
         //     // console.log(tweet, sent);
         //     console.log('999999999');
@@ -38,13 +39,10 @@ function printTweets(event) {
         $("#give").show();
         $("#loader").show();
     
-        $('.sentiment').delay(5000).fadeOut('slow');
-
+        // if i get results and have done everything i want to do with them, then
+        //start timer for the next function
 
     });
-
-// setTimeout(function() {
-//   $('#.tweet').fadeOut('slow'); }, 10000);
 }
 
 
@@ -68,7 +66,7 @@ function typeQuote(quote) {
         strings: [quote],
         typeSpeed: 20
     });
-    console.log("hello world")
+ 
 }
 
 
@@ -87,6 +85,10 @@ function showQuote(event) {
     });
 }
 
+
+
+
+
 // event listener
 $("#get-quote").bind('click', printTweets);
 // $("#get-quote").bind('click', showGauge);
@@ -94,7 +96,8 @@ $("#get-quote").bind('click', showQuote);
 
 
 
-
+// pass the one event it an anonymous function that runs print tweets
+// then pass it the showquote function after a few seconds
 
 
 
