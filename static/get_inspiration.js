@@ -98,6 +98,7 @@ $("#get-quote").bind('click', showQuote);
 
 // pass the one event it an anonymous function that runs print tweets
 // then pass it the showquote function after a few seconds
+// add new callback
 
 
 
