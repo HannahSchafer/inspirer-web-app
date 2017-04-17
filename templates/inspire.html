@@ -1,12 +1,15 @@
 {% extends 'base.html' %}
-
-
-
 {% block content %}
 
-
-    <!-- our javascript -->
+  <!-- our javascript -->
+    <script src="http://d3js.org/d3.v3.min.js" language="JavaScript"></script>
+    <script src="static/fillgauge.js" language="JavaScript"></script>
     <script src="static/get_inspiration.js"></script>
+    <style>
+    .liquidFillGaugeText { font-family: Helvetica; font-weight: bold; }
+    </style>
+
+
 
 <h3>Sparrö</h3>
 <button id="get-quote" class="btn btn-primary">Inspire Me</button>
@@ -23,12 +26,13 @@
     </table>
 </div>
 
-
-
-<!-- <div id='tweet'></div> <div id='sentiment'></div>  -->
 <h3 id='average'></h3> 
 <h3 id='gauge'></h3> 
 <h3 id='element'></h3> 
+
+<svg id="fillgauge" width="97%" height="250" onclick=""></svg>
+
+
 
 
 

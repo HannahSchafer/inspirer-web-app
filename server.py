@@ -150,7 +150,7 @@ def show_tweets():
         else:
             tweets_to_print[num] = tweet, 'negative'
             num += 1
-            
+
     return jsonify(tweets_to_print)
 
 
@@ -164,9 +164,10 @@ def show_average():
     user_tweets = connect_twitter_api(twitter_handle)
     tweet_and_sentiment = get_user_sentiment(user_tweets, classifier)
     number = get_average_sentiment(tweet_and_sentiment)
-
+    percent_num = (number * 100)
+    print percent_num
     average_sentiment = {}
-    average_sentiment["average"] = number
+    average_sentiment["average"] = percent_num
 
     return jsonify(average_sentiment)
 

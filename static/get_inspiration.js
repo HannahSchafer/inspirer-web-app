@@ -42,6 +42,18 @@ function showGauge(event) {
     });
 }
 
+
+// function to animate tweets onto the page
+function typeTweet(tweet) {
+    console.log(tweet);
+      $("#element").typed({
+        strings: [quote],
+        typeSpeed: 20
+    });
+ 
+}
+
+
 // function to animate quote onto the page
 function typeQuote(quote) {
     console.log(quote);
