@@ -143,13 +143,14 @@ def show_tweets():
     tweets_to_print = {}
     num=0
 
-    for tweet, sentiment in tweet_sents:
-        tweets_to_print[num] = tweet, sentiment
-        num += 1
-
-    print tweets_to_print
-
-
+    for tweet, sent in tweet_sents:
+        if sent == 1:
+            tweets_to_print[num] = tweet, 'positive'
+            num += 1
+        else:
+            tweets_to_print[num] = tweet, 'negative'
+            num += 1
+            
     return jsonify(tweets_to_print)
 
 

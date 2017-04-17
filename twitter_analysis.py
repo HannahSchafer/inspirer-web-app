@@ -74,7 +74,7 @@ def get_user_sentiment(user_tweets, classifier):
     if len(fresh_tweets) > 0:
         for tweet in fresh_tweets:
             sentiment = classifier.classify(extract_features(nltk.word_tokenize(tweet)))
-            tweet_and_sentiment.append(tweet, sentiment)
+            tweet_and_sentiment.append((tweet, sentiment))
             
     else:
         for tweet in day_old_tweets:

@@ -1,17 +1,33 @@
 $(document).ready(function(){
 
+
+
 $("#loader").hide();
+$("#give").hide();
+
+
 
 // function to print the tweets that Sparro is analyzing for sentiment + spinning wheel
 
 function printTweets(event) {
 
     $.post("/show-tweets.json", function(results) {
-        console.log(results);
-        console.log('999999999');
-        console.log(results);
-        var tweet = results[tweet];
-        tw = $("#tweet").html(tweet);
+        var tweet_sents = Object.values(results);
+        // console.log(tweet_sents)
+        for (var tweet_list of tweet_sents) {
+            var tweet = tweet_list[0];
+            var sent = tweet_list[1];
+            $(".tweet").after('"'+tweet+'"' + "<br>");
+            $(".sentiment").after(sent + "<br>");
+            
+        }
+
+            
+        //     // console.log(tweet, sent);
+        //     console.log('999999999');
+        // }
+        // var tweet = results[tweet];
+        // tw = $("#tweet").html(tweet);
         // for (i=0; i<results.length; i++){
         //     var tweet = results.tweet[0];
         //     var sentiment = results.tweet[1];
@@ -19,18 +35,27 @@ function printTweets(event) {
         //     sent = $("#sentiment").html(sentiment);
 
         // }
-        
+        $("#give").show();
         $("#loader").show();
+    
+        $('.sentiment').delay(5000).fadeOut('slow');
+
 
     });
+
+// setTimeout(function() {
+//   $('#.tweet').fadeOut('slow'); }, 10000);
 }
+
+
+
 
 // function to print the d3 gauge graph showing percentage postitive/negative + spinning wheel
 function showGauge(event) {
 
     $.post("/show-avg-sent.json", function(results) {
         var avg = results.percentage;
-        $("#average").html(avg);
+        $("#average").show(avg);
         $("#loader").show();
 
     });
@@ -53,9 +78,10 @@ function showQuote(event) {
     $.post("/inspire-process.json", function(results) {
                                         var quote_content = results.quote;
                                         typeQuote(quote_content);
-                                        // sent.hide();
-                                        // tw.hide();
                                         $("#loader").hide();
+                                        $("#give").hide();
+                                        $("#tweet-container").hide();
+
                                        
                             
     });
@@ -63,7 +89,7 @@ function showQuote(event) {
 
 // event listener
 $("#get-quote").bind('click', printTweets);
-$("#get-quote").bind('click', showGauge);
+// $("#get-quote").bind('click', showGauge);
 $("#get-quote").bind('click', showQuote);
 
 
