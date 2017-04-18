@@ -39,9 +39,13 @@ $.post('/show-avg-sent.json', function(results) {
     console.log(percentSent);
     var gauge = loadLiquidFillGauge("fillgauge", percentSent, config);
     var config = liquidFillGaugeDefaultSettings();
+    $("#tweet-container").hide();
+    $("#loader").hide();
+    $("#give").hide();
    
-});
 
+
+    });
 }
 
 
@@ -76,6 +80,7 @@ function showQuote(event) {
                                         $("#loader").hide();
                                         $("#give").hide();
                                         $("#tweet-container").hide();
+                                        $("#fillgauge").hide();
 
                                        
                             
@@ -87,13 +92,14 @@ function showQuote(event) {
 // event listener
 $("#get-quote").bind('click', function() {
     printTweets(function() {
-        setTimeout(showQuote, 5000)
+        setTimeout(showGauge, 5000)
+        setTimeout(showQuote, 10000)
     });
 })
 // // $("#get-quote").bind('click', showGauge);
 
 
-// Fillgauge below!
+// Fillgauge
 
 /*!
  * @license Open source under BSD 2-clause (http://choosealicense.com/licenses/bsd-2-clause/)
@@ -102,6 +108,8 @@ $("#get-quote").bind('click', function() {
  *
  * Liquid Fill Gauge v1.1
  */
+
+
 
 
 
