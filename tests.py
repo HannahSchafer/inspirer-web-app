@@ -44,7 +44,7 @@ class FlaskTestsDatabase(unittest.TestCase):
         result = (self.client.post('/process-registration', data={'user_name': 
                       'Mary', 'password' : 'wonderland', 'twitter_handle' : 'Mary33', 
                       'email': 'Mary@wonderland.com', 'phone': '243-545-9898' }, follow_redirects=True))
-        self.assertIn('Welcome to Inspiratoren!', result.data)
+        self.assertIn(u'Welcome to Sparrö!', result.data)
 
     def test_reg_form_2(self):
         """Tests registration form in case when it is already an existing user."""
@@ -89,15 +89,8 @@ class MyAppUnitTestCase(unittest.TestCase):
 
     def test_homepage(self):
         result = self.client.get('/')
-        self.assertIn('<h1>Inspiratören</h1>', result.data)
+        self.assertIn(u'<h1>Sparrö</h1>', result.data)
 
-    def test_register(self):
-        result = self.client.get('/register')
-        self.assertIn('<h1>Register for Inspiratören</h1>', result.data)
-
-    def test_login(self):
-        result = self.client.get('/log-in')
-        self.assertIn('<h1>Log in</h1>', result.data)
 
     def test_inspire(self):
         result = self.client.get('/inspire')

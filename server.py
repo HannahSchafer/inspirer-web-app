@@ -1,4 +1,6 @@
+# encoding=utf8  
 """The Inspirer flask app server file."""
+
 
 # python modules/ standard libraries, then jinja, flask, and then my code
 from datetime import datetime, time, date
@@ -73,7 +75,7 @@ def process_registration():
         db.session.commit()
 
         # flash message for the user
-        flash("Welcome to Sparro")
+        flash(u"Welcome to Sparrö")
 
         # after commited to db, now new_user has a user_id
         user_id = new_user.user_id
@@ -239,8 +241,10 @@ def make_donut_chart():
 
 
     total_feelings = (len(happy_feelings) + len(sad_feelings))
-    percent_happy = float(len(happy_feelings)) / float(total_feelings)
-    percent_sad = float(len(sad_feelings)) / float(total_feelings)
+    decimal_happy = float(len(happy_feelings)) / float(total_feelings)
+    decimal_sad = float(len(sad_feelings)) / float(total_feelings)
+    percent_happy = (decimal_happy * 100)
+    percent_sad = (decimal_sad * 100)
    
     
     mood_data = { "labels": [
