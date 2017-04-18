@@ -446,7 +446,7 @@ def set_reminder():
     user_id= session["user_id"]
     reminder_choice = request.form["reminder"]
     telephone = request.form.get("remind-phone")
-
+    print request.form
     user = User.query.filter_by(user_id=user_id).first()
     user.reminder_time = reminder_choice
     user.phone = telephone
@@ -455,7 +455,7 @@ def set_reminder():
     # flash message for the user
     flash("You will receive your daily reminder every {}.".format(reminder_choice))
 
-    return redirect('/')
+    return 'success'
 
 
 
