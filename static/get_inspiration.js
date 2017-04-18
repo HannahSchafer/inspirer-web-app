@@ -92,8 +92,8 @@ function showQuote(event) {
 // event listener
 $("#get-quote").bind('click', function() {
     printTweets(function() {
-        setTimeout(showGauge, 5000)
-        setTimeout(showQuote, 10000)
+        setTimeout(showGauge, 5500)
+        setTimeout(showQuote, 11500)
     });
 })
 // // $("#get-quote").bind('click', showGauge);

@@ -96,13 +96,10 @@ def get_average_sentiment(tweet_and_sentiment):
  # will display better on line chart if negative feeling is -1 and positive feeling is 1
     for tweet, sentiment in tweet_and_sentiment:
         if sentiment==2:
-            sentiments_only.append(-1)
+            sentiments_only.append(0)
         else:
             sentiments_only.append(1)
-    print '99999999'
-    print sentiments_only
     avg_sentiment = float(sum(sentiments_only)) / len(sentiments_only)
-    print avg_sentiment
     return avg_sentiment
 
 
@@ -122,7 +119,7 @@ def get_quote(twitter_handle, user_id):
     old_neg_quotes = db.session.query(Analyses.quote_id).filter(Analyses.user_id==user_id, Analyses.tweet_sent_id==2).all()
     
 
-    if int(round(avg_sentiment)) >= 0:
+    if int(round(avg_sentiment)) >= 0.5:
         all_pos_quotes_info = db.session.query(Quote.content, Quote.quote_id, Quote.sentiment_id).filter(Quote.sentiment_id=='1', Quote.quote_id.notin_(old_pos_quotes)).all()
         if len(old_pos_quotes) < len(all_pos_quotes_info):
             pos_quote_info = choice(all_pos_quotes_info)

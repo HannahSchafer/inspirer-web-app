@@ -165,7 +165,7 @@ def show_average():
     tweet_and_sentiment = get_user_sentiment(user_tweets, classifier)
     number = get_average_sentiment(tweet_and_sentiment)
     percent_num = (number * 100)
-    print percent_num
+    
     average_sentiment = {}
     average_sentiment["average"] = percent_num
 
