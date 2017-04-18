@@ -11,6 +11,7 @@
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="static/typed.js"></script>
     <script src="static/typewriter.js"></script>
+    <script src="static/close_reminder_modal.js"></script>
     
 </head>
 <body>
@@ -23,7 +24,7 @@
     <div class="navbar-header">
 
 
-{% if 'twitter_handle' in session.keys() %}
+{% if 'twitter_handle' in session %}
     <a href="/"><button>Home</button></a>
     <a href="/inspire"><button>Inspire</button></a>
     <a href="/moods"><button>Understand Your Moods</button></a>
@@ -49,7 +50,7 @@
           <input type="radio" name="reminder" value="evening"> Evening <br>
           <input type="radio" name="reminder" value="morning and evening"> Morning and Evening<br><br>
           Add/Update Your Phone Number: <input type="tel" name="remind-phone" id="remind-phone"><br><br>
-          <input type="submit" value="submit">
+          <input type="submit" id="remind-submit" value="submit">
         </form>
       </div>
       <div class="modal-footer">

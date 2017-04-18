@@ -58,8 +58,8 @@ class FlaskTestsDatabase(unittest.TestCase):
     def test_login_form_1(self):
         """Tests registration form in case when it is a valid existing user."""
 
-        result = (self.client.get('/login-validation', data={'twitter_handle' : 'NuBaby', 
-                                  'password' : 'clown eyes'}, follow_redirects=True))
+        result = (self.client.get('/login-validation', data={'twitter_handle' : 'HannahSchafer18', 
+                                  'password' : 'password'}, follow_redirects=True))
         self.assertIn('Welcome back! You are logged in.', result.data)
 
 

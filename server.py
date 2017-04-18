@@ -1,17 +1,16 @@
 """The Inspirer flask app server file."""
 
-
+# python modules/ standard libraries, then jinja, flask, and then my code
+from datetime import datetime, time, date
 from jinja2 import StrictUndefined
 from flask import (Flask, jsonify, render_template, redirect, request,
                     flash, session)
 from flask_debugtoolbar import DebugToolbarExtension
 
 from model import connect_to_db, db, User, Quote, Analyses, Sentiment, Classifier
-
 from helper_functions import get_timestamp
-from twitter_analysis import get_quote, get_average_sentiment, get_user_sentiment, connect_twitter_api, load_classifier
-from datetime import datetime, time, date
-
+from twitter_analysis import (get_quote, get_average_sentiment, get_user_sentiment, 
+                              connect_twitter_api, load_classifier)
 from send_sms import send_message
 
 
@@ -54,7 +53,8 @@ def process_registration():
     
 
 
-    existing_user = User.query.filter((User.twitter_handle==twitter_handle) & (User.password==given_password)).first()
+    existing_user = (User.query.filter((User.twitter_handle==twitter_handle) & 
+                                       (User.password==given_password)).first())
 
     if existing_user:
         flash("Welcome back! You already have an account. Please log in with your twitter handle and password.")
@@ -62,7 +62,8 @@ def process_registration():
 
     else:
         # class object 'new user'
-        new_user = User(user_name=name, email=email, twitter_handle=twitter_handle, password=given_password, phone=phone)
+        new_user = (User(user_name=name, email=email, twitter_handle=twitter_handle, 
+                        password=given_password, phone=phone))
         
 
         # Add new_user to the database session so it can be stored
@@ -72,7 +73,7 @@ def process_registration():
         db.session.commit()
 
         # flash message for the user
-        flash("Welcome to Inspiratoren!")
+        flash("Welcome to Sparro")
 
         # after commited to db, now new_user has a user_id
         user_id = new_user.user_id
@@ -133,7 +134,7 @@ def display_inspire():
 
 @app.route("/show-tweets.json", methods=['POST'])
 def show_tweets():
-    """Responds to ajax request for tweets currently being analyzed, along with sentiments."""
+    """Responds to ajax request for tweets, sentiments being analyzed."""
 
     twitter_handle = session["twitter_handle"] 
     classifier = load_classifier()
@@ -200,7 +201,8 @@ def process_inspire():
         # Store: user_id(y), timestamp(y), tweet_sent_id(y), quote_id(y)
 
         # adding analysis instance to the database
-        analysis = Analyses(user_id = user_id, timestamp = timestamp, tweet_sent_id = sentiment, quote_id = quote_id)
+        analysis = Analyses(user_id=user_id, timestamp=timestamp, 
+                            tweet_sent_id=sentiment, quote_id=quote_id)
         db.session.add(analysis)
         db.session.commit()
 
@@ -224,7 +226,8 @@ def make_donut_chart():
 
     user_id = session["user_id"]
     #query database for info in analyses table: sentiment, timestamp
-    user_mood_data = db.session.query(Analyses.timestamp, Analyses.tweet_sent_id).filter(Analyses.user_id==user_id).all()
+    user_mood_data = (db.session.query(Analyses.timestamp, Analyses.tweet_sent_id)
+                      .filter(Analyses.user_id==user_id).all())
     
     happy_feelings =[]
     sad_feelings =[]
@@ -265,7 +268,9 @@ def make_line_chart():
 
     user_id = session["user_id"]
     #query database for info in analyses table: sentiment, timestamp
-    user_mood_data = db.session.query(Analyses.timestamp, Analyses.tweet_sent_id).filter(Analyses.user_id==user_id).order_by(Analyses.timestamp).all()
+    user_mood_data = (db.session.query(Analyses.timestamp, Analyses.tweet_sent_id)
+                      .filter(Analyses.user_id==user_id).order_by(Analyses.timestamp)
+                      .all())
     
     timestamps = []
     sentiments = []
@@ -330,8 +335,16 @@ def make_bar_chart():
     user_id = session["user_id"]
     # query all positive timestamps of the user
     
-    positive_timestamps = db.session.query(Analyses.timestamp).filter(Analyses.user_id==user_id, Analyses.tweet_sent_id==1).order_by(Analyses.timestamp).all()
-    negative_timestamps = db.session.query(Analyses.timestamp).filter(Analyses.user_id==user_id, Analyses.tweet_sent_id==2).order_by(Analyses.timestamp).all()
+    positive_timestamps = (db.session.query(Analyses.timestamp)
+                            .filter(Analyses.user_id==user_id, 
+                                    Analyses.tweet_sent_id==1)
+                            .order_by(Analyses.timestamp)
+                            .all())
+    negative_timestamps = (db.session.query(Analyses.timestamp)
+                            .filter(Analyses.user_id==user_id, 
+                                    Analyses.tweet_sent_id==2)
+                            .order_by(Analyses.timestamp)
+                            .all())
 
     pos_day_numbers = []
     neg_day_numbers = []
@@ -354,59 +367,23 @@ def make_bar_chart():
     pos_total_days = len(pos_day_numbers)
     neg_total_days = len(neg_day_numbers)
 
-    pos_weekday_numbers ={"Monday": 0, "Tuesday":0, "Wednesday":0, "Thursday":0, "Friday":0, "Saturday":0, "Sunday":0,}
+    pos_weekday_numbers ={1 : 0, 2 :0, 3 :0, 4:0, 5:0, 6:0, 7:0}
     for item in pos_day_numbers:
-        if item == 1:
-            pos_weekday_numbers["Monday"] += 1
-        elif item == 2:
-            pos_weekday_numbers["Tuesday"] += 1
-        elif item == 3:
-            pos_weekday_numbers["Wednesday"] += 1
-        elif item == 4:
-            pos_weekday_numbers["Thursday"] += 1
-        elif item == 5:
-            pos_weekday_numbers["Friday"] += 1
-        elif item == 6:
-            pos_weekday_numbers["Saturday"] += 1
-        elif item == 7:
-            pos_weekday_numbers["Sunday"] += 1
+        pos_weekday_numbers[item] += 1
+        
 
-    neg_weekday_numbers ={"Monday": 0, "Tuesday":0, "Wednesday":0, "Thursday":0, "Friday":0, "Saturday":0, "Sunday":0,}
+    neg_weekday_numbers ={1 : 0, 2 :0, 3 :0, 4:0, 5:0, 6:0, 7:0}
     for item in neg_day_numbers:
-        if item == 1:
-            neg_weekday_numbers["Monday"] += 1
-        elif item == 2:
-            neg_weekday_numbers["Tuesday"] += 1
-        elif item == 3:
-            neg_weekday_numbers["Wednesday"] += 1
-        elif item == 4:
-            neg_weekday_numbers["Thursday"] += 1
-        elif item == 5:
-            neg_weekday_numbers["Friday"] += 1
-        elif item == 6:
-            neg_weekday_numbers["Saturday"] += 1
-        elif item == 7:
-            neg_weekday_numbers["Sunday"] += 1
+        neg_weekday_numbers[item] += 1
+       
+    # list comprehension of positive weekday info to pass to charts.js
+    pos_data_to_send = [pos_weekday_numbers[key]/float(pos_total_days) for key 
+                        in sorted(pos_weekday_numbers)]
 
+    # list comprehension of negative weekday info to pass to charts.js
+    neg_data_to_send = [neg_weekday_numbers[key]/float(neg_total_days) for key 
+                        in sorted(neg_weekday_numbers)]
 
-    mon_pos = float(pos_weekday_numbers["Monday"]) / float(pos_total_days)
-    tues_pos = float(pos_weekday_numbers["Tuesday"]) / float(pos_total_days) 
-    wed_pos = float(pos_weekday_numbers["Wednesday"]) / float(pos_total_days) 
-    thurs_pos = float(pos_weekday_numbers["Thursday"]) / float(pos_total_days) 
-    fri_pos = float(pos_weekday_numbers["Friday"]) / float(pos_total_days)
-    sat_pos = float(pos_weekday_numbers["Saturday"]) / float(pos_total_days) 
-    sun_pos = float(pos_weekday_numbers["Sunday"]) / float(pos_total_days) 
-
-    mon_neg = float(neg_weekday_numbers["Monday"]) / float(neg_total_days)
-    tues_neg = float(neg_weekday_numbers["Tuesday"]) / float(neg_total_days) 
-    wed_neg = float(neg_weekday_numbers["Wednesday"]) / float(neg_total_days) 
-    thurs_neg = float(neg_weekday_numbers["Thursday"]) / float(neg_total_days) 
-    fri_neg = float(neg_weekday_numbers["Friday"]) / float(neg_total_days)
-    sat_neg = float(neg_weekday_numbers["Saturday"]) / float(neg_total_days) 
-    sun_neg = float(neg_weekday_numbers["Sunday"]) / float(neg_total_days) 
-
-    pos_data_to_send = [mon_pos, tues_pos, wed_pos, thurs_pos, fri_pos, sat_pos, sun_pos]
-    neg_data_to_send = [mon_neg, tues_neg, wed_neg, thurs_neg, fri_neg, sat_neg, sun_neg]
     
     bar_data = {
     "labels": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
