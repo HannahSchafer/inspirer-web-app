@@ -116,6 +116,13 @@ def example_data():
     pos = Sentiment(sentiment='pos')
     neg = Sentiment(sentiment='neg')
 
+    # db.session.add_all([pos, neg])
+    db.session.add(pos)
+    db.session.add(neg)
+    db.session.commit()
+
+    # import pdb; pdb.set_trace()
+
     favinn = User(user_name='Favinn', password='clown eyes', twitter_handle='NuBaby', email="Favinn@gmail.com", phone='555-444-9999', reminder_time="evening")
     aimee = User(user_name='Aimee', password='art', twitter_handle='Artist', email="Aimee@gmail.com", phone='555-555-9999', reminder_time='morning')
     charlotte = User(user_name='Charlotte', password='house', twitter_handle='RedHead', email="Charlotte@gmail.com", phone='333-555-9999', reminder_time='evening')
@@ -124,7 +131,7 @@ def example_data():
     negative_quote = Quote(content='I am a negative quote!', img_url='static/negativequote.jpg', author='you', sentiment_id='2')
 
 
-    db.session.add_all([pos, neg, favinn, aimee, charlotte, positive_quote, negative_quote])
+    db.session.add_all([favinn, aimee, charlotte, positive_quote, negative_quote])
     db.session.commit()
 
 

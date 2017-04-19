@@ -97,7 +97,7 @@ def check_login():
     twitter_handle = request.args.get("twitter_handle")
     password = request.args.get("password")
 
-    valid_user = User.query.filter((User.twitter_handle==twitter_handle) & \
+    valid_user = User.query.filter((User.twitter_handle==twitter_handle) & 
                  (User.password==password)).first()
 
     if valid_user:
@@ -447,10 +447,10 @@ def make_bar_chart():
 def set_reminder():
     """User selects time to receive reminder text. Stored in Database."""
 
-    user_id= session["user_id"]
-    reminder_choice = request.form["reminder"]
+    user_id= session.get("user_id")
+    reminder_choice = request.form.get("reminder")
     telephone = request.form.get("remind-phone")
-    print request.form
+  
     user = User.query.filter_by(user_id=user_id).first()
     user.reminder_time = reminder_choice
     user.phone = telephone
@@ -470,7 +470,12 @@ if __name__ == "__main__":
     app.debug = True
     app.jinja_env.auto_reload = app.debug  # make sure templates, etc. are not cached in debug mode
 
-    connect_to_db(app)
+    # app.config['TESTING'] = True
+    if app.config['TESTING'] is True:
+        connect_to_db(app, "postgresql:///fake_db")
+    else:
+        connect_to_db(app)
+
 
     # Use the DebugToolbar
     DebugToolbarExtension(app)
