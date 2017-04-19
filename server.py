@@ -121,7 +121,7 @@ def log_out():
     del session["user_name"]
 
     # flash message for user.
-    flash("You are now logged out. Have a wonderful day! ")
+    flash("You are now logged out. Have a wonderful day!")
 
     return redirect("/")
 

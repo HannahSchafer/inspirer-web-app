@@ -26,7 +26,7 @@ class User(db.Model):
     twitter_handle = db.Column(db.Unicode(50), nullable=False)
     email = db.Column(db.Unicode(50), nullable=False)
     phone = db.Column(db.String, nullable=True)
-    reminder_time = db.Column(db.String(10), nullable=True)
+    reminder_time = db.Column(db.String(20), nullable=True)
 
     quotes = db.relationship("Quote", secondary="analyses", backref="user")
 
@@ -116,14 +116,13 @@ def example_data():
     pos = Sentiment(sentiment='pos')
     neg = Sentiment(sentiment='neg')
 
-    favinn = User(user_name='Favinn', password='clown eyes', twitter_handle='NuBaby', email="Favinn@gmail.com", phone='555-444-9999')
-    aimee = User(user_name='Aimee', password='art', twitter_handle='Artist', email="Aimee@gmail.com", phone='555-555-9999')
-    charlotte = User(user_name='Charlotte', password='house', twitter_handle='RedHead', email="Charlotte@gmail.com", phone='333-555-9999')
+    favinn = User(user_name='Favinn', password='clown eyes', twitter_handle='NuBaby', email="Favinn@gmail.com", phone='555-444-9999', reminder_time="evening")
+    aimee = User(user_name='Aimee', password='art', twitter_handle='Artist', email="Aimee@gmail.com", phone='555-555-9999', reminder_time='morning')
+    charlotte = User(user_name='Charlotte', password='house', twitter_handle='RedHead', email="Charlotte@gmail.com", phone='333-555-9999', reminder_time='evening')
 
     positive_quote = Quote(content='I am a positive quote!', img_url='static/positivequote.jpg', author='me', sentiment_id='1')
     negative_quote = Quote(content='I am a negative quote!', img_url='static/negativequote.jpg', author='you', sentiment_id='2')
 
-    analyses_1 = Analyses(user_id='1', timestamp="2017-04-30 22:18:36", tweet_sent_id='1', quote_id='700')
 
     db.session.add_all([pos, neg, favinn, aimee, charlotte, positive_quote, negative_quote])
     db.session.commit()

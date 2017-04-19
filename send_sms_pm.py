@@ -24,7 +24,7 @@ def send_message(send_number):
     client.messages.create(from_=my_twilio,
                            to=send_number,
                            body=my_msg)
-    # print(message.sid)
+    # return message.sid
 
 
 # look through database to see who has opted in for evening and both reminders.
