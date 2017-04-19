@@ -11,6 +11,8 @@ import os
 from datetime import datetime, timedelta
 from flask import Flask
 from random import choice
+import pickle
+
 
 app = Flask(__name__)
 connect_to_db(app)
@@ -45,6 +47,11 @@ def connect_twitter_api(twitter_handle):
     # get user tweets, parameters: screen_name, # tweets, include re-tweets (T/F)
     # Reference: https://www.quora.com/How-can-I-retrieve-from-given-users-home_timeline-with-Tweepy
     user_tweets = api.user_timeline(screen_name = twitter_handle, include_rts = True, count=5)
+    
+    # one time use pickle file dump to use in tests.py:
+    # twitter_data = user_tweets
+    # pickle.dump( twitter_data, open( "twitter_data.pickle", "wb"))
+
     return user_tweets
 
 ### testing: mock sample user_tweets coming out of connect_twitter_api
@@ -80,6 +87,7 @@ def get_user_sentiment(user_tweets, classifier):
         for tweet in day_old_tweets:
             sentiment = classifier.classify(extract_features(nltk.word_tokenize(tweet)))
             tweet_and_sentiment.append((tweet, sentiment))
+
 
     return tweet_and_sentiment
 

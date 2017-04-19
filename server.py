@@ -75,7 +75,7 @@ def process_registration():
         db.session.commit()
 
         # flash message for the user
-        flash(u"Welcome to Sparrö")
+        flash(u"Welcome to Sparrö!")
 
         # after commited to db, now new_user has a user_id
         user_id = new_user.user_id

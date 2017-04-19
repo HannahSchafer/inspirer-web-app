@@ -5,10 +5,12 @@ reload(sys)
 sys.setdefaultencoding('utf8')
 
 import unittest
+from mock import Mock, call
+from unittest.mock import patch
 import twitter_analysis
 import server
 from model import connect_to_db, db, example_data
-
+import pickle
 
 
 
@@ -60,7 +62,7 @@ class FlaskTestsDatabase(unittest.TestCase):
 
         result = (self.client.get('/login-validation', data={'twitter_handle' : 'HannahSchafer18', 
                                   'password' : 'password'}, follow_redirects=True))
-        self.assertIn('Welcome back! You are logged in.', result.data)
+        self.assertIn("Welcome back! You are logged in.", result.data)
 
 
     def test_login_form_2(self):
@@ -95,14 +97,38 @@ class MyAppUnitTestCase(unittest.TestCase):
     def test_inspire(self):
         result = self.client.get('/inspire')
         self.assertIn('Inspire Me', result.data)
+        self.assertStatus(200, response)
 
+    def test_moods(self):
+        self.client.get('/moods')
+        self.assertStatus(200, response)
+
+
+
+class TwitterTests(unittest.TestCase):
+    """Tests that require a mock API call to Twitter API."""
     
+    def setUp(self):
+        print "(setUp ran)"
+        self.client = server.app.test_client()
+        server.app.config['TESTING'] = True
+
+        def _test_connect_twitter_api(twitter_handle):
+            """Verify 
+            """
+
+            connect_twitter_response = pickle.load(open("twitter_data.pickle", "rb"))
+            
+            return connect_twitter_response
+
+        twitter_analysis.connect_twitter_api = _test_connect_twitter_api 
 
 
-
-
-
-
+    def test_inspire_process(self):
+        result 
+        assert message from dbassert 5 tweets showing setUp
+        assert  
+ 
 
 
 
