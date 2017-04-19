@@ -123,6 +123,8 @@ def example_data():
     positive_quote = Quote(content='I am a positive quote!', img_url='static/positivequote.jpg', author='me', sentiment_id='1')
     negative_quote = Quote(content='I am a negative quote!', img_url='static/negativequote.jpg', author='you', sentiment_id='2')
 
+    analyses_1 = Analyses(user_id='1', timestamp="2017-04-30 22:18:36", tweet_sent_id='1', quote_id='700')
+
     db.session.add_all([pos, neg, favinn, aimee, charlotte, positive_quote, negative_quote])
     db.session.commit()
 

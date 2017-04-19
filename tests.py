@@ -5,8 +5,6 @@ reload(sys)
 sys.setdefaultencoding('utf8')
 
 import unittest
-from mock import Mock, call
-from unittest.mock import patch
 import twitter_analysis
 import server
 from model import connect_to_db, db, example_data
@@ -60,9 +58,9 @@ class FlaskTestsDatabase(unittest.TestCase):
     def test_login_form_1(self):
         """Tests registration form in case when it is a valid existing user."""
 
-        result = (self.client.get('/login-validation', data={'twitter_handle' : 'HannahSchafer18', 
+        result = (self.client.post('/login-validation', data={'twitter_handle' : 'HannahSchafer18', 
                                   'password' : 'password'}, follow_redirects=True))
-        self.assertIn("Welcome back! You are logged in.", result.data)
+        self.assertIn('Welcome back! You are logged in.', result.data)
 
 
     def test_login_form_2(self):
@@ -97,11 +95,11 @@ class MyAppUnitTestCase(unittest.TestCase):
     def test_inspire(self):
         result = self.client.get('/inspire')
         self.assertIn('Inspire Me', result.data)
-        self.assertStatus(200, response)
+        self.assertEqual(result.status_code, 200) 
 
     def test_moods(self):
-        self.client.get('/moods')
-        self.assertStatus(200, response)
+        result = self.client.get('/moods')
+        self.assertEqual(result.status_code, 200) 
 
 
 
@@ -110,29 +108,53 @@ class TwitterTests(unittest.TestCase):
     
     def setUp(self):
         print "(setUp ran)"
-        self.client = server.app.test_client()
+
         server.app.config['TESTING'] = True
+        server.app.config['SECRET_KEY'] = 'key'
+        self.client = server.app.test_client()
+
+        with self.client as c:
+          with c.session_transaction() as sess:
+              sess['user_id'] = 1
+              sess['twitter_handle'] = 'HannahSchafer18'
+
+         # Connect to test database
+        connect_to_db(server.app, "postgresql:///fake_db")
+
+        # Create tables
+        db.create_all()
+
+         # seed sample data
+        example_data()
+
 
         def _test_connect_twitter_api(twitter_handle):
-            """Verify 
-            """
+            """Mocking out Twitter API."""
 
             connect_twitter_response = pickle.load(open("twitter_data.pickle", "rb"))
-            
+
             return connect_twitter_response
 
         twitter_analysis.connect_twitter_api = _test_connect_twitter_api 
 
 
+    def tearDown(self):
+        """Do at end of every test."""
+
+        db.session.close()
+        db.drop_all()
+
+
     def test_inspire_process(self):
-        result 
-        assert message from dbassert 5 tweets showing setUp
-        assert  
- 
+        """Tests inspire_process route and multiple functions from twitter_analysis.
+        """
 
-
-
-
+        result = (self.client.post('/inspire-process.json', data={'user_id' : '1',
+                                   'timestamp' : "2017-04-29 01:42:00", 
+                                   'tweet_sent_id': '1', "quote_id": '600'}, follow_redirects=True))
+        self.assertIn('"So excited for the next episode of my new favorite show: Black-ish!!!"', result.data)
+        self.assertIn("I am a positive quote!", result.data)
+        self.assertIn(80, result.data)
 
 
 
