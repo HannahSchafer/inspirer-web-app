@@ -6,6 +6,7 @@ from nltk.corpus import stopwords
 import pickle
 from flask import Flask
 
+
 # creating a irrelevant app instance, just to connect with db, as required by flask_sqlalchemy
 app = Flask(__name__)
 connect_to_db(app)
@@ -40,8 +41,8 @@ def extract_features(tweet):
     return features
 
 
-
-#Query my training tweets (as a list) from the classifier table in db
+# def stuff():
+    #Query my training tweets (as a list) from the classifier table in db
 train_tweets = (db.session.query(Classifier.tweet_content, 
                                  Classifier.sentiment_id)
                           .filter(Classifier.test_or_train=='train')
@@ -98,9 +99,6 @@ classifier_f.close()
 
 #pickle is a way to save python objects and load those python objects
 # reference: https://pythonprogramming.net/pickle-classifier-save-nltk-tutorial/ for pickle
-
-
-
 
 
 

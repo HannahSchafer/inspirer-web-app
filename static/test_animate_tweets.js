@@ -4,6 +4,7 @@
 
 $("#page").hide();
 $("#give").hide();
+$("#gauge").hide();
 
 
 
@@ -18,7 +19,7 @@ $.post('/show-avg-sent.json', function(results) {
     var config = liquidFillGaugeDefaultSettings();
     $("#page").hide();
     $("#give").hide();
-   
+    $("#gauge").show();
 
 
     });
@@ -56,7 +57,7 @@ function showQuote(event) {
                                         $("#give").hide();
                                         $("#page").hide();
                                         $("#fillgauge").hide();
-
+                                        $("#gauge").hide();
                                        
                             
     });

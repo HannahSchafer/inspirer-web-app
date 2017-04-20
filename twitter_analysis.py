@@ -1,4 +1,3 @@
-
 from __future__ import unicode_literals
 from model import connect_to_db, db, Quote, Sentiment, User, Analyses
 import nltk
@@ -12,6 +11,8 @@ from datetime import datetime, timedelta
 from flask import Flask
 from random import choice
 import pickle
+
+
 
 
 app = Flask(__name__)
@@ -146,10 +147,10 @@ def get_quote(twitter_handle, user_id):
 # mock up 1 positive quote
 # mock up 1 negative quote
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
 
-    from server import app
-    connect_to_db(app)
+#     from server import app
+#     connect_to_db(app)
 
 
 
