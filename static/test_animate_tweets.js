@@ -69,8 +69,8 @@ function showQuote(event) {
 // event listener
 $("#get-quote").on('click', function() {
     printTweets(function() {
-        setTimeout(showGauge, 2000)
-        setTimeout(showQuote, 4000)
+        setTimeout(showGauge, 3000)
+        setTimeout(showQuote, 7000)
     });
 })
 
@@ -164,8 +164,12 @@ $.post("/show-tweets.json", function(results) {
             var sent = tweet_list[1];
             list_items.push(tweet + "   " + sent);
           }
+   var double_list = list_items.concat(list_items);
+   var triple_list = double_list.concat(list_items);
 
-  var phrases = shuffleArray(list_items);
+
+
+  var phrases = triple_list;
   addPhrasesToDocument(phrases);
   var start_time = new Date().getTime();
   var upward_moving_group = document.getElementById("phrases");
