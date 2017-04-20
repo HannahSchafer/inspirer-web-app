@@ -67,7 +67,7 @@ function showQuote(event) {
 // event listener
 $("#get-quote").on('click', function() {
     printTweets(function() {
-        setTimeout(showGauge, 5000)
+        setTimeout(showGauge, 6000)
         setTimeout(showQuote, 10000)
     });
 })

@@ -356,14 +356,14 @@ def make_bar_chart():
     # find out which day of the week each datetime is on
     for item in positive_timestamps:
         date_time = str(item[0])
-        strip_date_time = datetime.strptime(date_time, '%Y-%m-%d %I:%M:%S')
+        strip_date_time = datetime.strptime(date_time, '%Y-%m-%d %H:%M:%S')
         just_three = strip_date_time.date()
         weekday = just_three.isoweekday()
         pos_day_numbers.append(weekday)
 
     for item in negative_timestamps:
         date_time = str(item[0])
-        strip_date_time = datetime.strptime(date_time, '%Y-%m-%d %I:%M:%S')
+        strip_date_time = datetime.strptime(date_time, '%Y-%m-%d %H:%M:%S')
         just_three = strip_date_time.date()
         weekday = just_three.isoweekday()
         neg_day_numbers.append(weekday)
