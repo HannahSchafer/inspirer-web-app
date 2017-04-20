@@ -2,7 +2,7 @@
 
 
 
-$("#loader").hide();
+$("#page").hide();
 $("#give").hide();
 
 
@@ -16,8 +16,7 @@ $.post('/show-avg-sent.json', function(results) {
     console.log(percentSent);
     var gauge = loadLiquidFillGauge("fillgauge", percentSent, config);
     var config = liquidFillGaugeDefaultSettings();
-    $("#tweet-container").hide();
-    $("#loader").hide();
+    $("#page").hide();
     $("#give").hide();
    
 
@@ -54,9 +53,8 @@ function showQuote(event) {
     $.post("/inspire-process.json", function(results) {
                                         var quote_content = results.quote;
                                         typeQuote(quote_content);
-                                        $("#loader").hide();
                                         $("#give").hide();
-                                        $("#tweet-container").hide();
+                                        $("#page").hide();
                                         $("#fillgauge").hide();
 
                                        
@@ -69,8 +67,8 @@ function showQuote(event) {
 // event listener
 $("#get-quote").on('click', function() {
     printTweets(function() {
-        setTimeout(showGauge, 3000)
-        setTimeout(showQuote, 7000)
+        setTimeout(showGauge, 5000)
+        setTimeout(showQuote, 10000)
     });
 })
 
@@ -113,7 +111,7 @@ function createPhraseSvg(phrase, yOffset) {
     "font-size": 18,
     "font-family": "Arial"
   });
-  text.appendChild(document.createTextNode(phrase + "..."));
+  text.appendChild(document.createTextNode(phrase));
   return text;
 }
 function createCheckSvg(yOffset, index) {
@@ -162,7 +160,7 @@ $.post("/show-tweets.json", function(results) {
   for (var tweet_list of tweet_sents) {
             var tweet = tweet_list[0];
             var sent = tweet_list[1];
-            list_items.push(tweet + "   " + sent);
+            list_items.push(tweet + "  -   (" + sent + ")");
           }
    var double_list = list_items.concat(list_items);
    var triple_list = double_list.concat(list_items);
@@ -197,34 +195,15 @@ $.post("/show-tweets.json", function(results) {
   //animateLoading();
 });
 
-
-
-
-
-
-
-
-
-
-
-// function to print the tweets that Sparro is analyzing for sentiment + spinning wheel
-
-
-    
-//             $(".tweet").after('"'+tweet+'"' + "<br>");
-//             $(".sentiment").after(sent + "<br>");
-            
-//         };
         
-//         $("#tweet-container").show();
-//         $("#give").show();
-//         $("#loader").show();
+        $("#page").show();
+        $("#give").show();
+//         
     
         if (callback) {
             callback();
         }
 
-//     });
 }
 
 
