@@ -8,6 +8,7 @@ from jinja2 import StrictUndefined
 from flask import (Flask, jsonify, render_template, redirect, request,
                     flash, session)
 from flask_debugtoolbar import DebugToolbarExtension
+import re
 
 from model import connect_to_db, db, User, Quote, Analyses, Sentiment, Classifier
 from helper_functions import get_timestamp
@@ -53,6 +54,7 @@ def process_registration():
     email = request.form.get("email")
     name = request.form.get("user_name")
     
+    # phone_re =  
 
 
     existing_user = (User.query.filter((User.twitter_handle==twitter_handle) & 

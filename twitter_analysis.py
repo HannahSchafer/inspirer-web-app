@@ -15,7 +15,7 @@ import pickle
 
 
 app = Flask(__name__)
-connect_to_db(app)
+
 
 def load_classifier():
     """Load pickle file with trained classifier."""
@@ -146,6 +146,10 @@ def get_quote(twitter_handle, user_id):
 # mock up 1 positive quote
 # mock up 1 negative quote
 
+if __name__ == "__main__":
+
+    from server import app
+    connect_to_db(app)
 
 
 

@@ -101,7 +101,7 @@ class MyAppUnitTestCase(TestCase):
 
     def test_homepage(self):
         result = self.client.get('/')
-        self.assertIn(u'<h1>Sparrö</h1>', result.data)
+        self.assertIn(u'<title>Sparrö</title>', result.data)
 
     def test_register(self):
         result = self.client.get('/register')
@@ -196,6 +196,25 @@ class TwitterTests(TestCase):
         self.assertIn("I am a positive quote!", result.data)
 
    
+
+
+
+class TestUserLogIn(TestCase):
+    """Selenium tests that test user experience on browser."""
+
+    def setUp(self):
+        self.browser = webdriver.PhantomJS()
+        
+        app.config['TESTING'] = True
+
+    def tearDown(self):
+        self.browser.quit()  
+
+    def test_view_log_in_button(self):
+        self.browser.get('http://localhost:5000/')
+        assert u"Sparrö" in self.browser.title
+        assert "Log in" in self.browser.page_source
+        
 
 
 
