@@ -1,4 +1,5 @@
 #gauge {
+    display: none;
     margin-top: 80px;
     margin-left: 100px;
     margin-bottom: 10px;
@@ -79,6 +80,7 @@ $color: #76daff;
 }
 
 #give {
+    display: none;
     margin-top: 80px;
     margin-left: 30px;
     width: 100%;
@@ -90,15 +92,19 @@ $color: #76daff;
 
 
 body {
-    background-size: cover;
-    background: linear-gradient(to bottom left, #00bfff, white);
-    
+  
+  background-color: #00bfff; 
+  background-image: -webkit-linear-gradient(to bottom left, #00bfff, white); 
+  background-image:    -moz-linear-gradient(to bottom left, #00bfff, white); 
+  background-image:      -o-linear-gradient(to bottom left, #00bfff, white);
+  background-image:         linear-gradient(to bottom left, #00bfff, white); 
 }
 
 /*body {
+    background: linear-gradient(to bottom left, #00bfff, white);
     background-image: url("leather_1.png");
     background-color: #4de1ff;
     background-blend-mode: luminosity;
   #4de1ff
-}*/
-
+}
+*/

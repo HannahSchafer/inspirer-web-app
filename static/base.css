@@ -2,9 +2,7 @@ body {
     margin: 60px;
 }
 
-#buttons {
-    margin-left: 400px;
-}
+
 
 .top-text {
     font-weight: bold;
@@ -15,3 +13,7 @@ body {
     margin-left: 730px;
 }
 */
+
+html {
+    height: 100%;
+}

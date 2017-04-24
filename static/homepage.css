@@ -1,7 +1,54 @@
+#inspire-container {
+    margin: 90px;
+}
 
-<link href="static/animate.css" rel="stylesheet">
+#buttons {
+    margin-left:400px;
+
+}
+
+
+#login {
+ 
+    background-color: #3498DB;
+    border-bottom: 5px solid #2980B9;
+    text-shadow: 0px -2px #2980B9;
+
+}
+
+#register-button {
+
+    background-color: #3498DB;
+    border-bottom: 5px solid #2980B9;
+    text-shadow: 0px -2px #2980B9;
+
+}
+
+.animate
+{
+    transition: all 0.1s;
+    -webkit-transition: all 0.1s;
+}
+
+.action-button
+{
+    position: relative;
+    padding: 10px 40px;
+  margin: 0px 10px 10px 0px;
+  float: left;
+    border-radius: 10px;
+    font-family: 'Pacifico', cursive;
+    font-size: 25px;
+    color: #FFF;
+    text-decoration: none;  
+}
 
 #logo {
+
+    margin-top: 75px;
+    margin-left: 100px;
+    width: 100%;
+    height: auto;
         -webkit-animation-duration: 1s;
         -webkit-animation-iteration-count: 1;
         -webkit-animation-delay: 0.5s;
@@ -28,3 +75,19 @@ h3 {
 }
 
 
+body {
+  
+  background-color: #00bfff; 
+  background-image: -webkit-linear-gradient(to left, #00bfff, white); 
+  background-image:    -moz-linear-gradient(to left, #00bfff, white); 
+  background-image:      -o-linear-gradient(to left, #00bfff, white);
+  background-image:         linear-gradient(to left, #00bfff, white); 
+}
+
+
+#sense-0 {
+
+width:55%;
+margin-top: 150px;
+margin-left: 130px;
+}
