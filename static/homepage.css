@@ -1,6 +1,13 @@
+
 #inspire-container {
-    margin: 90px;
+    margin-bottom: 70px;
 }
+
+/*.title-logo {
+    font-family: Pacifico;
+    font-size: 18pt;
+
+}*/
 
 #buttons {
     margin-left:400px;
@@ -87,7 +94,7 @@ body {
 
 #sense-0 {
 
-width:55%;
-margin-top: 150px;
+width:50%;
+margin-top: 175px;
 margin-left: 130px;
 }
