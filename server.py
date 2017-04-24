@@ -245,8 +245,8 @@ def make_donut_chart():
     total_feelings = (len(happy_feelings) + len(sad_feelings))
     decimal_happy = float(len(happy_feelings)) / float(total_feelings)
     decimal_sad = float(len(sad_feelings)) / float(total_feelings)
-    percent_happy = (decimal_happy * 100)
-    percent_sad = (decimal_sad * 100)
+    percent_happy = round((decimal_happy * 100), 0)
+    percent_sad = round((decimal_sad * 100), 0)
    
     
     mood_data = { "labels": [
@@ -258,7 +258,7 @@ def make_donut_chart():
                         "data": [percent_happy, percent_sad],
                         "backgroundColor": [
                             "#00FFFF",
-                            "#800080"
+                            "#7000e0"
                             ],
                         "hoverBackgroundColor": [
                             "#FF6384",
@@ -287,7 +287,7 @@ def make_line_chart():
 
     date_labels =[]
     for time in timestamps:
-        date = "{:%B %d, %Y}".format(time)
+        date = "{:%b %d, %Y}".format(time)
         date_labels.append(date)
 
     
@@ -397,13 +397,13 @@ def make_bar_chart():
         {
             "label": "Happiness by Day",
             "backgroundColor": [
-                'rgba(0, 252, 255, 0.8)',
-                'rgba(0, 252, 255, 0.8)',
-                'rgba(0, 252, 255, 0.8)',
-                'rgba(0, 252, 255, 0.8)',
-                'rgba(0, 252, 255, 0.8)',
-                'rgba(0, 252, 255, 0.8)',
-                'rgba(0, 252, 255, 0.8)'
+                "#00FFFF",
+                "#00FFFF",
+                "#00FFFF",
+                "#00FFFF",
+                "#00FFFF",
+                "#00FFFF",
+                "#00FFFF"
             ], 
             "hoverBackgroundColor": [
                             "#ff69b4",
@@ -419,13 +419,13 @@ def make_bar_chart():
         {
          "label": "Unhappiness by Day",
             "backgroundColor": [
-                'rgba(112, 0, 224, 0.8)',
-                'rgba(112, 0, 224, 0.8)',
-                'rgba(112, 0, 224, 0.8)',
-                'rgba(112, 0, 224, 0.8)',
-                'rgba(112, 0, 224, 0.8)',
-                'rgba(112, 0, 224, 0.8)',
-                'rgba(112, 0, 224, 0.8)'
+                '#7000e0',
+                '#7000e0',
+                '#7000e0',
+                '#7000e0',
+                '#7000e0',
+                '#7000e0',
+                '#7000e0'
             ], 
             "hoverBackgroundColor": [
                             "#00E000",

@@ -1,7 +1,10 @@
 // $(document).ready(function(){
 
-// configuration or init function and you call it at the end
 
+
+
+// configuration or init function and you call it at the end
+$("#loader").hide();
 $("#page").hide();
 $("#give").hide();
 $("#gauge").hide();
@@ -22,7 +25,8 @@ $.post('/show-avg-sent.json', function(results) {
     $("#give").hide();
     $("#gauge").show();
     $("#fillgauge").show();
-
+    $("#sense").hide();
+    $("#loader").show();
     });
 }
 
@@ -61,7 +65,8 @@ function showQuote(event) {
                                         $("#page").hide();
                                         $("#fillgauge").hide();
                                         $("#gauge").hide();
-                                       
+                                        $("#sense").hide();
+                                        $("#loader").hide();
                             
     });
 }
@@ -73,7 +78,7 @@ $("#get-quote").on('click', function() {
     typeQuote('');
     printTweets(function() {
         setTimeout(showGauge, 6000)
-        setTimeout(showQuote, 10000)
+        setTimeout(showQuote, 11000)
     });
 })
 
@@ -200,10 +205,10 @@ $.post("/show-tweets.json", function(results) {
   //animateLoading();
 });
 
-        
+        $("#sense").hide();
         $("#page").show();
-        $("#give").show();
-//         
+        $("#give").fadeIn();
+        $("#loader").fadeIn();
     
         if (callback) {
             callback();

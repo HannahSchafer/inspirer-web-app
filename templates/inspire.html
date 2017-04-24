@@ -6,16 +6,45 @@
 
     <link href="static/inspire.css" rel="stylesheet">
     <link href="static/animate.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="static/jquery.ui.core.css">
 
 <div class="container-fluid" id="inspire-container">
+  <div class="col-xs-6">  
+      <svg id='loader' width="70" height="20">
+        <rect width="20" height="20" x="0" y="0" rx="3" ry="3">
+          <animate attributeName="width" values="0;20;20;20;0" dur="1000ms" repeatCount="indefinite"/>
+          <animate attributeName="height" values="0;20;20;20;0" dur="1000ms" repeatCount="indefinite"/>
+          <animate attributeName="x" values="10;0;0;0;10" dur="1000ms" repeatCount="indefinite"/>
+          <animate attributeName="y" values="10;0;0;0;10" dur="1000ms" repeatCount="indefinite"/>
+        </rect>
+        <rect width="20" height="20" x="25" y="0" rx="3" ry="3">
+          <animate attributeName="width" values="0;20;20;20;0" begin="200ms" dur="1000ms" repeatCount="indefinite"/>
+          <animate attributeName="height" values="0;20;20;20;0" begin="200ms" dur="1000ms" repeatCount="indefinite"/>
+          <animate attributeName="x" values="35;25;25;25;35" begin="200ms" dur="1000ms" repeatCount="indefinite"/>
+          <animate attributeName="y" values="10;0;0;0;10" begin="200ms" dur="1000ms" repeatCount="indefinite"/>
+        </rect>
+        <rect width="20" height="20" x="50" y="0" rx="3" ry="3">
+          <animate attributeName="width" values="0;20;20;20;0" begin="400ms" dur="1000ms" repeatCount="indefinite"/>
+          <animate attributeName="height" values="0;20;20;20;0" begin="400ms" dur="1000ms" repeatCount="indefinite"/>
+          <animate attributeName="x" values="60;50;50;50;60" begin="400ms" dur="1000ms" repeatCount="indefinite"/>
+          <animate attributeName="y" values="10;0;0;0;10" begin="400ms" dur="1000ms" repeatCount="indefinite"/>
+        </rect>
+      </svg>
 
+  </div>
+<div class="row" id="row0">
+
+</div>
 <div class="row" id="row1">
-<div class="col-xs-6">  
+<div class="col-xs-5">  
   <div><img id='logo2' class= 'item animated bounceInLeft' src="static/logo.png"></div>
 </div>  <!--Closing column-->
 
-<div class="col-xs-6">  
-  <h4 id="give">Sparrö is analyzing your mood based on your most recent tweets</h4>
+<div class="col-xs-7">  
+  <h3 id='sense'>Sparrö can sense how you are feeling and deliver your personalized 
+      dose of daily inspiration.</h3>
+  <h4 id="give">Sparrö is analyzing your mood based on your most recent tweets</h4><br>
 <div id="page" width="50%" height = "50%">
   <div id="phrase_box">
   <svg width="100%" height="100%">
@@ -38,10 +67,10 @@
 </div>
 
 <h3 id='average'></h3> 
-<h3 id='gauge'>Your Positivity Probability</h3> 
+<h3 id='gauge'>Your Positivity Probability</h3><br> 
+<svg id="fillgauge" width="250" height="250" onclick=""></svg>
 <h3 id='element'></h3> 
 
-<svg id="fillgauge" width="250" height="250" onclick=""></svg>
 
 </div>
 
@@ -50,9 +79,11 @@
 </div>  <!--Closing column-->
 
 <div class="row" id="row2">
-  <button id="get-quote" class="btn btn-primary btn-lg">Open Now</button>
-</div> <!--Closing row2-->
 
+  <a href="#" id="get-quote" class="action-button shadow animate blue">Open Now</a>
+
+<!--   <button id="get-quote" class="btn btn-primary btn-lg">Open Now</button> -->
+</div> <!--Closing row2-->
 
 
 <script src="static/test_animate_tweets.js"></script>
@@ -69,8 +100,8 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  background: -webkit-linear-gradient(bottom left, #fc737a 10%, #ff7c9d 65%, #ffc01a 125%);
-  background: linear-gradient(to top right, #fc737a 10%, #ff7c9d 65%, #ffc01a 125%);
+  background: #00FFFFFF;
+  background: #00FFFFFF;
   bottom: 0;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -502,173 +533,173 @@
   }
 }
 #loadingCheckSVG-0 {
-  -webkit-animation: fill-to-coral 5000ms;
-          animation: fill-to-coral 5000ms;
+  -webkit-animation: fill-to-#00FFFFFF 5000ms;
+          animation: fill-to-#00FFFFFF 5000ms;
   -webkit-animation-delay: -1.5s;
           animation-delay: -1.5s;
 }
 
 #loadingCheckSVG-1 {
-  -webkit-animation: fill-to-coral 5000ms;
-          animation: fill-to-coral 5000ms;
+  -webkit-animation: fill-to-#00FFFFFF 5000ms;
+          animation: fill-to-#00FFFFFF 5000ms;
   -webkit-animation-delay: -0.5s;
           animation-delay: -0.5s;
 }
 
 #loadingCheckSVG-2 {
-  -webkit-animation: fill-to-coral 5000ms;
-          animation: fill-to-coral 5000ms;
+  -webkit-animation: fill-to-#00FFFFFF 5000ms;
+          animation: fill-to-#00FFFFFF 5000ms;
   -webkit-animation-delay: 0.5s;
           animation-delay: 0.5s;
 }
 
 #loadingCheckSVG-3 {
-  -webkit-animation: fill-to-coral 5000ms;
-          animation: fill-to-coral 5000ms;
+  -webkit-animation: fill-to-#00FFFFFF 5000ms;
+          animation: fill-to-#00FFFFFF 5000ms;
   -webkit-animation-delay: 1.5s;
           animation-delay: 1.5s;
 }
 
 #loadingCheckSVG-4 {
-  -webkit-animation: fill-to-coral 5000ms;
-          animation: fill-to-coral 5000ms;
+  -webkit-animation: fill-to-#00FFFFFF 5000ms;
+          animation: fill-to-#00FFFFFF 5000ms;
   -webkit-animation-delay: 2.5s;
           animation-delay: 2.5s;
 }
 
 #loadingCheckSVG-5 {
-  -webkit-animation: fill-to-coral 5000ms;
-          animation: fill-to-coral 5000ms;
+  -webkit-animation: fill-to-#00FFFFFF 5000ms;
+          animation: fill-to-#00FFFFFF 5000ms;
   -webkit-animation-delay: 3.5s;
           animation-delay: 3.5s;
 }
 
 #loadingCheckSVG-6 {
-  -webkit-animation: fill-to-coral 5000ms;
-          animation: fill-to-coral 5000ms;
+  -webkit-animation: fill-to-#00FFFFFF 5000ms;
+          animation: fill-to-#00FFFFFF 5000ms;
   -webkit-animation-delay: 4.5s;
           animation-delay: 4.5s;
 }
 
 #loadingCheckSVG-7 {
-  -webkit-animation: fill-to-coral 5000ms;
-          animation: fill-to-coral 5000ms;
+  -webkit-animation: fill-to-#00FFFFFF 5000ms;
+          animation: fill-to-#00FFFFFF 5000ms;
   -webkit-animation-delay: 5.5s;
           animation-delay: 5.5s;
 }
 
 #loadingCheckSVG-8 {
-  -webkit-animation: fill-to-coral 5000ms;
-          animation: fill-to-coral 5000ms;
+  -webkit-animation: fill-to-#00FFFFFF 5000ms;
+          animation: fill-to-#00FFFFFF 5000ms;
   -webkit-animation-delay: 6.5s;
           animation-delay: 6.5s;
 }
 
 #loadingCheckSVG-9 {
-  -webkit-animation: fill-to-coral 5000ms;
-          animation: fill-to-coral 5000ms;
+  -webkit-animation: fill-to-#00FFFFFF 5000ms;
+          animation: fill-to-#00FFFFFF 5000ms;
   -webkit-animation-delay: 7.5s;
           animation-delay: 7.5s;
 }
 
 #loadingCheckSVG-10 {
-  -webkit-animation: fill-to-coral 5000ms;
-          animation: fill-to-coral 5000ms;
+  -webkit-animation: fill-to-#00FFFFFF 5000ms;
+          animation: fill-to-#00FFFFFF 5000ms;
   -webkit-animation-delay: 8.5s;
           animation-delay: 8.5s;
 }
 
 #loadingCheckSVG-11 {
-  -webkit-animation: fill-to-coral 5000ms;
-          animation: fill-to-coral 5000ms;
+  -webkit-animation: fill-to-#00FFFFFF 5000ms;
+          animation: fill-to-#00FFFFFF 5000ms;
   -webkit-animation-delay: 9.5s;
           animation-delay: 9.5s;
 }
 
 #loadingCheckSVG-12 {
-  -webkit-animation: fill-to-coral 5000ms;
-          animation: fill-to-coral 5000ms;
+  -webkit-animation: fill-to-#00FFFFFF 5000ms;
+          animation: fill-to-#00FFFFFF 5000ms;
   -webkit-animation-delay: 10.5s;
           animation-delay: 10.5s;
 }
 
 #loadingCheckSVG-13 {
-  -webkit-animation: fill-to-coral 5000ms;
-          animation: fill-to-coral 5000ms;
+  -webkit-animation: fill-to-#00FFFFFF 5000ms;
+          animation: fill-to-#00FFFFFF 5000ms;
   -webkit-animation-delay: 11.5s;
           animation-delay: 11.5s;
 }
 
 #loadingCheckSVG-14 {
-  -webkit-animation: fill-to-coral 5000ms;
-          animation: fill-to-coral 5000ms;
+  -webkit-animation: fill-to-#00FFFFFF 5000ms;
+          animation: fill-to-#00FFFFFF 5000ms;
   -webkit-animation-delay: 12.5s;
           animation-delay: 12.5s;
 }
 
 #loadingCheckSVG-15 {
-  -webkit-animation: fill-to-coral 5000ms;
-          animation: fill-to-coral 5000ms;
+  -webkit-animation: fill-to-#00FFFFFF 5000ms;
+          animation: fill-to-#00FFFFFF 5000ms;
   -webkit-animation-delay: 13.5s;
           animation-delay: 13.5s;
 }
 
 #loadingCheckSVG-16 {
-  -webkit-animation: fill-to-coral 5000ms;
-          animation: fill-to-coral 5000ms;
+  -webkit-animation: fill-to-#00FFFFFF 5000ms;
+          animation: fill-to-#00FFFFFF 5000ms;
   -webkit-animation-delay: 14.5s;
           animation-delay: 14.5s;
 }
 
 #loadingCheckSVG-17 {
-  -webkit-animation: fill-to-coral 5000ms;
-          animation: fill-to-coral 5000ms;
+  -webkit-animation: fill-to-#00FFFFFF 5000ms;
+          animation: fill-to-#00FFFFFF 5000ms;
   -webkit-animation-delay: 15.5s;
           animation-delay: 15.5s;
 }
 
 #loadingCheckSVG-18 {
-  -webkit-animation: fill-to-coral 5000ms;
-          animation: fill-to-coral 5000ms;
+  -webkit-animation: fill-to-#00FFFFFF 5000ms;
+          animation: fill-to-#00FFFFFF 5000ms;
   -webkit-animation-delay: 16.5s;
           animation-delay: 16.5s;
 }
 
 #loadingCheckSVG-19 {
-  -webkit-animation: fill-to-coral 5000ms;
-          animation: fill-to-coral 5000ms;
+  -webkit-animation: fill-to-#00FFFFFF 5000ms;
+          animation: fill-to-#00FFFFFF 5000ms;
   -webkit-animation-delay: 17.5s;
           animation-delay: 17.5s;
 }
 
 #loadingCheckSVG-20 {
-  -webkit-animation: fill-to-coral 5000ms;
-          animation: fill-to-coral 5000ms;
+  -webkit-animation: fill-to-#00FFFFFF 5000ms;
+          animation: fill-to-#00FFFFFF 5000ms;
   -webkit-animation-delay: 18.5s;
           animation-delay: 18.5s;
 }
 
-@-webkit-keyframes fill-to-coral {
+@-webkit-keyframes fill-to-#00FFFFFF {
   0% {
     fill: white;
   }
   10% {
-    fill: #FF6D92;
+    fill: #00FFFFFF;
   }
   100% {
-    fill: #FF6D92;
+    fill: #00FFFFFF;
   }
 }
 
-@keyframes fill-to-coral {
+@keyframes fill-to-#00FFFFFF {
   0% {
     fill: white;
   }
   10% {
-    fill: #FF6D92;
+    fill: #00FFFFFF;
   }
   100% {
-    fill: #FF6D92;
+    fill: #00FFFFFF;
   }
 }
 

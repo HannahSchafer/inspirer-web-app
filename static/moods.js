@@ -35,7 +35,19 @@ $('#donutLegend').html(myDonutChart.generateLegend());
       var myLineChart = new Chart.Line(ctx_line, {
                                     type: 'line',
                                     data: data,
-                                    options: options,
+                                    options: {
+                                        scales: {
+                                            yAxes: [{
+                                                ticks:{
+                                                    max: 2,
+                                                    min: -2,
+                                                    beginAtZero:true
+
+
+                                                }
+                                            }]
+                                        }
+                                    }
                                     // scaleOverride : true,
                                     // scaleStartValue : 0 ,
                                 });
