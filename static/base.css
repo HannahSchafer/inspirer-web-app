@@ -1,0 +1,16 @@
+body {
+    margin: 60px;
+}
+
+#buttons {
+    margin-left: 400px;
+}
+
+.top-text {
+    font-weight: bold;
+    color: black;
+}
+
+#logout {
+    margin-left: 800px;
+}

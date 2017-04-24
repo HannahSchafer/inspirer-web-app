@@ -1,13 +1,13 @@
 // $(document).ready(function(){
 
-
+// configuration or init function and you call it at the end
 
 $("#page").hide();
 $("#give").hide();
 $("#gauge").hide();
+$("#fillgauge").hide();
 
-
-
+var gauge = loadLiquidFillGauge("fillgauge", 0);
 
 // function to print the d3 gauge graph showing percentage postitive/negative + spinning wheel
 function showGauge(event) {
@@ -15,15 +15,18 @@ function showGauge(event) {
 $.post('/show-avg-sent.json', function(results) {
     var percentSent = results.average;
     console.log(percentSent);
-    var gauge = loadLiquidFillGauge("fillgauge", percentSent, config);
-    var config = liquidFillGaugeDefaultSettings();
+    gauge.update(percentSent);
+    // var gauge = loadLiquidFillGauge("fillgauge", percentSent, config);
+    // var config = liquidFillGaugeDefaultSettings();
     $("#page").hide();
     $("#give").hide();
     $("#gauge").show();
-
+    $("#fillgauge").show();
 
     });
 }
+
+
 
 
 // function to animate tweets onto the page
@@ -67,6 +70,7 @@ function showQuote(event) {
 
 // event listener
 $("#get-quote").on('click', function() {
+    typeQuote('');
     printTweets(function() {
         setTimeout(showGauge, 6000)
         setTimeout(showQuote, 10000)

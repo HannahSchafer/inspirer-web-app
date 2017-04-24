@@ -12,29 +12,24 @@
     <script src="static/typed.js"></script>
     <script src="static/typewriter.js"></script>
     <script src="static/close_reminder_modal.js"></script>
+    <link href="static/base.css" rel="stylesheet">
     
 </head>
 <body>
 
-<div class="container-fluid">
-<nav class="navbar navbar-default">
-    <nav class="navbar fixed-top navbar-light bg-faded">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
 
+<div class="container-fluid" id="base-container"> 
+  <nav class="navbar"> 
+      <div class="navbar-header">
 
 {% if 'twitter_handle' in session %}
-    <a href="/"><button>Home</button></a>
-    <a href="/inspire"><button>Inspire</button></a>
-    <a href="/moods"><button>Understand Your Moods</button></a>
+   <!--  <a href="/">About</a> &nbsp; &nbsp; -->
+    <a href="/inspire" class='top-text'>Sparrö</a> &nbsp; &nbsp; &nbsp; &nbsp;
+    <a href="/moods" class='top-text'>Understand Your Moods</a> &nbsp; &nbsp; &nbsp; &nbsp;
 
 
     <!-- SET REMINDER Button trigger modal -->
-<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#reminder-modal">
-  Set Reminder
-</button>
-
+  <a href='#' data-toggle="modal" data-target="#reminder-modal" class='top-text'> Set Reminder</a> &nbsp; &nbsp; &nbsp;
 
 <!-- REMINDER modal -->
 <div class="modal fade" id="reminder-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -43,7 +38,7 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title">Set Reminder</h4>
-      </div>
+      </div> <!-- closing modal-header -->
       <div class="modal-body">
         <h4 class="body-title">Select a time to receive a reminder by text</h4>
         <form action="/set-reminder.json" id="set-reminder-submit" method='POST'>
@@ -53,22 +48,29 @@
           Add/Update Your Phone Number: <input type="tel" name="remind-phone" id="remind-phone"><br><br>
           <input type="submit" id="remind-submit" value="submit">
         </form>
-      </div>
+      </div> <!-- closing modal-body -->
       <div class="modal-footer">
-      </div>
+      </div> 
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
     
     <!-- log out button -->
-    <a href="/logged-out"><button>Log out</button></a>
+    <a href="/logged-out" class='top-text' id='logout'>Log out</a>
 
 
+  </div><!-- /.navbar-collapse -->
 
+</nav>  <!-- closing nav -->
+</div> <!-- closing container-fluid -->
 
  {% else %}
+
+<div class="container-fluid" id="base-container-2"> 
+  <div class="row" id='buttons'>
+  <div class="col-xs-6" align="left"> 
     <!-- LOGIN Button trigger modal -->
-<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#login-modal">
+<button id='login' type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#login-modal">
   Log in
 </button>
 
@@ -80,25 +82,25 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title">Log in</h4>
-      </div>
+      </div>  <!-- closing modal-header -->
       <div class="modal-body">
         <form action="/login-validation" id="login-submit" method='GET'>
-          Please enter your Twitter Handle and Sparrö Password.<br><br>
+          Please log in with your Twitter Handle and Sparrö Password.<br><br>
           Twitter Handle: <input type="text" name="twitter_handle" id="twitter_handle">
-          Password: <input type="password" name="password">
+          Password: <input type="password" name="password" id="pw">
           <input type="submit" value="submit">
         </form>
-      </div>
+      </div> <!-- closing modal-body -->
       <div class="modal-footer">
-      </div>
+      </div> <!-- closing modal-footer -->
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+</div><!-- /.modal -column -->
 
 
 
 
-
+<div class="col-xs-6" > 
 <!-- REGISTER Button trigger modal -->
 <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modal-register">
   Register
@@ -111,7 +113,7 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title">Register</h4>
-      </div>
+      </div> <!-- closing modal-header -->
       <div class="modal-body">
        <form action="/process-registration" method='POST'>
         First Name <input type="text" name="user_name" id"user_name"><br><br>
@@ -121,17 +123,16 @@
         Phone Number <input type="tel" name="phone" id="phone"><br><br>
     <input type="submit">
 </form>
-      </div>
+      </div> <!-- closing modal-body -->
       <div class="modal-footer">
-      </div>
+      </div> <!-- closing modal-footer -->
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-
-   </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
+    </div> <!-- closing column-->
+  </div> <!-- closing row-->
+</div> <!-- closing base-container-2-->
 
  {% endif %}
 
@@ -148,9 +149,8 @@
     </ul>
   {% endif %}
 {% endwith %}
-</div>
-</div>
-</div>
+
+
 
 {% block content %} put your content here {% endblock %}
 

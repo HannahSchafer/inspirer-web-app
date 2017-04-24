@@ -1,96 +1,38 @@
 {% extends 'base.html' %}
 {% block content %}
 
+<div class="container-fluid" id="moods-container">
 
-<h3>Sparrö</h3>
+<div class="row" id="moods-row1">
+  <div class="col-xs-6">  
+    <div class="mood-chart"><canvas id='donutChart'></canvas></div>
+  </div>
 
+  <div class="col-xs-6">  
+    <div class="mood-chart"><canvas id="barChart"></canvas></div>
+  </div> <!--closing col-->
+</div> <!--closing moods-row1-->
 
+<br><br>
 
-<div class="mood-chart">
-    <canvas id='donutChart'></canvas>
-   <!--  <div id="donutLegend" class="chart-legend"></div> -->
-<div>
-    
-
-    <br><br><br>
-
-<div class="mood-chart">
-    <canvas id="barChart"></canvas>
-</div>
-<br>
-
-    <br><br><br>
-
+<div class="row" id="mood-row2">
+      <!--Columns go here-->
 <div class="mood-chart">
     <canvas id="lineChart"></canvas>
     <!-- <div id="lineLegend" class="chart-legend"></div> -->
 </div>
-<br>
+
+
+</div>
+
+</div> <!--closing container-fluid-->
 
 
 
-<script>
-
-var options = {
-        legend: {
-            display: true,
-            labels: {
-                fontColor: 'rgb(0, 0, 0)'
-            }
-        }
-};
-
-    
 
 
-// Donut chart of user's overall moods (positive/negative)
-var ctx_donut = $('#donutChart').get(0).getContext('2d');
+<script src="static/moods.js"></script>
 
-
-$.get("/mood-donut.json", function (data) {
-var myDonutChart = new Chart(ctx_donut, {
-    type: 'doughnut',
-    data: data,
-    options: options
-});
-
-$('#donutLegend').html(myDonutChart.generateLegend());
-
-});
-
-
-// Line Chart of user's mood over time
-    var ctx_line = $("#lineChart").get(0).getContext("2d");
-
-    $.get("/mood-line.json", function (data) {
-      var myLineChart = new Chart.Line(ctx_line, {
-                                    type: 'line',
-                                    data: data,
-                                    options: options,
-                                    // scaleOverride : true,
-                                    // scaleStartValue : 0 ,
-                                });
-      $("#lineLegend").html(myLineChart.generateLegend());
-    });
-
-
-// Bar Chart of user's mood over time
-
-var ctx_bar = $("#barChart").get(0).getContext("2d");
-
-$.get("/mood-bar.json", function (data) {
-var myBarChart = new Chart.Bar(ctx_bar, {
-    type: 'bar',
-    data: data,
-    options: options
-});
-
-$("#barLegend").html(myBarChart.generateLegend());
-    });
-
-
-
-</script>
 
 
 {% endblock %}

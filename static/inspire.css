@@ -1,68 +1,29 @@
-{% extends 'base.html' %}
-{% block content %}
 
-  <!-- our javascript -->
-    <script src="http://d3js.org/d3.v3.min.js" language="JavaScript"></script>
+#get-quote {
+    margin-left: 600px;
 
-    <link href="static/inspire.css" rel="stylesheet">
-    <link href="static/animate.css" rel="stylesheet">
+}
 
-<div class="container-fluid" id="inspire-container">
+#logo2 {
+    width: 100%;
+    height: auto;
+        -webkit-animation-duration: 1s;
+        -webkit-animation-iteration-count: 1;
+        -webkit-animation-delay: 0.2s;
+    }
 
-<div class="row" id="row1">
-<div class="col-xs-6">  
-  <div><img id='logo2' class= 'item animated bounceInLeft' src="static/logo.png"></div>
-</div>  <!--Closing column-->
-
-<div class="col-xs-6">  
-  <h4 id="give">Sparrö is analyzing your mood based on your most recent tweets</h4>
-<div id="page" width="50%" height = "50%">
-  <div id="phrase_box">
-  <svg width="100%" height="100%">
-    <defs>
-      <mask id="mask" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse">
-        <linearGradient id="linearGradient" gradientUnits="objectBoundingBox" x2="0" y2="1">
-          <stop stop-color="white" stop-opacity="0" offset="0%"/>
-          <stop stop-color="white" stop-opacity="1" offset="30%"/>
-          <stop stop-color="white" stop-opacity="1" offset="70%"/>
-          <stop stop-color="white" stop-opacity="0" offset="100%"/>
-        </linearGradient>
-        <rect width="100%" height="100%" fill="url(#linearGradient)"/>
-      </mask>
-    </defs>
-    <g width="100%" height="100%" style="mask: url(#mask);">
-      <g id="phrases"></g>
-    </g>
-  </svg>
-  </div>
-</div>
-
-<h3 id='average'></h3> 
-<h3 id='gauge'>Your Positivity Probability</h3> 
-<h3 id='element'></h3> 
-
-<svg id="fillgauge" width="250" height="250" onclick=""></svg>
-
-</div>
-
-</div>
-
-</div>  <!--Closing column-->
-
-<div class="row" id="row2">
-  <button id="get-quote" class="btn btn-primary btn-lg">Open Now</button>
-</div> <!--Closing row2-->
+body {
+  background: #96f6ff; /* For browsers that do not support gradients */
+ /*  background: -webkit-linear-gradient(left, #00FFFF, #8d1bff); /* For Safari 5.1 to 6.0 */
+  /*background: -o-linear-gradient(right, #00FFFF, #8d1bff); /* For Opera 11.1 to 12.0 */
+  /*background: -moz-linear-gradient(right, #00FFFF, #8d1bff); /* For Firefox 3.6 to 15 */
+  /*background: linear-gradient(to right, #00FFFF, #8d1bff); /* Standard syntax */
+}
 
 
-
-<script src="static/test_animate_tweets.js"></script>
-<!-- <script src="static/get_inspiration.js"></script> -->
-
-<style type="text/css">
-
-
-.liquidFillGaugeText { font-family: Helvetica; font-weight: bold; }
-
+.liquidFillGaugeText { 
+    font-family: Helvetica; font-weight: bold; 
+}
 
 
 #page {
@@ -671,12 +632,3 @@
     fill: #FF6D92;
   }
 }
-
-</style>
-
-
-
-
-
-{% endblock %}
-

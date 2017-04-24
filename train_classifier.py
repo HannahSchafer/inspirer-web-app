@@ -7,15 +7,19 @@ import pickle
 from flask import Flask
 
 
-#appending all words to a single list
 def get_words_in_tweets(tweets):
+    """Append all words from tweets to a single list."""
+
     all_words = []
     for (words, sentiment) in tweets:
         all_words.extend(words)
     return all_words
 
-# getting keys of dictionary, where key is the word, and value is the # of times found in all tweets
+
 def get_features(wordlist):
+    """Get keys of dictionary, where key is the word, and value is the # of 
+       times found in all tweets"""
+
     wordlist = nltk.FreqDist(wordlist)
     # print wordlist['friend']
     unique_training_words = wordlist.keys()
@@ -25,6 +29,9 @@ def get_features(wordlist):
 # the 'contain's + word in trained feature set' and the value is True/False
 # depending on whether the input tweet matches that word in the trained feature set
 def extract_features(tweet):
+    """Takes in a tweet, returns a dictionary indicating whether words from the 
+    new tweet are contained in the training tweets."""
+
     tweet_words = set(tweet)
     features = {}
     for word in unique_training_words :
@@ -33,8 +40,9 @@ def extract_features(tweet):
 
 
 def train_classifier():
+    """Trains the classifier with the supervised trained data set of tweets."""
 
-    # creating a irrelevant app instance, just to connect with db, as required by flask_sqlalchemy
+    # create an irrelevant app instance, just to connect with db, as required by flask_sqlalchemy
     app = Flask(__name__)
     connect_to_db(app)
         #Query my training tweets (as a list) from the classifier table in db

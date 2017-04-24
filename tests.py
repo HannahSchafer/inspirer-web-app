@@ -100,14 +100,19 @@ class MyAppUnitTestCase(TestCase):
 
 
     def test_homepage(self):
+        """Tests home page rendering."""
+
         result = self.client.get('/')
         self.assertIn(u'<title>Sparrö</title>', result.data)
 
     def test_register(self):
+        """Tests registration page rendering."""
+
         result = self.client.get('/register')
         self.assertIn(u'<h1>Register for Sparrö</h1>', result.data)
 
     def test_inspire(self):
+        """Tests inspire page rendering."""
 
         # for session:
         with self.client as c:
@@ -119,6 +124,8 @@ class MyAppUnitTestCase(TestCase):
         self.assertEqual(result.status_code, 200) 
 
     def test_moods(self):
+        """Tests charts.js page rendering."""
+
         # for session:
         with self.client as c:
           with c.session_transaction() as sess:
@@ -128,6 +135,7 @@ class MyAppUnitTestCase(TestCase):
         self.assertEqual(result.status_code, 200) 
 
     def test_logged_out(self):
+        """Tests log out route."""
 
         with self.client as c:
           with c.session_transaction() as sess:
@@ -215,6 +223,13 @@ class TestUserLogIn(TestCase):
         assert u"Sparrö" in self.browser.title
         assert "Log in" in self.browser.page_source
         
+    def test_sign_in(self):
+        self.browser.get('http://localhost:5000/')
+        self.browser.find_element_by_id('login').click()
+        twitter_handle = self.find_element_by_id("twitter_handle")
+        twitter_handle.send_keys('NuBaby')
+        password = self.browser.find_element_by_id('pw')
+        password.send_keys("clown eyes")
 
 
 
