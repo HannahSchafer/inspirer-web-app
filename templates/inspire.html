@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 
-  <!-- our javascript -->
+<!-- our javascript -->
     <script src="http://d3js.org/d3.v3.min.js" language="JavaScript"></script>
 
     <link href="static/inspire.css" rel="stylesheet">
@@ -38,11 +38,11 @@
 </div> <!--Closing row0-->
 
 <div class="row" id="row1" style="height:525px;"> 
-  <div class="col-xs-5">  
+  <div class="col-xs-5 equal-height">  
     <div><img id='logo2' class= 'item animated bounceInLeft' src="static/dan_bird.png"></div>
   </div>  <!--Closing column-->
 
-  <div class="col-xs-7">  
+  <div class="col-xs-7 equal-height">  
     <h3 id='sense'>Sparrö can sense how you are feeling and deliver your personalized 
                   dose of daily inspiration.</h3>
     <h4 id="give">Sparrö is analyzing your mood based on your most recent tweets</h4><br>
@@ -71,19 +71,14 @@
 <h3 id='gauge'>Your Positivity Probability</h3><br> 
 <svg id="fillgauge" width="250" height="230" onclick=""></svg>
 <h3 id='element'></h3> 
-
+<a href="#" id="get-quote" class="action-button shadow animate blue">Open Now</a>
 
 </div> <!--Closing column (xs-7)-->
 </div> <!--Closing row1-->
+
 </div>  <!--Closing container-fluid-->
 
-<div class='container-fluid'>
-  <div class="row" id="row2">
-    <div class="col-xs-12" id='quote-col'>
-      <a href="#" id="get-quote" class="action-button shadow animate blue">Open Now</a>
-    </div>
-  </div> <!--Closing row2-->
-</div> <!--Closing container 2-->
+
 
 <script src="static/test_animate_tweets.js"></script>
 <!-- <script src="static/get_inspiration.js"></script> -->
