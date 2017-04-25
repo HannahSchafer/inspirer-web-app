@@ -20,7 +20,14 @@ $.get("/mood-donut.json", function (data) {
 var myDonutChart = new Chart(ctx_donut, {
     type: 'doughnut',
     data: data,
-    options: options
+    options: { 
+            legend: {
+                labels:{
+                    fontColor: '#000000',
+                    fontStyle: 'bold'
+                    }
+                }
+            }
 });
 
 $('#donutLegend').html(myDonutChart.generateLegend());
@@ -35,7 +42,13 @@ $('#donutLegend').html(myDonutChart.generateLegend());
       var myLineChart = new Chart.Line(ctx_line, {
                                     type: 'line',
                                     data: data,
-                                    options: {
+                                    options: { 
+                                        legend: {
+                                            labels:{
+                                                fontColor: '#000000',
+                                                fontStyle: 'bold'
+                                            }
+                                        },
                                         scales: {
                                             yAxes: [{
                                                 ticks:{
@@ -63,7 +76,14 @@ $.get("/mood-bar.json", function (data) {
 var myBarChart = new Chart.Bar(ctx_bar, {
     type: 'bar',
     data: data,
-    options: options
+    options: { 
+            legend: {
+                labels:{
+                    fontColor: '#000000',
+                    fontStyle: 'bold'
+                    }
+                }
+            }
 });
 
 $("#barLegend").html(myBarChart.generateLegend());

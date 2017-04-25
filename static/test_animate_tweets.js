@@ -78,7 +78,7 @@ $("#get-quote").on('click', function() {
     typeQuote('');
     printTweets(function() {
         setTimeout(showGauge, 6000)
-        setTimeout(showQuote, 11000)
+        setTimeout(showQuote, 12000)
     });
 })
 

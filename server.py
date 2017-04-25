@@ -261,8 +261,8 @@ def make_donut_chart():
                             "#7000e0"
                             ],
                         "hoverBackgroundColor": [
-                            "#FF6384",
-                            "#36A2EB",]   }]
+                            "#00bfff",
+                            "#c800c8",]   }]
                         }
 
     return jsonify(mood_data)
@@ -309,7 +309,7 @@ def make_line_chart():
                 "fontStyle": "bold",
                 "fill": True,
                 "lineTension": 0.5,  
-                "backgroundColor": "rgba(0, 255, 255, 0.7)",
+                "backgroundColor": "rgba(0, 255, 255, 0.9)",
                 "borderColor": "rgba(135, 252, 255, 0.9)",
                 "borderCapStyle": 'butt',
                 "borderDash": [],
@@ -383,13 +383,16 @@ def make_bar_chart():
         neg_weekday_numbers[item] += 1
        
     # list comprehension of positive weekday info to pass to charts.js
-    pos_data_to_send = [pos_weekday_numbers[key]/float(pos_total_days) for key 
+    pos_data_to_send_draft = [pos_weekday_numbers[key]/float(pos_total_days) for key 
                         in sorted(pos_weekday_numbers)]
 
+    pos_data_to_send = [round((100 * num), 0) for num in pos_data_to_send_draft]
+
     # list comprehension of negative weekday info to pass to charts.js
-    neg_data_to_send = [neg_weekday_numbers[key]/float(neg_total_days) for key 
+    neg_data_to_send_draft = [neg_weekday_numbers[key]/float(neg_total_days) for key 
                         in sorted(neg_weekday_numbers)]
 
+    neg_data_to_send = [round((100 * num), 0) for num in neg_data_to_send_draft]
     
     bar_data = {
     "labels": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
@@ -406,13 +409,13 @@ def make_bar_chart():
                 "#00FFFF"
             ], 
             "hoverBackgroundColor": [
-                            "#ff69b4",
-                            "#ff69b4",
-                            "#ff69b4",
-                            "#ff69b4",
-                            "#ff69b4",
-                            "#ff69b4",
-                            "#ff69b4"],
+                            "#00bfff",
+                            "#00bfff",
+                            "#00bfff",
+                            "#00bfff",
+                            "#00bfff",
+                            "#00bfff",
+                            "#00bfff"],
             "data": pos_data_to_send,
         },
 
@@ -428,13 +431,13 @@ def make_bar_chart():
                 '#7000e0'
             ], 
             "hoverBackgroundColor": [
-                            "#00E000",
-                            "#00E000",
-                            "#00E000",
-                            "#00E000",
-                            "#00E000",
-                            "#00E000",
-                            "#00E000"],
+                            "#c800c8",
+                            "#c800c8",
+                            "#c800c8",
+                            "#c800c8",
+                            "#c800c8",
+                            "#c800c8",
+                            "#c800c8"],
             "data": neg_data_to_send,
 
 
@@ -459,7 +462,7 @@ def set_reminder():
     db.session.commit()
 
     # flash message for the user
-    flash("You will receive your daily reminder every {}.".format(reminder_choice))
+    # flash("You will receive your daily reminder every {}.".format(reminder_choice))
 
     return 'success'
 
@@ -469,7 +472,7 @@ def set_reminder():
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the
     # point that we invoke the DebugToolbarExtension
-    app.debug = True
+    app.debug = False
     app.jinja_env.auto_reload = app.debug  # make sure templates, etc. are not cached in debug mode
 
     # app.config['TESTING'] = True
