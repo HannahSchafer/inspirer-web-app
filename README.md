@@ -21,7 +21,11 @@ A button on the main 'inspire' page serves as an event listener that triggers a 
 
 The same button (event listener) records information about the transaction, such as a timestamp, the quote_id of the quote sent to the user to ensure no-repeats, and the current sentiment of the user based on the analysis. This information is recorded in my database, and then used on my 'moods' page to populate 3 graphs from the Charts.js library. 
 
+![alt text](static/moods.png "charts.js 'moods' page")
+
 
 I integrated with the Twilio API to enable the user to receive a text that their quote/poem is ready. The form is housed in a Bootstrap modal window and the information is stored in my PostgreSQL database. I used cron jobs to schedule the texts to be sent out. 
+
+![alt text](static/set_reminder.png "set reminder modal")
 
 I currently have 60% testing coverage. 
