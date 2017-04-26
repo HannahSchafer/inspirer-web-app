@@ -134,14 +134,14 @@ def get_quote(twitter_handle, user_id):
             pos_quote_info = choice(all_pos_quotes_info)
             return pos_quote_info
         else:
-            return ["We're writing more poems and quotes. Check in later!"]
+            return ["Being a little weird is just a natural side-effect of being awesome."]
     else:
         all_neg_quotes_info = db.session.query(Quote.content, Quote.quote_id, Quote.sentiment_id).filter(Quote.sentiment_id=='2', Quote.quote_id.notin_(old_neg_quotes)).all()
         if len(old_neg_quotes) < len(all_neg_quotes_info):
             neg_quote_info = choice(all_neg_quotes_info)
             return neg_quote_info
         else:
-            return ["We're writing more poems and quotes. Check in later!"]
+            return ["Being a little weird is just a natural side-effect of being awesome."]
 
 
 # mock up 1 positive quote

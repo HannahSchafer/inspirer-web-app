@@ -6,6 +6,12 @@
   display: flex;
   display: -webkit-flex;
 }*/
+
+#row2 {
+
+  position: fixed;
+}
+
 #element {
     margin-top: 200px;
     margin-left: 18px;
@@ -20,7 +26,8 @@
     /*margin-bottom: 50px;*/
     margin-left: 130px;
 /*    margin-top: 30px;*/
-    bottom: 210px;
+    position: fixed;
+     bottom: 270px;
    /* position: absolute;*/
 
   /*  z-index: -1;*/
@@ -29,14 +36,14 @@
 
 #gauge {
     display: none;
-    margin-top: 70px;
-    margin-left: 97px;
+    margin-top: 67px;
+    margin-left: 93px;
     margin-bottom: 10px;
     color: white;
 }
 
 #fillgauge {
-    margin-left: 107px;
+    margin-left: 102px;
     margin-bottom: 50px;
 }
 
