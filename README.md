@@ -10,6 +10,8 @@ APIs:
 Twitter API, Twilio API
 
 
+I currently have 60% testing coverage. 
+
 
 Features:
 After building my data model and seeding my PostgreSQL database,  I trained the Naïve Bayes Classifier from Python's NLTK library to understand positive and negative lablels through my supervised training data set of 600 tweets. 
@@ -28,4 +30,3 @@ I integrated with the Twilio API to enable the user to receive a text that their
 
 ![alt text](static/set_reminder.png "set reminder modal")
 
-I currently have 60% testing coverage. 
