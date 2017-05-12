@@ -25,11 +25,6 @@ def load_classifier():
     classifier = pickle.load(open("naivebayes.pickle"))
     return classifier
 
-# twitter service connection is an object - so make an object
-# put stuff below into __init__
-# test of this will be another class??
-
-#test getting back real classifer
 
 def connect_twitter_api(twitter_handle):
     """Connect to Twitter API and authenticate."""
@@ -39,14 +34,13 @@ def connect_twitter_api(twitter_handle):
     access_token_key=os.environ["TWITTER_ACCESS_TOKEN_KEY"]
     access_token_secret=os.environ["TWITTER_ACCESS_TOKEN_SECRET"]
 
-    #using tweepy library to authenticate with OAuth
+    #tweepy library to authenticate with OAuth
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
     auth.set_access_token(access_token_key, access_token_secret)
 
     api = tweepy.API(auth)
 
     # get user tweets, parameters: screen_name, # tweets, include re-tweets (T/F)
-    # Reference: https://www.quora.com/How-can-I-retrieve-from-given-users-home_timeline-with-Tweepy
     user_tweets = api.user_timeline(screen_name = twitter_handle, include_rts = True, count=5)
     
     # one time use pickle file dump to use in tests.py:
@@ -55,8 +49,6 @@ def connect_twitter_api(twitter_handle):
 
     return user_tweets
 
-### testing: mock sample user_tweets coming out of connect_twitter_api
-## mock function for connect_twitter_api
 
 def get_user_sentiment(user_tweets, classifier):
     """Returns user's average sentiment."""
@@ -71,7 +63,7 @@ def get_user_sentiment(user_tweets, classifier):
     day_old_tweets = []
     tweet_and_sentiment = []
 
-    # getting most current tweets, or last 5 tweets user posted if not in last 24hrs
+    # getting most current tweets, or last 5 tweets if not in last 24hrs
     for status in user_tweets:
         if status.created_at > last24Hours:
             fresh_tweets.append(status.text)
@@ -97,12 +89,7 @@ def get_average_sentiment(tweet_and_sentiment):
     """Get average sentiment."""
 
     sentiments_only = []
-    # for tweet, sentiment in tweet_and_sentiment:
-    #     sentiments_only.append(sentiment)
-
-    # print sentiments_only
-
- # will display better on line chart if negative feeling is -1 and positive feeling is 1
+    
     for tweet, sentiment in tweet_and_sentiment:
         if sentiment==2:
             sentiments_only.append(0)
@@ -117,8 +104,7 @@ def get_quote(twitter_handle, user_id):
 
     classifier = load_classifier()
     user_tweets = connect_twitter_api(twitter_handle)
-    # print user_tweets
-    # import pdb; pdb.set_trace()
+   
 
     tweet_and_sentiment = get_user_sentiment(user_tweets, classifier)
     avg_sentiment = get_average_sentiment(tweet_and_sentiment)
@@ -142,18 +128,6 @@ def get_quote(twitter_handle, user_id):
             return neg_quote_info
         else:
             return ["Being a little weird is just a natural side-effect of being awesome."]
-
-
-# mock up 1 positive quote
-# mock up 1 negative quote
-
-# if __name__ == "__main__":
-
-#     from server import app
-#     connect_to_db(app)
-
-
-
 
 
 

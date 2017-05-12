@@ -94,10 +94,11 @@ References for connecting to Twitter API:
 
 https://www.youtube.com/watch?v=o_OZdbCzHUA
 
-Logos
+https://www.quora.com/How-can-I-retrieve-from-given-users-home_timeline-with-Tweepy
+# Reference Laurent Luce (http://www.laurentluce.com/posts/twitter-sentiment-analysis-using-python-and-nltk/)
 
-Dove Letter by by Yazmin Alanis
-
+#pickle is a way to save python objects and load those python objects
+# reference: https://pythonprogramming.net/pickle-classifier-save-nltk-tutorial/ for pickle
 
 
 
