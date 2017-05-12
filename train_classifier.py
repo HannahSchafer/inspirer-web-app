@@ -6,7 +6,7 @@ from nltk.corpus import stopwords
 import pickle
 from flask import Flask
 
-
+# Reference Laurent Luce (see references.txt)
 def get_words_in_tweets(tweets):
     """Append all words from tweets to a single list."""
 
